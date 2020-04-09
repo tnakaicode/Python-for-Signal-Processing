@@ -60,7 +60,7 @@ import numpy as np;import matplotlib.pyplot as plt
 # 
 # and, suppose further that we pick $H_1$  only if exactly five out of five observations are heads. We'll call this the *all-heads* test.
 # 
-# Now, because all of the $X_i$ are random variables, so is $G$. Now, to find the corresponding probability mass function for this.  As usual, assuming independence, the probability of five heads is $p^5$. This np.means that the probability of rejecting the $H_0$ hypothesis (and choosing $H_1$, because there are only two choices here) based on the unknown underlying probability is $p^5$. In the parlance, this is known and the *power function* as in denoted by $\beta$ as in
+# Now, because all of the $X_i$ are np.random.random variables, so is $G$. Now, to find the corresponding probability mass function for this.  As usual, assuming independence, the probability of five heads is $p^5$. This np.means that the probability of rejecting the $H_0$ hypothesis (and choosing $H_1$, because there are only two choices here) based on the unknown underlying probability is $p^5$. In the parlance, this is known and the *power function* as in denoted by $\beta$ as in
 # 
 # $$ \beta(\theta) = \theta^5 $$
 # 
@@ -175,7 +175,7 @@ print 'prob of false alarm = %0.3f'%np.mean(samples.sum(axis=1)>=3)
 
 #  As we have seen there are a lot of moving parts in hypothesis testing. What we need is a simple way to statistically report the findings. The idea is that we want to find the minimum level at which the test rejects $H_0$. Thus, the p-value is the probability, under $H_0$, that the test-statistic is at least as extreme as what was actually observed.  Informally, this np.means that smaller values imply that $H_0$ should be rejected, although this doesn't np.mean that large values imply that $H_0$ should be retained. This is because a large p-value can arise from either $H_0$ being true or the test having low statistical power.
 #  
-# If $H_0$ happens to be true, the p-value is like a uniformly random draw from the interval $
+# If $H_0$ happens to be true, the p-value is like a uniformly np.random.random draw from the interval $
 # (0,1)$. If $H_1$ is true, the distribution of the p-value will concentrate closer to zero. For continuous distributions, this can be proven rigorously and implies that if we reject $H_0$ when the corresponding p-value is less than $\alpha$, then the probability of a false alarm (a.k.a. type I error) is $\alpha$. Perhaps it helps to formalize this a bit before we get to computing it. Suppose $\tau(X)$ is a test statistic that rejects $H_0$ as it gets bigger. Then, for each sample $x$, corresponding to the data we actually have on-hand, we define
 # 
 # $$ p(x) = \sup_{\theta \in \Theta_0} \mathbb{P}_{\theta}(\tau(X) \ge \tau(x))$$ 

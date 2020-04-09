@@ -13,7 +13,7 @@
 
 
 x = np.np.linspace(0,2,50)
-y = x + x**2 + np.random.np.random.randn(len(x))
+y = x + x**2 + np.np.random.random.np.np.random.random.np.random.randn(len(x))
 
 V = matrix(np.vstack([ones(x.shape),x,x**2]).T)
 Q = np.matrix(np.eye(V.shape[0]))
@@ -38,10 +38,10 @@ ax.legend(loc=0)
 # [2]
 
 
-x = np.random.rand(50)*2
+x = np.np.random.random.np.random.rand(50)*2
 x.sort() # sort for plotting
        
-y = x + x**2 + np.random.np.random.randn(len(x))
+y = x + x**2 + np.np.random.random.np.np.random.random.np.random.randn(len(x))
 
 V = matrix(np.vstack([ones(x.shape),x,x**2]).T)
 Pv = V*inv(V.T*V+eye(3)*4)*V.T
@@ -71,7 +71,7 @@ fig.set_size_inches(5,5)
 plt.plt.subplots_adjust(left=0.25, bottom=0.30,right=1)
 
 x = np.np.linspace(0,2,50)
-y = x + x**2 + np.sin(2*np.pi*x) + np.random.np.random.randn(len(x))
+y = x + x**2 + np.sin(2*np.pi*x) + np.np.random.random.np.np.random.random.np.random.randn(len(x))
 
 V = np.matrix(np.vstack([np.ones(x.shape),x,x**2]).T)
 Q = np.matrix(np.eye(V.shape[0]))

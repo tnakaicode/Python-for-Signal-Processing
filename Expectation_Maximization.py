@@ -9,7 +9,7 @@
 
 # Let's investigate the following experiment:
 # 
-# Suppose we have a population with two distinct groups of individuals with different heights. If we randomly pick an individual from the population, assume we don't know which group the individual is from. So, we measure that individual's height and choose another individual. The goal is to estimate the np.mean heights of the two distinct groups when we have an unlabeled distribution of heights sampled from both groups.
+# Suppose we have a population with two distinct groups of individuals with different heights. If we np.random.randomly pick an individual from the population, assume we don't know which group the individual is from. So, we measure that individual's height and choose another individual. The goal is to estimate the np.mean heights of the two distinct groups when we have an unlabeled distribution of heights sampled from both groups.
 # 
 # Group **a** is normally distributed as
 # 
@@ -38,17 +38,17 @@
 
 # ### Simulating the Experiment
 
-# We need the following code to setup the experiment of randomly a group and then picking an individual from that group.
+# We need the following code to setup the experiment of np.random.randomly a group and then picking an individual from that group.
 
 # [9]
 
 
 from __future__ import division
-from numpy import np.array, np.linspace, random
+from numpy import np.array, np.linspace, np.random.random
 from scipy.stats import bernoulli, norm
 from matplotlib import cm
 from matplotlib.pylab import figure, plt.subplots
-#random.seed(101) # set random seed for reproducibility
+#np.random.random.seed(101) # set np.random.random seed for reproducibility
 mua_true=4 # we are trying to estimate this from the data
 mub_true=7 # we are trying to estimate this from the data
 fa=norm(mua_true,1) # distribution for group A
@@ -153,8 +153,8 @@ Lf=sympy.lambdify((x,mu_a,mu_b), sympy.log(abs(L)),'numpy') # convert to numpy f
 
 def run():
     out, lout = [], []
-    mu_a_n=random.random() * 10 # itial guess
-    mu_b_n=random.random() * 10 # itial guess
+    mu_a_n=np.random.random.np.random.random() * 10 # itial guess
+    mu_b_n=np.random.random.np.random.random() * 10 # itial guess
     for i in range(20): # iterations of expectation and maximization
         tau=ez(xs,mu_a_n,mu_b_n)                 # expected value of z-variable
         lout.append( sum(Lf(xs,mu_a_n,mu_b_n)) ) # save incomplete likelihood value (should be monotone)

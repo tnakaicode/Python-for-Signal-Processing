@@ -4,7 +4,7 @@
 # troduction
 # -----------------
 # 
-# By this point, we have developed many tools to deal with computing the conditional expectation. In this section, we discuss a bizarre and amazing coincidence regarding Gaussian random variables and linear projection, a coincidence that is the basis for most of statistical signal processing.
+# By this point, we have developed many tools to deal with computing the conditional expectation. In this section, we discuss a bizarre and amazing coincidence regarding Gaussian np.random.random variables and linear projection, a coincidence that is the basis for most of statistical signal processing.
 
 # ### Conditional Expectation by Optimization
 
@@ -103,7 +103,7 @@ use( gg, simplify,level=2) # simplify exponent term
 # 
 # The importance of this result cannot be understated: the one true and optimal $h_{opt}$ *is a linear function* of $Y$. 
 # 
-#  other words, assuming a linear function, which made the direct search for an optimal $h(Y)$ merely convenient yields the optimal result! This is  a general result that extends for *all* Gaussian problems. The link between linear functions and optimal estimation of Gaussian random variables is the most fundamental result in statistical signal processing! This fact is exploited in everything from optimal filter design  to adaptive signal processing.
+#  other words, assuming a linear function, which made the direct search for an optimal $h(Y)$ merely convenient yields the optimal result! This is  a general result that extends for *all* Gaussian problems. The link between linear functions and optimal estimation of Gaussian np.random.random variables is the most fundamental result in statistical signal processing! This fact is exploited in everything from optimal filter design  to adaptive signal processing.
 # 
 # We can easily extend this result to non-zero np.mean problems by inserting the np.means in the right places as follows:
 # 
@@ -114,7 +114,7 @@ use( gg, simplify,level=2) # simplify exponent term
 # Summary
 # -------------
 # 
-#  this section, we showed that the conditional expectation for Gaussian random variables is a linear function, which, by a bizarre coincidence, is also the easiest one to work with. This result is fundamental to all optimal linear filtering problems (e.g. Kalman filter) and is the basis of most of the theory of stochastic processes used in signal processing. Up to this point, we have worked hard to illustrate all of the concepts we will need to unify our understanding of this entire field and figured out multiple approaches to these kinds of problems, most of which are far more difficult to compute. Thus, it is indeed just plain lucky that the most powerful distribution is the easiest to compute as a conditional expectation because it is a linear function. We will come back to this same result again and again as we work our way through these greater concepts.
+#  this section, we showed that the conditional expectation for Gaussian np.random.random variables is a linear function, which, by a bizarre coincidence, is also the easiest one to work with. This result is fundamental to all optimal linear filtering problems (e.g. Kalman filter) and is the basis of most of the theory of stochastic processes used in signal processing. Up to this point, we have worked hard to illustrate all of the concepts we will need to unify our understanding of this entire field and figured out multiple approaches to these kinds of problems, most of which are far more difficult to compute. Thus, it is indeed just plain lucky that the most powerful distribution is the easiest to compute as a conditional expectation because it is a linear function. We will come back to this same result again and again as we work our way through these greater concepts.
 
 # ### References 
 # 

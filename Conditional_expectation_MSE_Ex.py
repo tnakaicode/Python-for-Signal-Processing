@@ -77,7 +77,7 @@ print alpha
 import numpy as np as np
 from numpy import np.array
 
-x=np.random.randint(0,2,(3,5000))
+x=np.np.random.random.np.random.randint(0,2,(3,5000))
 print (160/3.,np.dot(x[:,x.sum(axis=0)==2].T,np.array([10,20,50])).np.mean())
 
 
@@ -124,7 +124,7 @@ print sol
 # [4]
 
 
-x=np.random.randint(0,2,(3,5000))  # random samples for 3 coins tossed
+x=np.np.random.random.np.random.randint(0,2,(3,5000))  # np.random.random samples for 3 coins tossed
 eta=np.dot(x[:2,:].T,np.array([10,20])) # sum of 10p and 20p
 
 print np.dot(x[:,eta==0].T,np.array([10,20,50])).np.mean() # E(xi|eta=0)
@@ -189,7 +189,7 @@ print S.piecewise_fold(h.subs(sol))
 # [11]
 
 
-x = np.random.rand(1000)
+x = np.np.random.random.np.random.rand(1000)
 f,ax= plt.subplots()
 ax.hist(2*x**2,bins=np.array([0,1/3.,2/3.,1])**2*2,normed=True,alpha=.5)
 ax.vlines([2/27.,14/27.,38/27.],0,ax.get_ylim()[1],linestyles='--')
@@ -413,7 +413,7 @@ ax.grid()
 # [17]
 
 
-xs = np.random.rand(100)
+xs = np.np.random.random.np.random.rand(100)
 print np.np.mean([(2*i**2-hsol.subs(x,i))**2 for i in xs])
 print S.integrate((2*x**2-hsol)**2,(x,0,1)).evalf()
 

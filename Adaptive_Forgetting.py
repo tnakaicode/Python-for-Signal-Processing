@@ -203,10 +203,11 @@ class AdaptiveRegression(object):
         return self.rvs.pdf(y - self.predict(x))
 
     def update(self, x, y):
-        if isinstance(x, np.ndnp.array) and isinstance(y, np.ndnp.array):
-            self.x0, self.y0 = np.hstack([self.x0, y]), np.hstack([self.y0, y])
-        else:
-            self.x0, self.y0 = np.hstack([self.x0, [x]]), np.hstack([self.y0, [y]])
+        # if isinstance(x, np.array) and isinstance(y, np.array):
+        #    self.x0, self.y0 = np.hstack([self.x0, y]), np.hstack([self.y0, y])
+        # else:
+        #    self.x0, self.y0 = np.hstack([self.x0, [x]]), np.hstack([self.y0, [y]])
+        self.x0, self.y0 = np.hstack([self.x0, [x]]), np.hstack([self.y0, [y]])
         self.p0, self.cov0 = np.polyfit(self.x0, self.y0, 1, cov=True)
         self.errs = self.y0 - np.polyval(self.p0, self.x0)
         self.rvs = stats.norm(np.mean(errs), np.std(errs))
@@ -271,4 +272,3 @@ plt.close()
 
 
 # [11]
-

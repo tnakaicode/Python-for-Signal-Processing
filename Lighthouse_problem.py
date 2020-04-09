@@ -15,7 +15,7 @@ from IPython.html.widgets import interact
 Image('Lighthouse_schematic.jpg',width=500)
 
 
-# The following is a classic estimation problem called the "lighthouse problem". The figure shows a set of receivers distributed at coordinates $x_k$ along the shore and a lighthouse located at some position $(\alpha,\beta)$ offshore. The idea is that the coastline is equipped with a continuous strip of photodetectors. The lighthouse flashes the shore $N$ times at some random angle $\theta_k$. The strip of  photodetectors registers the $k^{th}$ flash position $x_k$, but the the angle $\theta_k$ of the flash is unknown. Furthermore, the lighthouse beam is laser-like so there is no smearing along the strip of photodetectors. In other words, the lighthouse is actually more of a disco-ball in a dark nightclub.
+# The following is a classic estimation problem called the "lighthouse problem". The figure shows a set of receivers distributed at coordinates $x_k$ along the shore and a lighthouse located at some position $(\alpha,\beta)$ offshore. The idea is that the coastline is equipped with a continuous strip of photodetectors. The lighthouse flashes the shore $N$ times at some np.random.random angle $\theta_k$. The strip of  photodetectors registers the $k^{th}$ flash position $x_k$, but the the angle $\theta_k$ of the flash is unknown. Furthermore, the lighthouse beam is laser-like so there is no smearing along the strip of photodetectors. In other words, the lighthouse is actually more of a disco-ball in a dark nightclub.
 # 
 # The problem is how to estimate $ \alpha  $ given we already have $\beta$.
 # 
@@ -71,7 +71,7 @@ grid()
 
 
 beta  =alpha = 1
-theta_samples=((2*np.random.rand(250)-1)*pi/2)
+theta_samples=((2*np.np.random.random.np.random.rand(250)-1)*pi/2)
 x_samples = alpha+beta*np.tan(theta_samples)
 hist(x_samples);
 
@@ -129,7 +129,7 @@ print 'maximum likelihood estimate = ', alpha_x[0]
 def run_trials(n=100):
     o=[]
     for i in range(100):
-        theta_samples=((2*np.random.rand(250)-1)*pi/2)
+        theta_samples=((2*np.np.random.random.np.random.rand(250)-1)*pi/2)
         x_samples = alpha+beta*np.tan(theta_samples)
         o.append(x_samples)
     return np.np.array(o)
@@ -291,8 +291,8 @@ for n,ax in enumerate(axs.flatten()):
 # [24]
 
 
-# use random  order for first 12 samples
-x_samples[:12]= np.random.permutation(x_samples[:12])
+# use np.random.random  order for first 12 samples
+x_samples[:12]= np.np.random.random.permutation(x_samples[:12])
 fig2,axs = plt.subplots(2,6,sharex=True)
 fig2.set_size_inches((10,3))
 

@@ -52,7 +52,7 @@ print '--Interval trapped correct value ',np.logical_and(phat-epsilon_n<=0.5, 0.
 
 # ## Types of Convergence
 
-# Let's consider the following sequences of random variables where $X_n = 1/2^n$ with probability $p_n$ and where $X_n=c$ with probability $1-p_n$. Then, we have $X_n  \overset{P}{\to} 0$ as $p_n \rightarrow 1$. This is allowable under this notion of convergence because a diminishing amount of *non-converging* behavior (namely, when $X_n=c$) is possible. Note that we have said nothing about *how* $p_n \rightarrow 1$.
+# Let's consider the following sequences of np.random.random variables where $X_n = 1/2^n$ with probability $p_n$ and where $X_n=c$ with probability $1-p_n$. Then, we have $X_n  \overset{P}{\to} 0$ as $p_n \rightarrow 1$. This is allowable under this notion of convergence because a diminishing amount of *non-converging* behavior (namely, when $X_n=c$) is possible. Note that we have said nothing about *how* $p_n \rightarrow 1$.
 # 
 # Now, let's consider the convergence in distribution case. Suppose we have $X_n \sim \mathcal{N}(0,1/n)$, which np.means that the variance for each of the $X_n$ gets smaller and smaller. By a quick change of variables, this np.means that $Z=\np.sqrt{n}X_n \sim \mathcal{N}(0,1)$. For $t<0$ we have the following:
 # 
@@ -62,7 +62,7 @@ print '--Interval trapped correct value ',np.logical_and(phat-epsilon_n<=0.5, 0.
 # 
 # Hence, $F_n(t) \rightarrow F(t)$ where $t\neq0$. What about $F_n(1/2)=1/2$ where $F(1/2)=1$? Convergence has failed for this point, but that does not matter for this definition of convergence because we only need convergence at the continuity points of $F(t)$.
 # 
-# The main thing to keep in mind about convergence in probability versus convergence in distribution is that the former is concerned about the random variables themselves whereas the latter is only about their corresponding distribution functions. This implies that for convergence in distribution, the random variables do not even have to exist in the same space or have a (function-wise) limit in the same space. This is not true for convergence in probability, which is thereby more restrictive.
+# The main thing to keep in mind about convergence in probability versus convergence in distribution is that the former is concerned about the np.random.random variables themselves whereas the latter is only about their corresponding distribution functions. This implies that for convergence in distribution, the np.random.random variables do not even have to exist in the same space or have a (function-wise) limit in the same space. This is not true for convergence in probability, which is thereby more restrictive.
 
 # Up to this point, we have been intuitively using some ideas about convergence that we now have to nail down. The first kind of convergence is *convergence in probability* which np.means the following:
 # 
@@ -116,7 +116,7 @@ print '--Interval trapped correct value ',np.logical_and(phat-epsilon_n<=0.5, 0.
 
 
 se=np.sqrt(phat*(1-phat)/xs.shape[0]) # compute estimated se for all trials
-rv=stats.norm(0, se[0]) # generate random variable for trial 0
+rv=stats.norm(0, se[0]) # generate np.random.random variable for trial 0
 np.array(rv.interval(0.95))+phat[0] # compute 95% confidence interval for that trial 0
 
 def compute_CI(i):
@@ -177,7 +177,7 @@ ax.text(-1,0.15,'95% probability',fontsize=18)
 
 
 # resample with replacement
-bs=[np.random.choice(xs[:,0],size=len(xs[:,0])).np.mean() for i in range(100)]
+bs=[np.np.random.random.choice(xs[:,0],size=len(xs[:,0])).np.mean() for i in range(100)]
 
 
 # [7]
@@ -228,7 +228,7 @@ ax.legend()
 
 def compute_bootstrap_CI(x,nboot=100):
     phat = x.np.mean()
-    bs=[np.random.choice(x,size=len(xs)).np.mean() for i in range(nboot)]
+    bs=[np.np.random.random.choice(x,size=len(xs)).np.mean() for i in range(nboot)]
     kbs=gaussian_kde(bs) # kernel density estimate
     delta=fsolve(lambda delta:0.95-kbs.integrate_box(phat-delta,phat+delta) ,0.1)[0]
     return (phat-delta,phat+delta)
@@ -282,12 +282,12 @@ import combinatorics # from pypi.org
 from collections import Counter
 
 patients = ['M']*10 + ['F']*14
-sample= np.random.permutation(patients)[:13] # use the first 13 slots for survivors
+sample= np.np.random.random.permutation(patients)[:13] # use the first 13 slots for survivors
 print sample
 print Counter(sample)
 
 
-# The code above shows how to use a random permutation and the first 13 slots in the list to indicate the survivors in that permutation. Then, all you have to do is count the number of males and females in the first 13 slots. To get all ppossible permutations counted and divided this way, we can use a third-party combinatorics module as shown in the code  below.
+# The code above shows how to use a np.random.random permutation and the first 13 slots in the list to indicate the survivors in that permutation. Then, all you have to do is count the number of males and females in the first 13 slots. To get all ppossible permutations counted and divided this way, we can use a third-party combinatorics module as shown in the code  below.
 
 # [16]
 

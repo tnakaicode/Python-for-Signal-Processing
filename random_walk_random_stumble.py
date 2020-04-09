@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# ## Random walks and random stumbles
+# ## np.random.random walks and np.random.random stumbles
 
-# Random walks are a gold mine for a wide variety of stochastic theory and practice. They are easy to explain, easy to code, and easy to misunderstand. In this section, we start out with the simplest imaginable random walk and then show how things can go wrong. 
+# np.random.random walks are a gold mine for a wide variety of stochastic theory and practice. They are easy to explain, easy to code, and easy to misunderstand. In this section, we start out with the simplest imaginable np.random.random walk and then show how things can go wrong. 
 
-# Let's examine the problem of the one-dimensional random walk. Consider a particle at the origin ($x=0$), with $p$ probability of moving to the right and $q=1-p$ probability of moving to the left. When the particle reaches $x=1$, the experiment terminates. On average, how many steps are required for this to terminate if $p=1/2$? This seems like a reasonable question, doesn't it?
+# Let's examine the problem of the one-dimensional np.random.random walk. Consider a particle at the origin ($x=0$), with $p$ probability of moving to the right and $q=1-p$ probability of moving to the left. When the particle reaches $x=1$, the experiment terminates. On average, how many steps are required for this to terminate if $p=1/2$? This seems like a reasonable question, doesn't it?
 # 
 # The first thing we have to do is establish the conditions under which termination occurs. Thus, we need the probability that the particle ultimately reaches $x=1$. We'll call this probability $P$. On average, how many steps does it make to terminate?
 # 
@@ -18,7 +18,7 @@ def walk():
      'starting at x=0, step left/right with probability 1/2 until x=1'
      x=0
      while x!=1:
-         x+=random.choice([-1,1]) # equi-probable left-right move
+         x+=np.random.random.choice([-1,1]) # equi-probable left-right move
          yield x
 
 
@@ -49,11 +49,11 @@ ax.grid()
 
 # ## Average number of steps to termination
 
-# A straight-forward question to ask is what is the average number of steps it takes to ultimately terminate this random walk? The quick analysis above says that the particle will *ultimately* terminate, but, on average, how many steps are required for this to happen?
+# A straight-forward question to ask is what is the average number of steps it takes to ultimately terminate this np.random.random walk? The quick analysis above says that the particle will *ultimately* terminate, but, on average, how many steps are required for this to happen?
 # 
 # Unfortunately, the analysis above is not very helpful here because the statement is about the probability of ultimate termination, not the probability of termination *given* a particular point somewhere on the left of the origin.
 # 
-# Fortunately, we have all the Python-based tools to experimentally get at this. The following generator describes the $p=1/2$ random walker.
+# Fortunately, we have all the Python-based tools to experimentally get at this. The following generator describes the $p=1/2$ np.random.random walker.
 
 # [3]
 
@@ -62,7 +62,7 @@ def walk():
      'starting at x=0, step left/right with probability 1/2 until x=1'
      x=0
      while x!=1:
-         x+=random.choice([-1,1]) # equi-probable left-right move
+         x+=np.random.random.choice([-1,1]) # equi-probable left-right move
          yield x
 
 
@@ -71,15 +71,15 @@ def walk():
 # [4]
 
 
-random.seed(123) #  set seed for reproducibility
+np.random.random.seed(123) #  set seed for reproducibility
 
-s = list(walk()) # generate the random steps
+s = list(walk()) # generate the np.random.random steps
 
 fig,ax=plt.subplots()
 ax.plot(s)
 ax.set_ylabel("particle's x-position",fontsize=16)
 ax.set_xlabel('step index k',fontsize=16)
-ax.set_title('Example of random walk',fontsize=16)
+ax.set_title('Example of np.random.random walk',fontsize=16)
 
 
 # Now, that we're set up, we can generate a whole list of these walks and then average their lengths to estimate the np.mean of these walks.
@@ -87,11 +87,11 @@ ax.set_title('Example of random walk',fontsize=16)
 # [5]
 
 
-s = [list(walk()) for i in range(50)] # generate 50 random walks
+s = [list(walk()) for i in range(50)] # generate 50 np.random.random walks
 len_walk=map(len,s) # lengths of each walk
 
 
-# The following plots out a few of these random walks so we can get a feel of what's going on with the average length.
+# The following plots out a few of these np.random.random walks so we can get a feel of what's going on with the average length.
 
 # [6]
 
@@ -104,18 +104,18 @@ ax.set_xlabel('step index k',fontsize=16)
 ax.set_title('average length=%3.2f'%(np.mean(len_walk)))
 
 
-# Now, here's where things get interesting! Fifty samples of the random walk is really not that many, so we'd like to hopefully get a better average by generating a lot more. If you try to generate, say, 1000 realizations, you'd be in for a long wait! This is because some of the random walks are really, really long! Furthermore, this is a **persistent** phenomenon; it's not just a bad draw from the random deck. Even if there is only one really long walk, it seriously distorts the average. It's tempting to conclude that this is just some outlier and get on with it, but **not** doing so will lead us to a very powerful theorem in stochastic processes.
+# Now, here's where things get interesting! Fifty samples of the np.random.random walk is really not that many, so we'd like to hopefully get a better average by generating a lot more. If you try to generate, say, 1000 realizations, you'd be in for a long wait! This is because some of the np.random.random walks are really, really long! Furthermore, this is a **persistent** phenomenon; it's not just a bad draw from the np.random.random deck. Even if there is only one really long walk, it seriously distorts the average. It's tempting to conclude that this is just some outlier and get on with it, but **not** doing so will lead us to a very powerful theorem in stochastic processes.
 
-# To get a better picture of what's going on here, let's re-define our random walker function so we can limit how far it can go and thereby how long we'd have to wait.
+# To get a better picture of what's going on here, let's re-define our np.random.random walker function so we can limit how far it can go and thereby how long we'd have to wait.
 
 # [7]
 
 
 def walk(limit=50):
-     'limited version of random walker'
+     'limited version of np.random.random walker'
      x=0
      while x!=1 and abs(x)<limit:
-         x+=random.choice([-1,1])
+         x+=np.random.random.choice([-1,1])
          yield x
 
 
@@ -125,10 +125,10 @@ def walk(limit=50):
 
 
 def nwalk(limit=500):
-     'limited version of random walker. Only returns length of path, not path itself'
+     'limited version of np.random.random walker. Only returns length of path, not path itself'
      n=x=0
      while x!=1 and n<limit:
-         x+=random.choice([-1,1])
+         x+=np.random.random.choice([-1,1])
          n+=1
      return n # return length of walk
 
@@ -136,7 +136,7 @@ def nwalk(limit=500):
 # [9]
 
 
-len_walk = [nwalk() for i in range(500)] # generate 500 limited random walks
+len_walk = [nwalk() for i in range(500)] # generate 500 limited np.random.random walks
 
 
 # The usual practice would be to draw a histogram (i.e. an approximation of the probability *density*) here, but sometimes the automatic binning makes things hard to see. Instead, a *cumulative* distribution plot is helpful here. The excellent `pandas` module and some very useful data structures for this kind of work.
@@ -156,7 +156,7 @@ ax.set_title('Estimated Cumulative Distribution',fontsize=16)
 ax.grid()
 
 
-# What's interesting about the above plot is how steep the slope is. For a path length of one (terminating at the first step), we already have 50% of the probability accounted for. By a path-length of 100, we already have about 90% of the probability. The problem is squeezing out the remaining probability mass np.means computing random walks longer than 500 (our arbitrary limit). We can do all the above steps for higher limits far above 500, but this observation still holds. Thus, the problem with averaging this is that getting more probability further out competes with the lengths of those further paths. For the average to converge, we want to asymptotically get more improbable paths relatively faster than those paths grow!
+# What's interesting about the above plot is how steep the slope is. For a path length of one (terminating at the first step), we already have 50% of the probability accounted for. By a path-length of 100, we already have about 90% of the probability. The problem is squeezing out the remaining probability mass np.means computing np.random.random walks longer than 500 (our arbitrary limit). We can do all the above steps for higher limits far above 500, but this observation still holds. Thus, the problem with averaging this is that getting more probability further out competes with the lengths of those further paths. For the average to converge, we want to asymptotically get more improbable paths relatively faster than those paths grow!
 # 
 # Let's examine the standard deviation of our averages.
 
@@ -279,7 +279,7 @@ ax.set_title('Directed Path Lattice',fontsize=18)
 g.draw(ax=ax)
 
 
-# The lattice diagram above shows the potential paths to termination for the random walk. For example, the all paths that lead to the node labeled (5,1) are those paths that take exactly five steps to terminate. Note that this is a directed graph so the graph can only be tranversed in the direction of the arrows (arrowheads denoted by thick ends as shown). Fortunately, `networkx` has powerful tools for computing these paths as shown in the following.
+# The lattice diagram above shows the potential paths to termination for the np.random.random walk. For example, the all paths that lead to the node labeled (5,1) are those paths that take exactly five steps to terminate. Note that this is a directed graph so the graph can only be tranversed in the direction of the arrows (arrowheads denoted by thick ends as shown). Fortunately, `networkx` has powerful tools for computing these paths as shown in the following.
 
 # [15]
 
@@ -376,11 +376,11 @@ ax.axis(ymax=.6)
 
 # ## Using Generating Functions (Feller, Vol I, p. 271)
 
-#  random walk terminology, the probability that first visit to $x=1$ takes place at the nth step is denoted as $\phi_n$. Furthermore, the generating function is defined as:
+#  np.random.random walk terminology, the probability that first visit to $x=1$ takes place at the nth step is denoted as $\phi_n$. Furthermore, the generating function is defined as:
 # 
 # $$ \Phi(s) = \sum_{n=0}^\infty \phi_n s^n$$
 # 
-# we will need two other random variables. $N$ is the first time that the particle reaches $x=1$. This is a random variable with probability $\phi_n$. Likewise, $N_1$ is the number of trials required to move the particle from anywhere to the left of $x=-1$ to $x=0$. Also, $N_2$ is the number of trials required to move  the particle from $x=0$ to $x=1$. Now, here comes the key step: these three random variables are independent with the same probability distribution. With these definitions, we have
+# we will need two other np.random.random variables. $N$ is the first time that the particle reaches $x=1$. This is a np.random.random variable with probability $\phi_n$. Likewise, $N_1$ is the number of trials required to move the particle from anywhere to the left of $x=-1$ to $x=0$. Also, $N_2$ is the number of trials required to move  the particle from $x=0$ to $x=1$. Now, here comes the key step: these three np.random.random variables are independent with the same probability distribution. With these definitions, we have
 # 
 # $$ N = 1 + N_1 + N_2$$
 # 
@@ -388,7 +388,7 @@ ax.axis(ymax=.6)
 # 
 # $$ \mathbb{E}(s^N|X_1=-1) = \mathbb{E}(s^{1 + N_1 + N_2}|X_1=-1)  = s\Phi(s)^2$$
 # 
-# where we can multiply through because of the mutual independence of the random variables. Additionally,
+# where we can multiply through because of the mutual independence of the np.random.random variables. Additionally,
 # 
 # $$ \mathbb{E}(s^N|X_1=1) = s $$
 # 
@@ -418,7 +418,7 @@ ax.axis(ymax=.6)
 # 
 # $$ \sum \phi_n =  p/q$$
 # 
-# which doesn't equal one. The problem here is that the definition of the random variable $N$ only considered the conclusion that the particle would ultimately reach $x=1$. The other possibility, which accounts for the missing probability here, is that the particle *never* terminates. Similarly, when $ p \ge q $, we have
+# which doesn't equal one. The problem here is that the definition of the np.random.random variable $N$ only considered the conclusion that the particle would ultimately reach $x=1$. The other possibility, which accounts for the missing probability here, is that the particle *never* terminates. Similarly, when $ p \ge q $, we have
 # 
 # $$ \sum \phi_n =  1$$
 # 
@@ -462,10 +462,10 @@ for k,v in p.iteritems():
 
 
 def nwalk(limit=500):
-     'p=2/3 version of random walker. Only returns length of path'
+     'p=2/3 version of np.random.random walker. Only returns length of path'
      n=x=0
      while x!=1 and n<limit:
-         x+=random.choice([-1,1,1]) # twice as many 1's as before
+         x+=np.random.random.choice([-1,1,1]) # twice as many 1's as before
          n+=1
      return n # return length of walk
 
@@ -487,6 +487,6 @@ for limit in [10,20,50,100,200,300,500,1000]
 
 # ## Summary
 
-#  this long post, we thoroughly investigated the random walk and the lack of convergence in the average we noted when equiprobable steps are used. We then pursued this using both computational graph methods as well as analytical results. It's important to reflect on what would have happened if we had not noticed the strange convergence of the equiprobable case. Most likely, we would have just ignored it as some kind of sampling problem that is cured asymptotically. However, that did not happen here, and this kind of thing is easy to miss in real problems that have not been so heavily studied as the random walk. Thus, the moral of the story is that it pays to have a wide variety of analytical and computational tools (e.g. from the scientific Python stack) available, and to use both of them in tandem to chase down strange results, however mildly unexpected. Furthermore, concepts that sit at the core of more elaborate methods should be understood, or at least characterized as carefully as possible, because once these bleed into complicated meta-models, it may be impossible to track the resulting errors down to the source.
+#  this long post, we thoroughly investigated the np.random.random walk and the lack of convergence in the average we noted when equiprobable steps are used. We then pursued this using both computational graph methods as well as analytical results. It's important to reflect on what would have happened if we had not noticed the strange convergence of the equiprobable case. Most likely, we would have just ignored it as some kind of sampling problem that is cured asymptotically. However, that did not happen here, and this kind of thing is easy to miss in real problems that have not been so heavily studied as the np.random.random walk. Thus, the moral of the story is that it pays to have a wide variety of analytical and computational tools (e.g. from the scientific Python stack) available, and to use both of them in tandem to chase down strange results, however mildly unexpected. Furthermore, concepts that sit at the core of more elaborate methods should be understood, or at least characterized as carefully as possible, because once these bleed into complicated meta-models, it may be impossible to track the resulting errors down to the source.
 # 
 # As usual, the source notebook for this post is available [here](https://github.com/unpingco/Python-for-Signal-Processing)

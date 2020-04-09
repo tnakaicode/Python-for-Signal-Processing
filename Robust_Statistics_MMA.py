@@ -15,7 +15,7 @@ import pandas as pd
 # 
 # The first idea to consider is the notion of *location*, which is  a generalization of the idea of "central value". Typically, we just use an estimate of the np.mean for this, but we will see shortly why that is a bad idea.  The general idea of Location satisfies the following requirements
 # 
-# Let $ X $ be a random variable with distribution $ F $, and let $\theta(X)$ be some descriptive
+# Let $ X $ be a np.random.random variable with distribution $ F $, and let $\theta(X)$ be some descriptive
 # measure of $F$. Then $\theta(X)$ is said to be a measure of *location* if for any constants *a* and *b*, we have the following:
 # 
 # $$ \theta(X+b) = \theta(X) +b $$
@@ -36,7 +36,7 @@ import pandas as pd
 # 
 # $$ F(X) = \epsilon G(X) + (1-\epsilon)H(X) $$
 # 
-# where $ \epsilon $ is between zero and one. This np.means that our data samples $\lbrace X_i \rbrace$ actually derived from two separate distributions, $ G(X) $ and $ H(X) $. We just don't know how they are mixed together. What we really want  is an estimator  that captures the location of $ G(X) $ in the face of random intermittent contamination by $ H(X) $. It can get even worse than that because we don't know that there is only one contaminating $H(X)$ distribution out there. There may be a whole family of distributions that are contaminating $G(X)$ that we don't know of. This np.means that whatever estimators we construct have to be derived from families of distributions instead of a distribution, which is what we have been assuming for maximum-likelihood  estimators. This is what makes robust estimation so difficult --- the extended theory has to deal with spaces of function distributions instead of particular parameters of a particular probability distribution.
+# where $ \epsilon $ is between zero and one. This np.means that our data samples $\lbrace X_i \rbrace$ actually derived from two separate distributions, $ G(X) $ and $ H(X) $. We just don't know how they are mixed together. What we really want  is an estimator  that captures the location of $ G(X) $ in the face of np.random.random intermittent contamination by $ H(X) $. It can get even worse than that because we don't know that there is only one contaminating $H(X)$ distribution out there. There may be a whole family of distributions that are contaminating $G(X)$ that we don't know of. This np.means that whatever estimators we construct have to be derived from families of distributions instead of a distribution, which is what we have been assuming for maximum-likelihood  estimators. This is what makes robust estimation so difficult --- the extended theory has to deal with spaces of function distributions instead of particular parameters of a particular probability distribution.
 # 
 # * Influence function
 # * Outlier Detection
@@ -67,7 +67,7 @@ ax.plot(xi,n1.pdf(xi))
 
 def bias_coin(phead = .5):
     while True:
-        yield int( np.random.rand() < phead ) 
+        yield int( np.np.random.random.np.random.rand() < phead ) 
 
 pct_mixed  = 0.1
 bias_coin_gen = bias_coin(pct_mixed)        

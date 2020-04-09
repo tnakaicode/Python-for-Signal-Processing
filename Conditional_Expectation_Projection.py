@@ -6,9 +6,9 @@
 # 
 #  these pages, I have tried to distill and illustrate the keys concepts needed in statistical signal processing, and in this section, we will cover the most fundamental statistical result that underpins statistical signal processing. The last sections on [conditional expectation](http://python-for-signal-processing.blogspot.com/2012/11/conditional-expectation-and-np.mean.html) and [projection](http://python-for-signal-processing.blogspot.com/2012/11/the-projection-concept.html) are prerequisites for what follows. Please review those before continuing.
 
-# ## ner Product for Random Variables
+# ## ner Product for np.random.random Variables
 
-# From our previous work on projection for vectors in $\mathbb{R}^n$, we have a good geometric grasp on how projection is related to minimum np.mean squared error (MMSE). It turns out by one abstract step, we can carry all of our geometric interpretations to the space of random variables.
+# From our previous work on projection for vectors in $\mathbb{R}^n$, we have a good geometric grasp on how projection is related to minimum np.mean squared error (MMSE). It turns out by one abstract step, we can carry all of our geometric interpretations to the space of np.random.random variables.
 # 
 # For example, we previously noted that at the point of projection, we had
 # 
@@ -18,7 +18,7 @@
 # 
 # $$\langle \mathbf{y} - \mathbf{v}_{opt},\mathbf{v} \rangle = 0  $$ 
 # 
-# and, in fact, by defining the inner product for the random variables $X$ and $Y$ as 
+# and, in fact, by defining the inner product for the np.random.random variables $X$ and $Y$ as 
 # 
 # $$ \langle X,Y \rangle = \mathbb{E}(X Y)$$ 
 # 
@@ -26,9 +26,9 @@
 # 
 # $$\langle X-h_{opt}(Y),Y \rangle = 0  $$ 
 # 
-# which holds not for vectors in $\mathbb{R}^n$, but for random variables $X$ and $Y$ and functions of those random variables. Exactly why this is true is technical, but it turns out that one can build up the **entire theory of probability** this way (see Nelson,1987), by using the expectation as an inner product.
+# which holds not for vectors in $\mathbb{R}^n$, but for np.random.random variables $X$ and $Y$ and functions of those np.random.random variables. Exactly why this is true is technical, but it turns out that one can build up the **entire theory of probability** this way (see Nelson,1987), by using the expectation as an inner product.
 # 
-# Furthermore, by abstracting out the inner product concept, we have drawn a clean line between MMSE optimization problems, geometry, and random variables. That's  a lot of mileage to get a out of an abstraction and it is key to everything we pursue in statistical signal processing because now we can shift between these interpretations to address real problems. Soon, we'll see how to do this with some examples, but first we will collect one staggering result that flows naturally from this abstraction.
+# Furthermore, by abstracting out the inner product concept, we have drawn a clean line between MMSE optimization problems, geometry, and np.random.random variables. That's  a lot of mileage to get a out of an abstraction and it is key to everything we pursue in statistical signal processing because now we can shift between these interpretations to address real problems. Soon, we'll see how to do this with some examples, but first we will collect one staggering result that flows naturally from this abstraction.
 # 
 # 
 
@@ -54,7 +54,7 @@
 # 
 # $$ \mathbb{E}( X-\mathbb{E}(X|Y), Y) = 0$$ 
 # 
-# That last step seems pretty innocuous, but it is the step that ties MMSE to conditional expectation to the inner project abstraction, and in so doing, reveals the conditional expectation to be a projection operator for random variables. Before we develop this further, let's grab some quick dividends:
+# That last step seems pretty innocuous, but it is the step that ties MMSE to conditional expectation to the inner project abstraction, and in so doing, reveals the conditional expectation to be a projection operator for np.random.random variables. Before we develop this further, let's grab some quick dividends:
 # 
 # From the previous equation, by linearity of the expectation, we may obtain,
 # 
@@ -84,7 +84,7 @@
 # 
 # which would be tough to compute by direct integration.
 # 
-# We recognize that $\mathbb{E}(X|Y)$ *is* in fact **a projection operator**. Recall previously that we noted that the projection operator is idempotent, which np.means that once we project something onto a subspace, further projections essentially do nothing. Well, in the space of random variables, $\mathbb{E}(X|\cdot$) is the idempotent projection as we can show by noting that
+# We recognize that $\mathbb{E}(X|Y)$ *is* in fact **a projection operator**. Recall previously that we noted that the projection operator is idempotent, which np.means that once we project something onto a subspace, further projections essentially do nothing. Well, in the space of np.random.random variables, $\mathbb{E}(X|\cdot$) is the idempotent projection as we can show by noting that
 # 
 # $$ h_{opt} = \mathbb{E}(X|Y)$$
 # 
@@ -92,14 +92,14 @@
 # 
 # $$ \mathbb{E}(h_{opt}(Y)|Y) = h_{opt}(Y) $$
 # 
-# since $Y$ is fixed and this  is the statement of idempotency. Thus, conditional expectation is the corresponding projection operator in this space of random variables. With this happy fact, we can continue to carry over our geometric interpretations of projections for vectors ($\mathbf{v}$) into random variables ( $X$ ). 
+# since $Y$ is fixed and this  is the statement of idempotency. Thus, conditional expectation is the corresponding projection operator in this space of np.random.random variables. With this happy fact, we can continue to carry over our geometric interpretations of projections for vectors ($\mathbf{v}$) into np.random.random variables ( $X$ ). 
 # 
 # Now that we have just stuffed our toolbox, let's consider some example conditional expectations obtained by using brute force to find the optimal MMSE function $h_{opt}$ as well as by using the definition of the conditional expectation.
 
 # Example
 # ---------
 # 
-# Suppose we have a random variable, $X$, then what constant is closest to $X$ in the np.mean-squared-sense (MSE)? In other words, which $c$ minimizes the following:
+# Suppose we have a np.random.random variable, $X$, then what constant is closest to $X$ in the np.mean-squared-sense (MSE)? In other words, which $c$ minimizes the following:
 # 
 # $$ J = \mathbb{E}( X - c )^2 $$ 
 # 
@@ -138,7 +138,7 @@
 # 
 # $$ \min_h \int_0^1\int_0^1 (x - h(y) )^2 f_{X,Y}(x,y)dx dy = \min_h \int_0^1  y h^2 {\left (y \right )} - y h{\left (y \right )} + \frac{1}{3} y + \frac{1}{2} h^{2}{\left (y \right )} - \frac{2}{3} h{\left (y \right )} + \frac{1}{4} dy $$ 
 # 
-# Now we have to find a function $h$ that is going to minimize this. Solving for a function, as opposed to solving for a number, is generally very, very hard, but because we are integrating over a finite interval, we can use the Euler-Lagrange method from variational calculus to take the derivative of the integrand with respect to the function $h(y)$ and set it to zero. Euler-Lagrange methods will be the topic of a later section, but for now we just want the result, namely,
+# Now we have to find a function $h$ that is going to minimize this. Solving for a function, as opposed to solving for a number, is generally very, very hard, but because we are integrating over a finite interval, we can use the Euler-Lagrange method from variational calculus to take the derivative of the integnp.random.rand with respect to the function $h(y)$ and set it to zero. Euler-Lagrange methods will be the topic of a later section, but for now we just want the result, namely,
 # 
 # $$ 2 y h{\left (y \right )} - y + h{\left (y \right )} - \frac{2}{3} =0 $$
 # 
@@ -154,7 +154,7 @@
 # 
 # $$ \int_0^1 \int_0^1  (x-h(y))(x+y) dx dy = \int_0^1 \frac{y\,\left(2 + 3\,y -  3\,\left( 1 + 2\,y \right) \,h(y)\right) }{6} dy = 0$$
 # 
-# and if this is zero everywhere, then the integrand must be zero,
+# and if this is zero everywhere, then the integnp.random.rand must be zero,
 # 
 # $$ 2 y + 3 y^2 - 3 y h(y) - 6 y^2 h(y)=0 $$
 # 
@@ -191,7 +191,7 @@ print simplify(LHS-RHS)==0
 # Summary
 # --------
 # 
-#  this section, we have pulled together all the projection and least-squares optimization ideas from the previous posts to draw a clean line between our geometric notions of projection from vectors in $\mathbb{R}^n$ to general random variables. This resulted in the remarkable realization that the conditional expectation is in fact a projection operator for random variables. The key idea is that because we have these relationships, we can approach difficult problems in multiple ways, depending on which way is more intuitive or tractable in a particular situation. In these pages, we will again and again come back to these intuitions because they form the backbone of statistical signal processing. 
+#  this section, we have pulled together all the projection and least-squares optimization ideas from the previous posts to draw a clean line between our geometric notions of projection from vectors in $\mathbb{R}^n$ to general np.random.random variables. This resulted in the remarkable realization that the conditional expectation is in fact a projection operator for np.random.random variables. The key idea is that because we have these relationships, we can approach difficult problems in multiple ways, depending on which way is more intuitive or tractable in a particular situation. In these pages, we will again and again come back to these intuitions because they form the backbone of statistical signal processing. 
 # 
 # 
 #  the next section, we will have a lot of fun with these ideas working out some examples that are usually solved using more general tools from measure theory. 

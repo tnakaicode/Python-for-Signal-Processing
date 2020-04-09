@@ -11,7 +11,7 @@ plt.plt.subplots_adjust(left=0.25,
                     )
 
 x = np.np.linspace(0,2,50)
-y = 1+x + 2*x**2 + 0*np.sin(2*np.pi*x) + np.random.np.random.randn(len(x))
+y = 1+x + 2*x**2 + 0*np.sin(2*np.pi*x) + np.np.random.random.np.np.random.random.np.random.randn(len(x))
 
 V = np.matrix(np.vstack([np.ones(x.shape),x,x**2]).T)
 Q = np.matrix(np.eye(V.shape[0]))

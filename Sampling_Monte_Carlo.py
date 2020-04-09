@@ -9,13 +9,13 @@ from __future__ import division
 
 # ## troduction
 
-# We want to generate samples of a given density, $f(x)$. In this case, we can assume we already have a reliable way to generate samples from a uniform distribution, $\mathcal{U}[0,1]$. How do we know a random sample ($v$) comes from the $f(x)$ distribution? One way to think about it is that a histogram of samples must approximate $f(x)$. This np.means that 
+# We want to generate samples of a given density, $f(x)$. In this case, we can assume we already have a reliable way to generate samples from a uniform distribution, $\mathcal{U}[0,1]$. How do we know a np.random.random sample ($v$) comes from the $f(x)$ distribution? One way to think about it is that a histogram of samples must approximate $f(x)$. This np.means that 
 # 
 # $$ \mathbb{P}( v \in N_{\Delta}(x) )  = f(x) \Delta x$$
 # 
 # which says that the probability that a sample is in some $\Delta$ neighborhood of x is approximately $f(x)\Delta x$. 
 # 
-# Let's consider how to create these samples for both discrete and continuous random variables.
+# Let's consider how to create these samples for both discrete and continuous np.random.random variables.
 
 # ## verse CDF Method for Discrete Variables
 
@@ -42,7 +42,7 @@ F = sum([S.Heaviside(x-i+1) for i in range(1,7)])/6 # offset to satisfy sympy de
 S.plot(F,(x,0,6),ylabel='CDF(x)',xlabel='x');
 
 
-# Now, we want a random number generator that outputs an element of $\left \{  1,2,3,..,6\right \} $ with equal probability. We can generate a uniform random variable and think of it as picking a point on the y-axis of the plot above. Then, all we do is pick the corresponding x-axis value as the output. Let's do this in the next code block
+# Now, we want a np.random.random number generator that outputs an element of $\left \{  1,2,3,..,6\right \} $ with equal probability. We can generate a uniform np.random.random variable and think of it as picking a point on the y-axis of the plot above. Then, all we do is pick the corresponding x-axis value as the output. Let's do this in the next code block
 
 # [6]
 
@@ -54,13 +54,13 @@ invF=S.Piecewise((1,0<x<=1/6),    # if uniform sample between 0 and 1/6, choose 
                  (5,4/6<x<=5/6),
                  (6,5/6<x<=1))
 
-samples=np.array([invF.subs(x,i) for i in  rand(500)])
+samples=np.array([invF.subs(x,i) for i in  np.random.rand(500)])
 hist(samples,bins=[1,2,3,4,5,6,7],normed=1,align='left');
 axis(ymax=2/6.)
 title('Estimated PMF of Fair Six-Sided Die');
 
 
-# For comparison, here is the estimated CDF compared with $F$. You can trying using more or fewer samples in `rand()` to see how this changes.
+# For comparison, here is the estimated CDF compared with $F$. You can trying using more or fewer samples in `np.random.rand()` to see how this changes.
 
 # [7]
 
@@ -93,22 +93,22 @@ S.plot(Fu,(x,0,6),ylabel='CDF(x)',xlabel='x',title='Unfair 6-sided Die');
 
 cp=cumsum([0]+p.tolist()) # need to find edges on vertical axis, add [0] to get left edge
 invFu=S.Piecewise(*[(i,j<x<=k) for i,j,k in zip(range(1,7),cp[:-1],cp[1:])])
-hist([invFu.subs(x,i) for i in  rand(1000)],bins=[1,2,3,4,5,6,7],normed=1,align='left');
+hist([invFu.subs(x,i) for i in  np.random.rand(1000)],bins=[1,2,3,4,5,6,7],normed=1,align='left');
 axis(ymax=1.)
 title('Estimated PMF of Unfair Six-Sided Die');
 
 
 # ## verse CDF Method for Continuous Variables
 
-# The same idea applies to continuous random variables, but now we have to use squeeze the  intervals down to individual points. In the example above, our inverse function was a piecewise function that operated on uniform random samples. In this case, the piecewise function collapses to a continuous inverse function. 
+# The same idea applies to continuous np.random.random variables, but now we have to use squeeze the  intervals down to individual points. In the example above, our inverse function was a piecewise function that operated on uniform np.random.random samples. In this case, the piecewise function collapses to a continuous inverse function. 
 # 
-# We want to generate random samples for a CDF $F$ that is invertible. The criterion for generating an appropriate sample is the following,
+# We want to generate np.random.random samples for a CDF $F$ that is invertible. The criterion for generating an appropriate sample is the following,
 # 
 # $$ \mathbb{P}(F(x) < v < F(x+\Delta x)) =  F(x+\Delta x) - F(x) = \int_x^{x+\Delta x} f(u) du \approx  f(x) \Delta x$$
 # 
-# which is saying that the probability that the sample $v$ is contained in a $\Delta x$ interval is approximately equal to the density function, $f(x) \Delta x$ at that point. The trick is to use a uniform random sample ($u$) and an invertible CDF $F(x)$ to construct these samples.
+# which is saying that the probability that the sample $v$ is contained in a $\Delta x$ interval is approximately equal to the density function, $f(x) \Delta x$ at that point. The trick is to use a uniform np.random.random sample ($u$) and an invertible CDF $F(x)$ to construct these samples.
 # 
-# Note that for a uniform random variable $u \sim \mathcal{U}[0,1]$, we have,
+# Note that for a uniform np.random.random variable $u \sim \mathcal{U}[0,1]$, we have,
 # 
 # $$ \mathbb{P}(x < F^{-1}(u) < x+\Delta x) =\mathbb{P}(F(x) < u < F(x+\Delta x)) =  F(x+\Delta x) - F(x) = \int_x^{x+\Delta x} f(p) dp \approx  f(x) \Delta x$$
 # 
@@ -163,7 +163,7 @@ ax.legend();
 
 # ## Rejection Method
 
-#  some cases, you may not be able to invert for the CDF. The `rejection` method can handle this situation. The idea is to pick a uniform ($\mathcal{U}[a,b]$) random variable $u_1$ and $u_2$ so that
+#  some cases, you may not be able to invert for the CDF. The `rejection` method can handle this situation. The idea is to pick a uniform ($\mathcal{U}[a,b]$) np.random.random variable $u_1$ and $u_2$ so that
 # 
 # $$ \mathbb{P}\left( u_1 \in N_{\Delta}(x) \bigwedge u_2 < \frac{f(u_1)}{M} \right) \hspace{0.5em} \approx \frac{\Delta x}{b-a} \frac{f(u_1)}{M} $$
 # 
@@ -191,14 +191,14 @@ ax.plot(x,cumsum(fx)*diff(x)[0],'g',label='$F(x)$')
 ax.legend(loc=0,fontsize=16);
 
 
-# And, following our rejection plan, the following are the simulated random samples of $f$.
+# And, following our rejection plan, the following are the simulated np.random.random samples of $f$.
 
 # [13]
 
 
 M=.3 # scale factor
-u1 = rand(10000)*15 # uniform random samples scaled out
-u2 = rand(10000)    # uniform random samples
+u1 = np.random.rand(10000)*15 # uniform np.random.random samples scaled out
+u2 = np.random.rand(10000)    # uniform np.random.random samples
 idx=where(u2<=f(u1)/M)[0] # rejection criterion
 v = u1[idx]
 
@@ -224,7 +224,7 @@ ax.legend(fontsize=16)
 
 # The above shows the samples that were accepted and rejected by this method. The fact that we threw out so many is very inefficient, and we want to do better.
 
-# The above argument uses $u_1$ to select along the domain of $f(x)$ and the other $u_2$ uniform random variable  decides whether to accept or not. One idea would be to choose $u_1$ so that $x$ values are coincidentally those that are near the peak of $f(x)$, instead of uniformly anywhere in the domain, especially near the tails, which are low probability anyway. Now, the trick is to find a new density function $g(x)$ to sample from that has a similiar concentration of probability density. One way it to familiarize oneself with the popular density functions that have adjustable parameters and fast random sample generators already. There are lots of places to look and, chances are, there is likely already such a generator for your problem. Otherwise, the [family of $\beta$ densities](http://en.wikipedia.org/wiki/Beta_distribution) is a good place to start looking. 
+# The above argument uses $u_1$ to select along the domain of $f(x)$ and the other $u_2$ uniform np.random.random variable  decides whether to accept or not. One idea would be to choose $u_1$ so that $x$ values are coincidentally those that are near the peak of $f(x)$, instead of uniformly anywhere in the domain, especially near the tails, which are low probability anyway. Now, the trick is to find a new density function $g(x)$ to sample from that has a similiar concentration of probability density. One way it to familiarize oneself with the popular density functions that have adjustable parameters and fast np.random.random sample generators already. There are lots of places to look and, chances are, there is likely already such a generator for your problem. Otherwise, the [family of $\beta$ densities](http://en.wikipedia.org/wiki/Beta_distribution) is a good place to start looking. 
 
 # To be explicit, what we want is $u_1 \sim g(x) $ so that, returning to our earlier argument,
 # 
@@ -264,7 +264,7 @@ axs[1].set_title('$h(x)=f(x)/g(x)$',fontsize=18)
 
 hmax=h(x).max()
 u1 = ch.rvs(5000) # samples from chi-square distribution
-u2 = rand(5000)   # uniform random samples
+u2 = np.random.rand(5000)   # uniform np.random.random samples
 idx = (u2 <= h(u1)/hmax)  # Rejection criterion
 
 v = u1[idx]  # keep these only
@@ -292,7 +292,7 @@ ax.legend(fontsize=16)
 
 # ## Summary
 
-#  this section, we investigated how to generate random samples from a given distribution, beit discrete or continuous. For the continuouse case, the key issue was whether or not the cumulative density function had a continuous inverse. If not, we had to turn to the rejection method, and find an appropriate related density that we could easily sample from to use as part of a rejection threshold. Finding such a function is an art, but many families of probability densities have been studied over the years that already have fast sample-generators.
+#  this section, we investigated how to generate np.random.random samples from a given distribution, beit discrete or continuous. For the continuouse case, the key issue was whether or not the cumulative density function had a continuous inverse. If not, we had to turn to the rejection method, and find an appropriate related density that we could easily sample from to use as part of a rejection threshold. Finding such a function is an art, but many families of probability densities have been studied over the years that already have fast sample-generators.
 # 
 # It is possible to go much deeper with the rejection method, but these involve careful partitioning of the domains and lots of special methods for separate domains and corner cases.  Nonetheless, all of these advanced techniques are still variations on the same fundamental theme we illustrated here.
 

@@ -12,7 +12,7 @@ import numpy as np;import matplotlib.pyplot as plt
 
 # vector addition pt a = (a0,a1), pt b = (b0,b1)
 a0,b0 = .5,.1
-a1,b1=rand(2,1000)
+a1,b1=np.random.rand(2,1000)
 
 
 # [22]
@@ -40,8 +40,8 @@ ax.add_patch(Rectangle((0,0),1,1,alpha=.2,lw=2.,color='gray'))
 # [34]
 
 
-b0,b1 = rand(2,1000)
-a0,a1 = rand(2,1000)
+b0,b1 = np.random.rand(2,1000)
+a0,a1 = np.random.rand(2,1000)
 np.mean((a0+b0) > (a1+b1))
 
 

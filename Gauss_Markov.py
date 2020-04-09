@@ -10,7 +10,7 @@
 # 
 # $$ \mathbf{y} = \mathbf{W} \boldsymbol{\beta} + \boldsymbol{\epsilon} $$
 # 
-# where $\mathbf{W}$ is a $ n \times m $ matrix, and $\mathbf{y}$ is a $n \times 1$ vector. Also, $\boldsymbol{\epsilon}$ is a $n$-dimensional random vector with zero-np.mean and covariance
+# where $\mathbf{W}$ is a $ n \times m $ matrix, and $\mathbf{y}$ is a $n \times 1$ vector. Also, $\boldsymbol{\epsilon}$ is a $n$-dimensional np.random.random vector with zero-np.mean and covariance
 # 
 # $$ \mathbb{E}( \boldsymbol{\epsilon} \boldsymbol{\epsilon}^T) = \mathbf{Q}$$
 # 
@@ -26,7 +26,7 @@
 # =  \min_K\mathbb{E}(|| \mathbf{K}\mathbf{y}- \boldsymbol{\beta} ||^2)
 # =  \min_K\mathbb{E}(|| \mathbf{K}\mathbf{W}\mathbf{\boldsymbol{\beta}}+\mathbf{K}\boldsymbol{\epsilon}- \boldsymbol{\beta} ||^2)$$
 # 
-# and since $\boldsymbol{\epsilon}$ is the only random variable here, this simplifies to
+# and since $\boldsymbol{\epsilon}$ is the only np.random.random variable here, this simplifies to
 # 
 # $$\min_K || \mathbf{K}\mathbf{W}\mathbf{\boldsymbol{\beta}}- \boldsymbol{\beta} ||^2 + \mathbb{E}(||\mathbf{K}\boldsymbol{\epsilon} ||^2)
 # $$
@@ -93,7 +93,7 @@ W = matrix([[1,2],
             [1,1]])
 
 ntrials = 50 
-epsilon = np.random.multivariate_normal((0,0,0),Q,ntrials).T 
+epsilon = np.np.random.random.multivariate_normal((0,0,0),Q,ntrials).T 
 y=W*beta+epsilon
 
 K=inv(W.T*inv(Q)*W)*matrix(W.T)*inv(Q) 

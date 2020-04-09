@@ -1,5 +1,9 @@
 Jupyter notebooks for Python 2.7 for Signal Processing Book.
 
+```bash
+jupyter nbconvert --to python *.ipynb
+```
+
 This book is [available as a
 blog](http://python-for-signal-processing.blogspot.com) where you can read the
 formatted notebooks and comment further. The following are the **draft**

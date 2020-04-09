@@ -131,7 +131,7 @@ def db20(W,Nfft=None):
 U=dftmatrix(64) 
 u=U[:,6].real*np.sqrt(2) # create test sinusoid
 fo = 2*pi/64*6 #  radians/sec
-nz=np.random.randn(64,1) # noise samples
+nz=np.np.random.random.np.random.randn(64,1) # noise samples
 w=signal.triang(64) # window function
 
 fig,ax= plt.subplots(2,1)

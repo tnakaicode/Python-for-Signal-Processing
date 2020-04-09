@@ -1,15 +1,15 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# [1]
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
+import numpy as np;import matplotlib.pyplot as plt
 from IPython.display import Image
 from IPython.html.widgets import interact
 
 
-# In[2]:
+# [2]
 
 
 Image('Lighthouse_schematic.jpg',width=500)
@@ -27,17 +27,17 @@ Image('Lighthouse_schematic.jpg',width=500)
 # 
 # $$ f_{\alpha}(\theta_k) = \frac{1}{\pi} $$
 # 
-# This means that the density of the angle is uniformly distributed between $ \pm \pi/2 $. Now, what we really want is the density function for $x_k$ which will tell us the probability that the $k^{th}$ flash will be recorded at position $ x_k $. After a transformation of variables, we obtain the following:
+# This np.means that the density of the angle is uniformly distributed between $ \pm \pi/2 $. Now, what we really want is the density function for $x_k$ which will tell us the probability that the $k^{th}$ flash will be recorded at position $ x_k $. After a transformation of variables, we obtain the following:
 # 
 # $$ f_{\alpha}(x_k) = \frac{\beta}{\pi(\beta ^2 +(x_k-\alpha)^2)} $$
 # 
 # which we plot below for some reasonable factors
 # 
 
-# In[3]:
+# [3]
 
 
-xi = linspace(-10,10,150)
+xi = np.linspace(-10,10,150)
 alpha = 1
 f = lambda x: 1/(pi*(1+(x-alpha)**2))
 plot(xi,f(xi))
@@ -67,7 +67,7 @@ grid()
 # 
 # Unfortunately, there is no easy way to solve for the optimal $ \alpha $ for this equation. However, we are not defenseless at this point because Python has all the tools we need to overcome this. Let's start by getting a quick look at the histogram of the $x_k$ measurements.
 
-# In[4]:
+# [4]
 
 
 beta  =alpha = 1
@@ -80,7 +80,7 @@ hist(x_samples);
 # 
 # With that in mind, let's turn to the maximum likelihood estimation. We will need some tools from `sympy`.
 
-# In[5]:
+# [5]
 
 
 import sympy as S
@@ -96,7 +96,7 @@ S.plot(dL,(a,-15,15),xlabel=r'$\alpha$',ylabel=r'$dL(\alpha)/d\alpha$')
 # 
 # There are tools in `scipy.optimize` that can help us compute the zero-crossing as demonstrated in the cell below.
 
-# In[6]:
+# [6]
 
 
 from scipy import optimize
@@ -114,16 +114,16 @@ print alpha_x
 # 
 # Let's try computing the average in the cell below.
 
-# In[7]:
+# [7]
 
 
-print 'alpha using average =',x_samples.mean()
+print 'alpha using average =',x_samples.np.mean()
 print 'maximum likelihood estimate = ', alpha_x[0]
 
 
 # If you run this notebook a few times, you will see that estimate using the average has enormous variance. This is a consequence of the fact that we can have very large absolute values for $\lbrace x_k \rbrace$ corresponding to values of $\theta_k$ near the edges of the $[-\pi/2,\pi/2]$ interval.
 
-# In[8]:
+# [8]
 
 
 def run_trials(n=100):
@@ -132,10 +132,10 @@ def run_trials(n=100):
         theta_samples=((2*np.random.rand(250)-1)*pi/2)
         x_samples = alpha+beta*np.tan(theta_samples)
         o.append(x_samples)
-    return np.array(o)
+    return np.np.array(o)
 
 
-# In[9]:
+# [9]
 
 
 o= run_trials()
@@ -143,7 +143,7 @@ o= run_trials()
 
 # The following figure shows the histogram of the measurements. As shown, there are many measurements away from the central part. This is the cause of our widely varying average. What if we just trimmed away the excess outliers? Would that leave us with an easier to implement procedure for estimating $\alpha$?
 
-# In[10]:
+# [10]
 
 
 hist(o[np.where(abs(o)<200)]);
@@ -151,17 +151,17 @@ hist(o[np.where(abs(o)<200)]);
 
 # The following graph shows what happens when we include only a relative neighborhood around zero in our calculation of the average value. Note that the figure shows a wide spread of average values depending upon how big a neighborhood around zero we decide to keep. This is an indication that the average is not a good estimator for our problem because it is very sensitive to outliers.
 
-# In[11]:
+# [11]
 
 
-plot(range(100,10000,100),[o[np.where(abs(o)<i)].mean() for i in range(100,10000,100)],'-o')
+plot(range(100,10000,100),[o[np.where(abs(o)<i)].np.mean() for i in range(100,10000,100)],'-o')
 xlabel('width of neighborhood around zero')
 ylabel('value of average estimate')
 
 
 # For some perspective, we can wrap our maximum likelihood estimator code in one function and then examine the variance of the estimator using our set of synthetic trials data. Note that this takes a long time to run!
 
-# In[12]:
+# [12]
 
 
 def ML_estimator(x_samples):
@@ -170,49 +170,49 @@ def ML_estimator(x_samples):
     return a_x[0]
 
 
-# In[13]:
+# [13]
 
 
 # run maximum likelihood estimator on synthetic data we generated earlier
 # Beware this may take a long time!
-v= np.hstack([ML_estimator(o[i,:]) for i in range(o.shape[0])])
+v= np.np.hstack([ML_estimator(o[i,:]) for i in range(o.shape[0])])
 
 
-# In[14]:
+# [14]
 
 
-vmed= np.hstack([np.median(o[i,:]) for i in range(o.shape[0])])
-vavg =  np.hstack([np.mean(o[i,:]) for i in range(o.shape[0])])
-fig,ax = subplots()
+vmed= np.np.hstack([np.median(o[i,:]) for i in range(o.shape[0])])
+vavg =  np.np.hstack([np.np.mean(o[i,:]) for i in range(o.shape[0])])
+fig,ax = plt.subplots()
 ax.plot(v,'-o',label='ML')
 ax.plot(vmed,'gs-',label='median')
-ax.plot(vavg,'r^-',label='mean')
+ax.plot(vavg,'r^-',label='np.mean')
 ax.axis(ymax=2,ymin=0)
 ax.legend(loc=(1,0))
 ax.set_xlabel('Trial Index')
 ax.set_ylabel('Value of Estimator')
 
 
-# The above chart shows that the using the mean-based estimator jumps all over the place while the maximum likelihood (ML) and median-based estimators are less volatile. The next chart explores the relationship between the ML and median-based estimators and checks whether one is biased compared to the other. The figure below shows that (1) there is a small numerical difference between the two estimators (2) neither is systematically different from the other (otherwise, the diagonal would not split them so evenly ).
+# The above chart shows that the using the np.mean-based estimator jumps all over the place while the maximum likelihood (ML) and median-based estimators are less volatile. The next chart explores the relationship between the ML and median-based estimators and checks whether one is biased compared to the other. The figure below shows that (1) there is a small numerical difference between the two estimators (2) neither is systematically different from the other (otherwise, the diagonal would not split them so evenly ).
 
-# In[15]:
+# [15]
 
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 ii= np.argsort(v)
 ax.plot(v[ii],vmed[ii],'o',alpha=.3)
 axs = ax.axis()
-ax.plot(linspace(0,2,10),linspace(0,2,10))
+ax.plot(np.linspace(0,2,10),np.linspace(0,2,10))
 ax.axis(axs)
 ax.set_aspect(1)
 ax.set_xlabel('ML estimate')
 ax.set_ylabel('Median estimate')
 
 
-# In[16]:
+# [16]
 
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 ax.hist(v,10,alpha=.3,label='ML')
 ax.hist(vmed,10,alpha=.3,label='median')
 ax.legend(loc=(1,0))
@@ -226,25 +226,25 @@ ax.legend(loc=(1,0))
 # 
 # and zero otherwise. We can compute this sample-by-sample to see how this works using this prior.
 
-# In[17]:
+# [17]
 
 
 alpha  = a
 alphamx,alphamn=3,-3
 g = f(x_samples[0])
-xi = linspace(alphamn,alphamx,100)
+xi = np.linspace(alphamn,alphamx,100)
 mxval = S.lambdify(a,g)(xi).max()
 plot(xi,S.lambdify(a,g)(xi),x_samples[0],mxval*1.1,'o')
 
 
-# In[21]:
+# [21]
 
 
-xi = linspace(alphamn,alphamx,100)
+xi = np.linspace(alphamn,alphamx,100)
 palpha=S.Piecewise((1,abs(x)<3),(0,True))
 
 def slide_figure(n=0):
-    fig,ax=subplots()
+    fig,ax=plt.subplots()
     palpha=S.Piecewise((1,abs(x)<3),(0,True))
     if n==0:
         ax.plot(xi,[S.lambdify(x,palpha)(i) for i in xi])
@@ -260,7 +260,7 @@ def slide_figure(n=0):
     ax.axis(xmin=-17,xmax=17)
 
 
-# In[22]:
+# [22]
 
 
 interact(slide_figure, n=(0,15,1));
@@ -268,10 +268,10 @@ interact(slide_figure, n=(0,15,1));
 
 # ## Does the order matter?
 
-# In[23]:
+# [23]
 
 
-fig,axs = subplots(2,6,sharex=True)
+fig,axs = plt.subplots(2,6,sharex=True)
 fig.set_size_inches((10,3))
 for n,ax in enumerate(axs.flatten()):
     if n==0:
@@ -288,12 +288,12 @@ for n,ax in enumerate(axs.flatten()):
         ax.tick_params(labelsize=6)
 
 
-# In[24]:
+# [24]
 
 
 # use random  order for first 12 samples
 x_samples[:12]= np.random.permutation(x_samples[:12])
-fig2,axs = subplots(2,6,sharex=True)
+fig2,axs = plt.subplots(2,6,sharex=True)
 fig2.set_size_inches((10,3))
 
 for n,ax in enumerate(axs.flatten()):
@@ -311,7 +311,7 @@ for n,ax in enumerate(axs.flatten()):
         ax.tick_params(labelsize=6)
 
 
-# In[25]:
+# [25]
 
 
 fig
@@ -319,7 +319,7 @@ fig
 
 # ## Using Monte Carlo Methods
 
-# In[26]:
+# [26]
 
 
 import pymc as pm
@@ -327,7 +327,7 @@ import pymc as pm
 
 # $$f(x \mid \alpha, \eta) = \frac{1}{\pi \beta [1 + (\frac{x-\alpha}{\beta})^2]}$$
 
-# In[27]:
+# [27]
 
 
 with pm.Model() as model:
@@ -339,13 +339,13 @@ with pm.Model() as model:
     trace = pm.sample(300, step, start)
 
 
-# In[28]:
+# [28]
 
 
 pm.traceplot(trace);
 
 
-# In[ ]:
+# [ ]
 
 
 

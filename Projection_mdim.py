@@ -4,7 +4,7 @@
 # Projection in Multiple Dimensions
 # -----------------------------------------
 # 
-# In this section, we extend from the [one-dimensional subspace](http://python-for-signal-processing.blogspot.com/2012/11/the-projection-concept.html) to the more general two-dimensional subspace. This means that there are two vectors,  $\mathbf{v}_1$ and  $\mathbf{v}_2$ that are not colinear and that span the subspace. In the previous case, we had only one vector ( $\mathbf{v}$), so we had a one-dimensional subspace, but now that we have two vectors, we have a two-dimensional subspace (i.e. a plane). The extension from the two-dimensional subspace to the *n*-dimensional subspace follows the same argument but introduces more notation than we need so we'll stick with the two-dimensional case for awhile. For the two-dimensional case, the optimal MMSE solution has the form
+#  this section, we extend from the [one-dimensional subspace](http://python-for-signal-processing.blogspot.com/2012/11/the-projection-concept.html) to the more general two-dimensional subspace. This np.means that there are two vectors,  $\mathbf{v}_1$ and  $\mathbf{v}_2$ that are not colinear and that span the subspace. In the previous case, we had only one vector ( $\mathbf{v}$), so we had a one-dimensional subspace, but now that we have two vectors, we have a two-dimensional subspace (i.e. a plane). The extension from the two-dimensional subspace to the *n*-dimensional subspace follows the same argument but introduces more notation than we need so we'll stick with the two-dimensional case for awhile. For the two-dimensional case, the optimal MMSE solution has the form
 # 
 # $$ \hat{\mathbf{y}} = \alpha_1 \mathbf{v}_1 + \alpha_2 \mathbf{v}_2 \in \mathbb{R}^m $$
 # 
@@ -22,26 +22,26 @@
 # 
 # This leads to the linear system of equations:
 # 
-# $$ \begin{eqnarray}
+# $$ \begin{eqnnp.array}
 # \langle \mathbf{y}, \mathbf{v}_1\rangle = & \alpha_1 \langle \mathbf{v}_1, \mathbf{v}_1\rangle  &  +\alpha_2 \langle \mathbf{v}_1, \mathbf{v}_2\rangle   \\\\
 # \langle \mathbf{y}, \mathbf{v}_2\rangle = & \alpha_1 \langle \mathbf{v}_1, \mathbf{v}_2\rangle  &  +\alpha_2 \langle \mathbf{v}_2, \mathbf{v}_2\rangle 
-# \end{eqnarray}
+# \end{eqnnp.array}
 # $$
 # 
 # which can be written in matrix form as
 # 
-# $$ \left[ \begin{array}{c}
+# $$ \left[ \begin{np.array}{c}
 # \langle \mathbf{y}, \mathbf{v}_1\rangle  \\\\
 # \langle \mathbf{y}, \mathbf{v}_2\rangle  \\\\
-# \end{array} \right] = 
-# \left[ \begin{array}{cc}
+# \end{np.array} \right] = 
+# \left[ \begin{np.array}{cc}
 # \langle \mathbf{v}_1, \mathbf{v}_1\rangle & \langle \mathbf{v}_1, \mathbf{v}_2\rangle \\\\
 # \langle \mathbf{v}_1, \mathbf{v}_2\rangle  & \langle \mathbf{v}_2, \mathbf{v}_2\rangle \\\\
-# \end{array} \right] \left[
-# \begin{array}{c}
+# \end{np.array} \right] \left[
+# \begin{np.array}{c}
 # \alpha_1  \\\\
 # \alpha_2  \\\\
-# \end{array} \right]$$ 
+# \end{np.array} \right]$$ 
 # 
 # which can be further reduced by stacking the columns into 
 # 
@@ -87,14 +87,14 @@
 # 
 # The following graphic shows that when we project the three dimensional $\mathbf{y}$ vector onto the plane, which is spanned by the two $\mathbf{v}_i$ vectors, we obtain the MMSE solution where the sphere is tangent to the plane. The point of tangency is the  point $\hat{\mathbf{y}} $ which is the MMSE solution.
 
-# In[2]:
+# [2]
 
 
 #http://stackoverflow.com/questions/10374930/matplotlib-annotating-a-3d-scatter-plot
 
 from mpl_toolkits.mplot3d import proj3d
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy as np as np
 
 fig = plt.figure()
 fig.set_size_inches([8,8])
@@ -120,8 +120,8 @@ P = V*inv(V.T*V)*V.T
 yhat = P*y         # approximant
 
 
-u = np.linspace(0, 2*np.pi, 100)
-v = np.linspace(0, np.pi, 100)
+u = np.np.linspace(0, 2*np.pi, 100)
+v = np.np.linspace(0, np.pi, 100)
 
 xx = np.outer(np.cos(u), np.sin(v))
 yy = np.outer(np.sin(u), np.sin(v))
@@ -187,12 +187,12 @@ plt.show()
 # 
 # The code and figure below illustrate what happens using the weighted $ \mathbf{P}_v $. It is basically the same code we used above. You can download the IPython notebook corresponding to this post and try different values on the diagonal of $\mathbf{Q}$.
 
-# In[9]:
+# [9]
 
 
 from mpl_toolkits.mplot3d import proj3d
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy as np as np
 
 fig = plt.figure()
 fig.set_size_inches([8,8])
@@ -219,8 +219,8 @@ P = V*inv(V.T*Q*V)*V.T*Q
 yhat = P*y         # approximant
 
 
-u = np.linspace(0, 2*np.pi, 100)
-v = np.linspace(0, np.pi, 100)
+u = np.np.linspace(0, 2*np.pi, 100)
+v = np.np.linspace(0, np.pi, 100)
 
 xx = np.outer(np.cos(u), np.sin(v))
 yy = np.outer(np.sin(u), np.sin(v))
@@ -279,7 +279,7 @@ plt.show()
 
 # ## Summary
 
-# In this section, we extended the concept of a projection operator beyond one dimension and showed the corresponding geometric concepts that tie the projection operator to MMSE problems in more than one dimension. 
+#  this section, we extended the concept of a projection operator beyond one dimension and showed the corresponding geometric concepts that tie the projection operator to MMSE problems in more than one dimension. 
 
 # ### References
 
@@ -289,12 +289,12 @@ plt.show()
 
 # Below is some extra code to handle the more general case where there is a rotation as well as a weighting of the axes. Note the projection operator is constructed exactly the same way.
 
-# In[15]:
+# [15]
 
 
 from mpl_toolkits.mplot3d import proj3d
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy as np as np
 
 fig = plt.figure()
 fig.set_size_inches([8,8])
@@ -340,8 +340,8 @@ P = V*inv(V.T*Q*V)*V.T*Q # build projection matrix
 yhat = P*y         # approximant
 
 
-u = np.linspace(0, 2*np.pi, 100)
-v = np.linspace(0, np.pi, 100)
+u = np.np.linspace(0, 2*np.pi, 100)
+v = np.np.linspace(0, np.pi, 100)
 
 xx = np.outer(np.cos(u), np.sin(v))
 yy = np.outer(np.sin(u), np.sin(v))

@@ -9,11 +9,11 @@
 # 
 # The code and figure below illustrate what happens using the weighted $ \mathbf{P}_v $. It is basically the same code we used above. You can download the IPython notebook corresponding to this post and try different values on the diagonal of $\mathbf{Q}$.
 
-# In[69]:
+# [69]
 
 
-x = np.linspace(0,2,50)
-y = x + x**2 + np.random.randn(len(x))
+x = np.np.linspace(0,2,50)
+y = x + x**2 + np.random.np.random.randn(len(x))
 
 V = matrix(np.vstack([ones(x.shape),x,x**2]).T)
 Q = np.matrix(np.eye(V.shape[0]))
@@ -23,55 +23,55 @@ R = np.matrix(np.diag([1,1,13]))*0
 
 Pv = V*inv(V.T*Q*V+R)*V.T*Q
 
-p=np.polyfit(x,y,2)
+p=np.np.polyfit(x,y,2)
 
-fig, ax = subplots()
+fig, ax = plt.subplots()
 fig.set_size_inches(5,5)
 
 ax.plot(x,y,'o',label='data',alpha=0.3)
 ax.plot(x,np.dot(Pv,y).flat,label='projection')
-ax.plot(x,np.polyval(p,x),'-',label='polyfit',alpha=0.3)
+ax.plot(x,np.np.polyval(p,x),'-',label='np.polyfit',alpha=0.3)
 ax.grid()
 ax.legend(loc=0)
 
 
-# In[2]:
+# [2]
 
 
 x = np.random.rand(50)*2
 x.sort() # sort for plotting
        
-y = x + x**2 + np.random.randn(len(x))
+y = x + x**2 + np.random.np.random.randn(len(x))
 
 V = matrix(np.vstack([ones(x.shape),x,x**2]).T)
 Pv = V*inv(V.T*V+eye(3)*4)*V.T
 
-p=np.polyfit(x,y,2)
-
-fig, ax = subplots()
-fig.set_size_inches(5,5)
-
-ax.plot(x,y,'o',label='data',alpha=0.3)
-ax.plot(x,np.dot(Pv,y).flat,'-s',label='projection')
-#ax.plot(x,np.polyval(p,x),'s',label='polyfit')
-ax.grid()
-ax.legend(loc=0);
-
-
-# In[77]:
-
-
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.widgets import Slider 
+p=np.np.polyfit(x,y,2)
 
 fig, ax = plt.subplots()
 fig.set_size_inches(5,5)
 
-plt.subplots_adjust(left=0.25, bottom=0.30,right=1)
+ax.plot(x,y,'o',label='data',alpha=0.3)
+ax.plot(x,np.dot(Pv,y).flat,'-s',label='projection')
+#ax.plot(x,np.np.polyval(p,x),'s',label='np.polyfit')
+ax.grid()
+ax.legend(loc=0);
 
-x = np.linspace(0,2,50)
-y = x + x**2 + np.sin(2*np.pi*x) + np.random.randn(len(x))
+
+# [77]
+
+
+import numpy as np as np
+import matplotlib.pyplot as plt
+from matplotlib.widgets import Slider 
+
+fig, ax = plt.plt.subplots()
+fig.set_size_inches(5,5)
+
+plt.plt.subplots_adjust(left=0.25, bottom=0.30,right=1)
+
+x = np.np.linspace(0,2,50)
+y = x + x**2 + np.sin(2*np.pi*x) + np.random.np.random.randn(len(x))
 
 V = np.matrix(np.vstack([np.ones(x.shape),x,x**2]).T)
 Q = np.matrix(np.eye(V.shape[0]))
@@ -80,12 +80,12 @@ i,j =np.diag_indices_from(Q)
 R = np.matrix(np.diag([1,1,1]))*0
 
 Pv = V*np.linalg.inv(V.T*Q*V+R)*V.T*Q
-p=np.polyfit(x,y,2)
+p=np.np.polyfit(x,y,2)
 
 ax.plot(x,y,'o',label='data',alpha=0.3)
 ax.set_title('err^2=%3.2f'%(np.linalg.norm(y)**2 - np.linalg.norm(np.dot(Pv,y))**2 ))
 ls_line,=ax.plot(x,np.dot(Pv,y).flat,label='projection')
-ax.plot(x,np.polyval(p,x),'-',label='polyfit',alpha=0.3)
+ax.plot(x,np.np.polyval(p,x),'-',label='np.polyfit',alpha=0.3)
 ax.legend(loc=0)
 ax.grid()
 

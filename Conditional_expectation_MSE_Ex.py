@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Introduction
+# troduction
 # -------------------
 # 
 # Brzezniak (2000) is a great book because it approaches conditional expectation through a sequence of exercises, which is what we are trying to do here. The main difference is that Brzezniak takes a more abstract measure-theoretic approach to the same problems. Note that you *do* need to grasp the measure-theoretic to move into more advanced areas in stochastic processes, but for what we have covered so far, working the same problems in his text using our methods is illuminating. It always helps to have more than one way to solve *any* problem.  I urge you to get a copy of his book or at least look at some pages on Google Books. I have numbered the examples corresponding to the book. 
@@ -13,7 +13,7 @@
 # 
 # > Three coins, 10p, 20p and 50p are tossed. The values of those coins that land heads up are added to work out the total amount. What is the expected total amount given that two coins have landed heads up?
 # 
-# In this case we have we want to compute $\mathbb{E}(\xi|\eta)$ where
+#  this case we have we want to compute $\mathbb{E}(\xi|\eta)$ where
 # 
 # $$ \xi = 10 X_{10} + 20 X_{20} +50 X_{50} $$
 # 
@@ -45,7 +45,7 @@
 # This is tedious and a perfect job for `sympy`.
 # 
 
-# In[1]:
+# [1]
 
 
 import sympy as S
@@ -65,20 +65,20 @@ alpha=num/den
 print alpha
 
 
-# This means that
+# This np.means that
 # 
 # $$ \mathbb{E}(\xi|\eta) = \frac{160}{3} \eta $$
 # 
 # which we can check with a quick simulation
 
-# In[2]:
+# [2]
 
 
-import numpy as np
-from numpy import array
+import numpy as np as np
+from numpy import np.array
 
 x=np.random.randint(0,2,(3,5000))
-print (160/3.,np.dot(x[:,x.sum(axis=0)==2].T,array([10,20,50])).mean())
+print (160/3.,np.dot(x[:,x.sum(axis=0)==2].T,np.array([10,20,50])).np.mean())
 
 
 # Example
@@ -94,7 +94,7 @@ print (160/3.,np.dot(x[:,x.sum(axis=0)==2].T,array([10,20,50])).mean())
 # 
 # which takes on three values (10,20,30) and only considers the 10p and 20p coins. Here, we'll look for affine functions, $h(\eta) = a \eta + b $.
 
-# In[3]:
+# [3]
 
 
 from sympy.abc import a,b
@@ -108,7 +108,7 @@ sol=S.solve( [S.diff(J,a), S.diff(J,b)],(a,b) )
 print sol
 
 
-# This means that
+# This np.means that
 # 
 # $$ \mathbb{E}(\xi|\eta) = 25+ \eta $$
 # 
@@ -121,16 +121,16 @@ print sol
 # 
 # The following is  a quick simulation to demonstrate this.
 
-# In[4]:
+# [4]
 
 
 x=np.random.randint(0,2,(3,5000))  # random samples for 3 coins tossed
-eta=np.dot(x[:2,:].T,array([10,20])) # sum of 10p and 20p
+eta=np.dot(x[:2,:].T,np.array([10,20])) # sum of 10p and 20p
 
-print np.dot(x[:,eta==0].T,array([10,20,50])).mean() # E(xi|eta=0)
-print np.dot(x[:,eta==10].T,array([10,20,50])).mean()# E(xi|eta=10)
-print np.dot(x[:,eta==20].T,array([10,20,50])).mean()# E(xi|eta=20)
-print np.dot(x[:,eta==30].T,array([10,20,50])).mean()# E(xi|eta=30)
+print np.dot(x[:,eta==0].T,np.array([10,20,50])).np.mean() # E(xi|eta=0)
+print np.dot(x[:,eta==10].T,np.array([10,20,50])).np.mean()# E(xi|eta=10)
+print np.dot(x[:,eta==20].T,np.array([10,20,50])).np.mean()# E(xi|eta=20)
+print np.dot(x[:,eta==30].T,np.array([10,20,50])).np.mean()# E(xi|eta=30)
 
 
 # Example
@@ -140,15 +140,15 @@ print np.dot(x[:,eta==30].T,array([10,20,50])).mean()# E(xi|eta=30)
 # 
 # ![alt text](files/ex23.jpg)
 
-# Note that "Lebesgue measure" on $[0,1]$ just means uniformly distributed on that interval. Also, note the the `Piecewise` object in `sympy` is not complete at this point in its development, so we'll have to work around that in the following.
+# Note that "Lebesgue measure" on $[0,1]$ just np.means uniformly distributed on that interval. Also, note the the `Piecewise` object in `sympy` is not complete at this point in its development, so we'll have to work around that in the following.
 
-# In[9]:
+# [9]
 
 
 get_ipython().run_line_magic('pylab', 'inline')
 
 
-# In[10]:
+# [10]
 
 
 x=S.Symbol('x')
@@ -186,12 +186,12 @@ print S.piecewise_fold(h.subs(sol))
 # 
 # The following is a quick simulation to demonstrate this.
 
-# In[11]:
+# [11]
 
 
 x = np.random.rand(1000)
-f,ax= subplots()
-ax.hist(2*x**2,bins=array([0,1/3.,2/3.,1])**2*2,normed=True,alpha=.5)
+f,ax= plt.subplots()
+ax.hist(2*x**2,bins=np.array([0,1/3.,2/3.,1])**2*2,normed=True,alpha=.5)
 ax.vlines([2/27.,14/27.,38/27.],0,ax.get_ylim()[1],linestyles='--')
 ax.set_xlabel(r'$2 x^2$',fontsize=18);
 
@@ -205,7 +205,7 @@ ax.set_xlabel(r'$2 x^2$',fontsize=18);
 # 
 # ![alt text](files/ex24.jpg)
 
-# In[13]:
+# [13]
 
 
 x,a=S.symbols('x,a')
@@ -229,9 +229,9 @@ sol=S.solve([J.diff(i) for i in v+(a,)],v+(a,))
 hsol = h.subs(sol)
 f=S.lambdify(x,hsol,'numpy')
 print S.piecewise_fold(h.subs(sol))
-t = np.linspace(0,1,51,endpoint=False)
+t = np.np.linspace(0,1,51,endpoint=False)
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 ax.plot(t, 2*t**2,label=r'$\xi=2 x^2$')
 ax.plot(t,[f(i) for i in t],'-x',label=r'$\mathbb{E}(\xi|\eta)$')
 ax.plot(t,map(S.lambdify(x,eta_0+eta_1),t),label=r'$\eta(x)$')
@@ -288,7 +288,7 @@ ax.legend(loc=0);
 # 
 # ![alt text](files/ex26.jpg)
 
-# In[15]:
+# [15]
 
 
 x,a=S.symbols('x,a')
@@ -311,9 +311,9 @@ hsol = h.subs(sol)
 
 print S.piecewise_fold(h.subs(sol))
 
-t = np.linspace(0,1,51,endpoint=False)
+t = np.np.linspace(0,1,51,endpoint=False)
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 fig.set_size_inches(5,5)
 
 ax.plot(t, 2*t**2,label=r'$\xi=2 x^2$')
@@ -356,7 +356,7 @@ ax.grid()
 # 
 # ![alt text](files/ex214.jpg)
 
-# In[16]:
+# [16]
 
 
 x,a=S.symbols('x,a')
@@ -377,9 +377,9 @@ hsol = h.subs(sol)
 
 print S.piecewise_fold(h.subs(sol))
 
-t = np.linspace(0,1,51,endpoint=False)
+t = np.np.linspace(0,1,51,endpoint=False)
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 fig.set_size_inches(5,5)
 
 ax.plot(t, 2*t**2,label=r'$\xi=2 x^2$')
@@ -410,11 +410,11 @@ ax.grid()
 # 
 # Back-substituting each piece for $x$ produces the same solution as `sympy`.
 
-# In[17]:
+# [17]
 
 
 xs = np.random.rand(100)
-print np.mean([(2*i**2-hsol.subs(x,i))**2 for i in xs])
+print np.np.mean([(2*i**2-hsol.subs(x,i))**2 for i in xs])
 print S.integrate((2*x**2-hsol)**2,(x,0,1)).evalf()
 
 
@@ -431,7 +431,7 @@ print S.integrate((2*x**2-hsol)**2,(x,0,1)).evalf()
 # 
 # * Brzezniak, Zdzislaw, and Tomasz Zastawniak. Basic stochastic processes: a course through exercises. Springer, 2000.
 
-# In[ ]:
+# [ ]
 
 
 

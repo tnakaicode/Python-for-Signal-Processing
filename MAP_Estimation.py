@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
+# [2]
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
+import numpy as np;import matplotlib.pyplot as plt
 from __future__ import  division
 from IPython.html.widgets import interact,fixed
 from scipy import stats
@@ -23,38 +23,38 @@ import re
 # 
 # $$ \mathbb{V}(\hat{p}) = \frac{p(1-p)}{n} $$
 
-# In[3]:
+# [3]
 
 
 sympy.plot( k*(1-k),(k,0,1),ylabel='$n^2 \mathbb{V}$',xlabel='p',fontsize=28)
 
 
-# In[4]:
+# [4]
 
 
 b=stats.bernoulli(p=.8)
 samples=b.rvs(100)
 print var(samples)
-print mean(samples)
+print np.mean(samples)
 
 
-# In[5]:
+# [5]
 
 
 def slide_figure(n=100,m=1000,p=0.8):
-    fig,ax=subplots()
+    fig,ax=plt.subplots()
     ax.axis(ymax=25)
     b=stats.bernoulli(p=p)
     v=iter(b.rvs,2)
     samples=b.rvs(n*1000)
-    tmp=(samples.reshape(n,-1).mean(axis=0))
+    tmp=(samples.reshape(n,-1).np.mean(axis=0))
     ax.hist(tmp,normed=1)
     ax1=ax.twinx()
     ax1.axis(ymax=25)
-    ax1.plot(linspace(0,1,200),stats.norm(mean(tmp),std(tmp)).pdf(linspace(0.0,1,200)),lw=3,color='r')
+    ax1.plot(np.linspace(0,1,200),stats.norm(np.mean(tmp),std(tmp)).pdf(np.linspace(0.0,1,200)),lw=3,color='r')
 
 
-# In[6]:
+# [6]
 
 
 interact(slide_figure, n=(100,500),p=(0.01,1,.05),m=fixed(500));
@@ -62,7 +62,7 @@ interact(slide_figure, n=(100,500),p=(0.01,1,.05),m=fixed(500));
 
 # ## Maximum A-Posteriori (MAP) Estimation
 
-# In[7]:
+# [7]
 
 
 from sympy.abc import p,n,k
@@ -72,13 +72,13 @@ sympy.plot(st.density(st.Beta('p',3,3))(p),(p,0,1) ,xlabel='p')
 
 # ### Maximize the MAP function to get form of estimator
 
-# In[8]:
+# [8]
 
 
 obj=sympy.expand_log(sympy.log(p**k*(1-p)**(n-k) * st.density(st.Beta('p',6,6))(p)))
 
 
-# In[9]:
+# [9]
 
 
 sol=sympy.solve(sympy.simplify(sympy.diff(obj,p)),p)[0]
@@ -99,7 +99,7 @@ print sol
 # 
 # $$ \mathbb{V}(\hat{p}_{ML}) = \frac{p(1-p)}{n} $$
 
-# In[10]:
+# [10]
 
 
 n=5
@@ -111,14 +111,14 @@ interact(show_bias,n=(10,500,10));
 
 # Compute the variance of the MAP estimator
 
-# In[11]:
+# [11]
 
 
 sum(sympy.var('x1:10'))
 expr=((5+(sum(sympy.var('x1:10'))))/(n+10))
 
 
-# In[12]:
+# [12]
 
 
 def apply_exp(expr):
@@ -128,14 +128,14 @@ def apply_exp(expr):
     return sympy.sympify(tmp)
 
 
-# In[13]:
+# [13]
 
 
 ex2 = apply_exp(expr**2)
 print ex2
 
 
-# In[14]:
+# [14]
 
 
 tmp=sympy.simplify(ex2 - (apply_exp(expr))**2 )
@@ -144,7 +144,7 @@ sympy.plot(tmp,p*(1-p)/10,(p,0,1))
 
 # ### General case
 
-# In[15]:
+# [15]
 
 
 def generate_expr(num_samples=10,alpha=6):
@@ -158,7 +158,7 @@ def generate_expr(num_samples=10,alpha=6):
     return (ex,sympy.simplify(ex2-ex**2))
 
 
-# In[16]:
+# [16]
 
 
 num_samples=10
@@ -172,7 +172,7 @@ p1.append(p3[0])
 p1.show()
 
 
-# In[17]:
+# [17]
 
 
 p1=sympy.plot(n*(1-p)*p/(n+10)**2,(p,0,1),show=False,line_color='b',ylim=(0,.05),xlabel='p',ylabel='variance')
@@ -181,7 +181,7 @@ p1.append(p2[0])
 p1.show()
 
 
-# In[18]:
+# [18]
 
 
 def show_variance(n=5):
@@ -203,24 +203,24 @@ interact(show_variance,n=(10,120,2));
 # 
 # 
 
-# In[23]:
+# [23]
 
 
 pv=.60
 nsamp=30
-fig,ax=subplots()
+fig,ax=plt.subplots()
 rv = stats.bernoulli(pv)
 map_est=(rv.rvs((nsamp,1000)).sum(axis=0)+5)/(nsamp+10);
 ml_est=(rv.rvs((nsamp,1000)).sum(axis=0))/(nsamp);
 _,bins,_=ax.hist(map_est,bins=20,alpha=.3,normed=True,label='MAP');
 ax.hist(ml_est,bins=20,alpha=.3,normed=True,label='ML');
-ax.vlines(map_est.mean(),0,12,lw=3,linestyle=':',color='b')
+ax.vlines(map_est.np.mean(),0,12,lw=3,linestyle=':',color='b')
 ax.vlines(pv,0,12,lw=3,color='r',linestyle=':')
-ax.vlines(ml_est.mean(),0,12,lw=3,color='g',linestyle=':')
+ax.vlines(ml_est.np.mean(),0,12,lw=3,color='g',linestyle=':')
 ax.legend()
 
 
-# In[19]:
+# [19]
 
 
 

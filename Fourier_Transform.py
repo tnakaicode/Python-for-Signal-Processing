@@ -1,20 +1,20 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Introduction
+# troduction
 # --------------
 # 
 # The Fourier Transform is ubiquitous, but it has singular standing in signal processing because of the way sampling imposes a bandwidth-centric view of the world.  The Discrete Fourier Transform (DFT) is the primary analysis tool for exploring this perspective. Our development unconventionally starts with a matrix/vector representation of the DFT because that facilitates our visual approach which in turn is designed to develop intuition about the operation and usage of the DFT in practice.
 # 
 # Let us start with the following DFT matrix
 # 
-# $$ \mathbf{U} = \frac{1}{\sqrt N} \left[ \exp \left( j \frac{2\pi}{N} n k \right) \right]_{n\in\{0,N_s-1\},k\in\{0,N-1\}} $$
+# $$ \mathbf{U} = \frac{1}{\np.sqrt N} \left[ \exp \left( j \frac{2\pi}{N} n k \right) \right]_{n\in\{0,N_s-1\},k\in\{0,N-1\}} $$
 # 
 # where $n$ counts rows through the number of samples and $k$ indexes the discrete frequencies as columns. 
 # 
 # The following figure shows the discrete frequencies on the unit circle and their corresponding real and imaginary parts that are the columns of $\mathbf{U}$.
 
-# In[1]:
+# [1]
 
 
 # must start notebook with --pylab flag
@@ -31,7 +31,7 @@ def dftmatrix(Nfft=32,N=None):
     if N is None: N = Nfft
     n = arange(N)
     U = matrix(exp(1j* 2*pi/Nfft *k*n[:,None])) # use numpy broadcasting to create matrix
-    return U/sqrt(Nfft)
+    return U/np.sqrt(Nfft)
 
 Nfft=16
 v = ones((16,1))
@@ -60,7 +60,7 @@ ax0.text(1,0.1,'0',fontsize=16)
 ax0.text(0.1,1,r'$\frac{\pi}{2}$',fontsize=22)
 ax0.text(-1,0.1,r'$\pi$',fontsize=18)
 ax0.text(0.1,-1.2,r'$\frac{3\pi}{2}$',fontsize=22)
-ax0.axis(array([-1,1,-1,1])*1.45)
+ax0.axis(np.array([-1,1,-1,1])*1.45)
 ax0.set_title('Radial Frequency')
 ax0.set_xlabel('Real')
 ax0.set_ylabel('Imaginary')
@@ -94,7 +94,7 @@ ax.set_xlabel('n')
 
 # On the left, the figure shows the discrete frequencies corresponding to each of the columns of the $\mathbf{U}$ matrix. These are color coded corresponding to the graphs on the right. For example, the $k=1$ column of the $\mathbf{U}$ matrix (i.e. $ \mathbf{u}_1 $) corresponds to discrete frequency $\Omega_1=\frac{2\pi}{16}$ marked on the y-axis label which is shown in the second row down the middle column in the figure. The real part of $ \mathbf{u}_1 $ is plotted in bold and the corresponding imaginary part is plotted semi-transparent because it is just an out-of-phase version of the real part. These real/imaginary parts shown in the graphs correspond to the conjugacy relationships on the leftmost radial plot. For example, $\Omega_1$ and $\Omega_{15}$ are complex conjugates and their corresponding imaginary parts are inverted as shown in the plots on the right. 
 # 
-# The rows of the matrix correspond to the sample index given a particular sampling frequency, $f_s$. This means that if we have $N_s$ samples, then we have sampled a time duration over $N_s/f_s$. However, if we are only given a set of samples without the sampling frequency, then  we can say  nothing about time.  For this reason, you will find discussions based on discrete frequency (i.e. between zero and $2\pi$) that do not reference  sample rates. Thus, $N$ frequencies either divide the unit circle in discrete frequencies between 0 and $2\pi$ or divide the sample rate into sampled frequencies between zero and $f_s$. There is a one-to-one relationship between discrete and sampling frequency. In particular, we have for discrete frequency,
+# The rows of the matrix correspond to the sample index given a particular sampling frequency, $f_s$. This np.means that if we have $N_s$ samples, then we have sampled a time duration over $N_s/f_s$. However, if we are only given a set of samples without the sampling frequency, then  we can say  nothing about time.  For this reason, you will find discussions based on discrete frequency (i.e. between zero and $2\pi$) that do not reference  sample rates. Thus, $N$ frequencies either divide the unit circle in discrete frequencies between 0 and $2\pi$ or divide the sample rate into sampled frequencies between zero and $f_s$. There is a one-to-one relationship between discrete and sampling frequency. In particular, we have for discrete frequency,
 # 
 # $$ \Omega_k = \frac{2\pi}{N} k $$
 # 
@@ -121,7 +121,7 @@ ax.set_xlabel('n')
 # 
 # $$ \mathbf{x} = \mathbf{U} \mathbf{U}^H \mathbf{x} $$
 # 
-# because the columns of $\mathbf{U}$ are orthonormal (i.e. $\mathbf{u}_i^H \mathbf{u}_j = 0$). An important consequence of this is that $||\mathbf{x}||=||\mathbf{\hat{x}}||$ for any $\mathbf{x}$.  This is Parseval's theorem and it  means that the DFT is not *stretching* or *distorting* the input which makes it an ideal analysis tool.
+# because the columns of $\mathbf{U}$ are orthonormal (i.e. $\mathbf{u}_i^H \mathbf{u}_j = 0$). An important consequence of this is that $||\mathbf{x}||=||\mathbf{\hat{x}}||$ for any $\mathbf{x}$.  This is Parseval's theorem and it  np.means that the DFT is not *stretching* or *distorting* the input which makes it an ideal analysis tool.
 # 
 # Zero-Padding and Frequency Sampling
 # ------------------------------------------
@@ -129,14 +129,14 @@ ax.set_xlabel('n')
 # The only relationship between $N$, the size of the DFT, and the number of samples $N_s$ is that $N \ge N_s$. For implementation reasons, we will always choose $N$ as a power of 2. In the code below, let's now turn to the consquences of choose $N$ much larger that $N_s$. 
 # 
 
-# In[2]:
+# [2]
 
 
 U = dftmatrix(64,16)
 x = ones((16,1))
 X = U.H*x
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 fig.set_size_inches((8,4))
 ax.set_aspect(0.8)
 ax.grid()
@@ -150,22 +150,22 @@ ax.set_xticklabels(['0',r'$\frac{\pi}{2}$', r'$\pi$',r'$\frac{3\pi}{2}$', r'$2\p
 # fig.savefig('figure_00@.png', bbox_inches='tight', dpi=300)
 
 
-# As you may recall from our [earlier discussion](http://python-for-signal-processing.blogspot.com/2012/09/investigating-sampling-theorem-in-this.html), this plot looks suspiciously like the `sinc` function. If you've been following closely, you may realize that for the above example we had $\mathbf{x}=\mathbf{1}$. But isn't this one of the columns of the $\mathbf{U}$ matrix? If all the columns of that matrix are orthonormal, then why is there is more than one non-zero point on this graph? The subtle point here is that the DFT matrix has dimensions $64 \times 16$. This means that computationally,
+# As you may recall from our [earlier discussion](http://python-for-signal-processing.blogspot.com/2012/09/investigating-sampling-theorem-in-this.html), this plot looks suspiciously like the `sinc` function. If you've been following closely, you may realize that for the above example we had $\mathbf{x}=\mathbf{1}$. But isn't this one of the columns of the $\mathbf{U}$ matrix? If all the columns of that matrix are orthonormal, then why is there is more than one non-zero point on this graph? The subtle point here is that the DFT matrix has dimensions $64 \times 16$. This np.means that computationally,
 # 
 # $$ \mathbf{U}_{16\times64}^H \mathbf{x} = \mathbf{U}_{64\times64}^H \left[\mathbf{x},\mathbf{0}\right]^T$$
 # 
-# In other words, filling the original $16\times 1$ vector $\mathbf{x}$ with zeros and using a larger compatible $\mathbf{U}_{64\times64}$ matrix has the same effect as using the $\mathbf{U}_{16\times64}$ matrix. The answer to the question is therefore that $\mathbf{x} = \mathbf{1}_{16\times1} \ne \left[ \mathbf{1}_{16\times1},\mathbf{0}\right]^T$ and the zero-augmented ones vector is *not* orthnormal to any columns in $\mathbf{U}_{64\times64}$.  This explains why there are so many non-zero points on the graph at different discrete frequencies.
+#  other words, filling the original $16\times 1$ vector $\mathbf{x}$ with zeros and using a larger compatible $\mathbf{U}_{64\times64}$ matrix has the same effect as using the $\mathbf{U}_{16\times64}$ matrix. The answer to the question is therefore that $\mathbf{x} = \mathbf{1}_{16\times1} \ne \left[ \mathbf{1}_{16\times1},\mathbf{0}\right]^T$ and the zero-augmented ones vector is *not* orthnormal to any columns in $\mathbf{U}_{64\times64}$.  This explains why there are so many non-zero points on the graph at different discrete frequencies.
 # 
 # Let's drive this point home in the next figure.
 
-# In[3]:
+# [3]
 
 
 U = dftmatrix(64,16)
 x = ones((16,1))
 X = U.H*x
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 fig.set_size_inches((8,4))
 
 ax.set_aspect(0.8)
@@ -184,17 +184,17 @@ ax.set_title('Zero padding samples more frequencies');
 # fig.savefig('figure_00@.png', bbox_inches='tight', dpi=300)
 
 
-# In the figure above, without zero-padding, $\mathbf{x}$ is the $ 0^{th} $ column of the 16-point DFT matrix and so all the coefficients except for the $0^{th}$ column are zero due to orthonormality (shown by the green squares).  But, the zero-padded 64-element-long $\mathbf{x}$ vector is definitely *not* a column of the 64-point DFT matrix so we would *not* expect all the other terms to be zero. In fact, the other terms account for the 64 discrete frequencies that are plotted above. This means that zero-padding $\mathbf{x}$ and using the 64-point DFT matrix analyzes the signal across more frequencies. 
+#  the figure above, without zero-padding, $\mathbf{x}$ is the $ 0^{th} $ column of the 16-point DFT matrix and so all the coefficients except for the $0^{th}$ column are zero due to orthonormality (shown by the green squares).  But, the zero-padded 64-element-long $\mathbf{x}$ vector is definitely *not* a column of the 64-point DFT matrix so we would *not* expect all the other terms to be zero. In fact, the other terms account for the 64 discrete frequencies that are plotted above. This np.means that zero-padding $\mathbf{x}$ and using the 64-point DFT matrix analyzes the signal across more frequencies. 
 # 
 # Notice that for the $ 0^{th}$ frequency the height of the DFT magnitude is different for the zero-padded constant signal compared to the unpadded version. Recall from Parseval's theorem that $ ||\mathbf{x}||=||\mathbf{\hat{x}}|| $ but this does not account for how the signal may be spread across frequency. In the unpadded case, *all* of the signal energy is concentrated in the $ \mathbf{u}_0 $ column of the DFT matrix because our constant signal is just a scalar multiple of $ \mathbf{u}_0 $. In the padded case, the signal's energy is spread out across more frequencies with smaller signal magnitudes per frequency, thus satisfying Parseval's theorem. In other words, the single non-zero term in the unpadded DFT is smeared out over all the other frequencies in the padded case.
 # 
 # The problem with the figure shown is that it does not emphasize that the discrete frequencies are periodic with period $N$. The following figure below plots the 64-point DFT on the face of a cylinder to emphasize the periodicity of the discrete frequencies.
 
-# In[4]:
+# [4]
 
 
 a=2*pi/64.*arange(64)
-d=vstack([cos(a),sin(a),array(abs(X)).flatten()]).T
+d=vstack([cos(a),sin(a),np.array(abs(X)).flatten()]).T
 
 fig = plt.figure()
 fig.set_size_inches(6,6)
@@ -212,8 +212,8 @@ ax.set_title('64-Point DFT Magnitudes')
 def facet_filled(x,alpha=0.5,color='b'):
     'construct 3D facet from adjacent points filled to zero'
     a,b=x
-    a0= a*array([1,1,0])
-    b0= b*array([1,1,0])
+    a0= a*np.array([1,1,0])
+    b0= b*np.array([1,1,0])
     ve = vstack([a,a0,b0,b])      # create closed polygon facet
     poly = Poly3DCollection([ve]) # create facet
     poly.set_alpha(alpha)
@@ -243,13 +243,13 @@ art3d.patch_2d_to_3d(b)
 # 
 # We will need the following setup code below.
 
-# In[5]:
+# [5]
 
 
 def drawDFTView(X,ax=None,fig=None):
     'above code as a function. Draws 3D diagram given DFT matrix'
     a=2*pi/len(X)*arange(len(X))
-    d=vstack([cos(a),sin(a),array(abs(X)).flatten()]).T
+    d=vstack([cos(a),sin(a),np.array(abs(X)).flatten()]).T
     if ax is None and fig is None:
         fig = plt.figure()
         fig.set_size_inches(6,6)
@@ -282,7 +282,7 @@ def drawDFTView(X,ax=None,fig=None):
     ax.add_collection3d(facet_filled(d[[-2,-1],:]))
 
 
-# In[6]:
+# [6]
 
 
 def drawInOut(X,v,return_axes=False):
@@ -310,7 +310,7 @@ def drawInOut(X,v,return_axes=False):
 # 
 # Note the symmetric lobes in the following figure showing the DFT of a real signal. The plot on the left is the signal in the sampled time-domain and the plot on the right is its DFT-magnitude glyph.
 
-# In[7]:
+# [7]
 
 
 v = U[:,6].real
@@ -322,7 +322,7 @@ ax=drawInOut(U.H*v,v,return_axes=True)
 # 
 # The next block of code illustrates this.
 
-# In[8]:
+# [8]
 
 
 print abs(U[:,[6,64-6]].H*v) # real signal has same abs() inner product for conjugate columns
@@ -337,7 +337,7 @@ print abs(U[:,[6,64-6]].H*v) # real signal has same abs() inner product for conj
 # 
 # I invite you to please download the [IPython notebook corresponding to this post ](https://github.com/unpingco/Python-for-Signal-Processing/blob/master/Fourier_Transform.ipynb) and play with these plots to develop an intuition for where the various input signals appear.
 
-# In[9]:
+# [9]
 
 
 v = matrix(cos(pi*arange(0,16))).T
@@ -353,7 +353,7 @@ ax1.set_title('Lowest Frequency')
 
 # ## Summary
 
-# In this section, we considered the Discrete Fourier Transform (DFT) using a matrix/vector approach. We used this approach to  develop an intuitive visual vocabulary for the DFT with respect to high/low frequency  and real-valued signals. We used zero-padding to enhance frequency domain signal analysis.
+#  this section, we considered the Discrete Fourier Transform (DFT) using a matrix/vector approach. We used this approach to  develop an intuitive visual vocabulary for the DFT with respect to high/low frequency  and real-valued signals. We used zero-padding to enhance frequency domain signal analysis.
 # 
 # As usual, the corresponding IPython notebook for this post  is available for download [here](https://github.com/unpingco/Python-for-Signal-Processing/blob/master/Fourier_Transform.ipynb). 
 # 
@@ -364,7 +364,7 @@ ax1.set_title('Lowest Frequency')
 # 
 # * Oppenheim, A. V., and A. S. Willsky. "Signals and Systems." Prentice-Hall, (1997).
 
-# In[10]:
+# [10]
 
 
 get_ipython().run_line_magic('qtconsole', '')

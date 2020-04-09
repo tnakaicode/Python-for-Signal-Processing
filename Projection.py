@@ -3,13 +3,13 @@
 
 # On the road to a geometric understanding of conditional expectation, we need to grasp the concept of projection. In the figure below, we want to find a point along the blue line that is closest to the red square. In other words, we want to inflate the pink circle until it just touches the blue line. Then, that point will be the closest point on the blue line to the red square.
 
-# In[1]:
+# [1]
 
 
 from __future__ import division
 from matplotlib import  patches
 
-fig, ax = subplots()
+fig, ax = plt.subplots()
 fig.set_figheight(5)
 x = arange(6)
 y= matrix([[2],
@@ -28,10 +28,10 @@ ax.grid()
 
 # It may be geometrically obvious, but the closest point on the line occurs where the line segment from the red square to the blue line is perpedicular to the line. At this point, the pink circle just touches the blue line. This is illustrated below.
 
-# In[2]:
+# [2]
 
 
-fig, ax = subplots()
+fig, ax = plt.subplots()
 fig.set_figheight(5)
 
 x = arange(6)
@@ -39,7 +39,7 @@ y= matrix([[2],
            [3]])
 ax.plot(x,x)
 ax.plot(*y,marker='o',color='r')
-ax.add_patch(patches.Circle(y,radius=1/sqrt(2.),alpha=0.75,color='pink'))
+ax.add_patch(patches.Circle(y,radius=1/np.sqrt(2.),alpha=0.75,color='pink'))
 
 v = matrix([[1],[1]])  
 Pv = v*v.T/ (v.T*v) # projection operator
@@ -62,12 +62,12 @@ ax.grid()
 # 
 # where $\alpha$ slides the point up and down the line with
 # 
-# $$ \mathbf{v} = \left[ \begin{array}{c}
+# $$ \mathbf{v} = \left[ \begin{np.array}{c}
 # 1 \\
 # 1 \\
-# \end{array} \right] $$ 
+# \end{np.array} \right] $$ 
 # 
-# Formally, $ \mathbf{v}$ is the *subspace* on which we want to *project* the  $\mathbf{y}$. At the closest point, the vector between $\mathbf{y}$ and $\mathbf{x}$ (the dotted green *error* vector above) is perpedicular to the line. This means that
+# Formally, $ \mathbf{v}$ is the *subspace* on which we want to *project* the  $\mathbf{y}$. At the closest point, the vector between $\mathbf{y}$ and $\mathbf{x}$ (the dotted green *error* vector above) is perpedicular to the line. This np.means that
 # 
 # $$ ( \mathbf{y}-\mathbf{x} )^T \mathbf{v} = 0$$ 
 # 
@@ -105,7 +105,7 @@ ax.grid()
 # 
 # The code and figure below illustrate what happens using the weighted $ \mathbf{P}_v $. It is basically the same code we used earlier. You can download the IPython notebook corresponding to this post and try different values on the diagonal of $\mathbf{S}$ and $\theta$ below.
 
-# In[3]:
+# [3]
 
 
 theta = 120/180.*pi   # rotation angle for ellipse
@@ -121,16 +121,16 @@ S = matrix([[5,0], # change diagonals to define axes of ellipse
 Q = U.T*S*U
 
 Pv = (v)*v.T*(Q)/(v.T*(Q)*v)      # projection operator
-err = sqrt((y-Pv*y).T*Q*(y-Pv*y)) # error length
+err = np.sqrt((y-Pv*y).T*Q*(y-Pv*y)) # error length
 xhat = Pv*y                       # closest point on line
 
-fig, ax = subplots()
+fig, ax = plt.subplots()
 fig.set_figheight(5)
 
 ax.plot(*y,marker='o',color='r')
 ax.plot(x,x)
 ax.plot(*(xhat),marker='s',color='r')
-ax.add_patch( patches.Ellipse(y,err*2/sqrt(S[0,0]),err*2/sqrt(S[1,1]),
+ax.add_patch( patches.Ellipse(y,err*2/np.sqrt(S[0,0]),err*2/np.sqrt(S[1,1]),
                                 angle=theta/pi*180,color='pink',
                                 alpha=0.5))
 ax.add_line( Line2D( (y[0,0], 0), (y[1,0],0) ,color='r',linestyle='--'))
@@ -165,7 +165,7 @@ ax.grid()
 
 # ## Summary
 
-# In this section, we developed the concept of a projection operator, which ties a minimization problem (closest point to a line) to an algebraic concept (inner product). It turns out that these same geometric ideas from linear algebra can be translated to the conditional expectation. How this works is the subject of our next post.
+#  this section, we developed the concept of a projection operator, which ties a minimization problem (closest point to a line) to an algebraic concept (inner product). It turns out that these same geometric ideas from linear algebra can be translated to the conditional expectation. How this works is the subject of our next post.
 
 # ### References
 

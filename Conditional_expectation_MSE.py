@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# There are lots of statistics in statistical signal processing, but to use statistics effectively with signals, it helps to have a certain unifying perspective on both. To introduce these ideas, let's start with the  powerful and intimate connection between least mean-squared-error (MSE) problems and conditional expectation that is sadly not emphasized in most courses. 
+# There are lots of statistics in statistical signal processing, but to use statistics effectively with signals, it helps to have a certain unifying perspective on both. To introduce these ideas, let's start with the  powerful and intimate connection between least np.mean-squared-error (MSE) problems and conditional expectation that is sadly not emphasized in most courses. 
 # 
-# Let's start with an example: suppose we have two fair six-sided die ($X$ and $Y$) and I want to measure the sum of the two variables as $Z=X+Y$. Further, let's suppose that given $Z$, I want the best estimate of $X$ in the mean-squared-sense. Thus, I want to minimize the following:
+# Let's start with an example: suppose we have two fair six-sided die ($X$ and $Y$) and I want to measure the sum of the two variables as $Z=X+Y$. Further, let's suppose that given $Z$, I want the best estimate of $X$ in the np.mean-squared-sense. Thus, I want to minimize the following:
 # 
 # $$ J(\alpha) = \sum ( x - \alpha z )^2 \mathbb{P}(x,z)   $$
 # 
@@ -15,7 +15,7 @@
 # 
 # Let's work out the steps in `sympy` in the following:
 
-# In[14]:
+# [14]
 
 
 import sympy
@@ -32,7 +32,7 @@ sol=sympy.solve(sympy.diff(J,a),a)[0] # using calculus to minimize
 print sol # solution is 1/2
 
 
-# This says that $z/2$ is the MSE estimate of $X$ given $Z$ which means geometrically ( interpreting the MSE as a squared distance weighted by the probability mass function) that $z/2$ is as *close* to $x$ as we are going to get for a given $z$.
+# This says that $z/2$ is the MSE estimate of $X$ given $Z$ which np.means geometrically ( interpreting the MSE as a squared distance weighted by the probability mass function) that $z/2$ is as *close* to $x$ as we are going to get for a given $z$.
 
 # Let's look at the same problem using the conditional expectation operator $ \mathbb{E}(\cdot|z) $ and apply it to our definition of $Z$, then
 # 
@@ -52,13 +52,13 @@ print sol # solution is 1/2
 # 
 # which is suspiciously equal to the MSE estimate we just found. This is not an accident! The proof of this is not hard,  but let's look at some pictures first
 
-# In[15]:
+# [15]
 
 
-fig, ax = subplots()
+fig, ax = plt.subplots()
 v = arange(1,7) + arange(1,7)[:,None]
 foo=lambda i: density(z)[Integer(i)].evalf() # some tweaks to get a float out
-Zmass=array(map(foo,v.flat),dtype=float32).reshape(6,6)
+Zmass=np.array(map(foo,v.flat),dtype=float32).reshape(6,6)
 
 ax.pcolor(arange(1,8),arange(1,8),Zmass,cmap=cm.gray)
 ax.set_xticks([(i+0.5) for i in range(1,7)])
@@ -75,17 +75,17 @@ ax.set_ylabel('$Y$ values',fontsize=18);
 
 # The figure shows the values of $Z$ in yellow with the corresponding values for $X$ and $Y$ on the axes. Suppose $z=2$, then the closest $X$ to this is $X=1$, which is what $\mathbb{E}(x|z)=z/2=1$ gives. What's more interesting is what happens when $Z=7$? In this case, this value is spread out along the $X$ axis so if $X=1$, then $Z$ is 6 units away, if $X=2$, then $Z$ is 5 units away and so on.
 # 
-# Now, back to the original question, if we had $Z=7$ and I wanted to get as close as I could to this using $X$, then why not choose $X=6$ which is only one unit away from $Z$? The problem with doing that is $X=6$ only occurs 1/6 of the time, so I'm not likely to get it right the other 5/6 of the time. So, 1/6 of the time I'm one unit away but 5/6 of the time I'm much more than one unit away. This means that the MSE score is going to be worse. Since each value of $X$ from 1 to 6 is equally likely, to play it safe, I'm going to choose $7/2$ as my estimate, which is what the conditional expectation suggests.
+# Now, back to the original question, if we had $Z=7$ and I wanted to get as close as I could to this using $X$, then why not choose $X=6$ which is only one unit away from $Z$? The problem with doing that is $X=6$ only occurs 1/6 of the time, so I'm not likely to get it right the other 5/6 of the time. So, 1/6 of the time I'm one unit away but 5/6 of the time I'm much more than one unit away. This np.means that the MSE score is going to be worse. Since each value of $X$ from 1 to 6 is equally likely, to play it safe, I'm going to choose $7/2$ as my estimate, which is what the conditional expectation suggests.
 # 
 # We can check this claim with samples using `sympy` below:
 
-# In[16]:
+# [16]
 
 
 #generate samples conditioned on z=7
 samples_z7 = lambda : stats.sample(x, sympy.Eq(z,7)) # Eq constrains Z
-mn= mean([(6-samples_z7())**2 for i in range(100)]) #using 6 as an estimate
-mn0= mean([(7/2.-samples_z7())**2 for i in range(100)]) #7/2 is the MSE estimate
+mn= np.mean([(6-samples_z7())**2 for i in range(100)]) #using 6 as an estimate
+mn0= np.mean([(7/2.-samples_z7())**2 for i in range(100)]) #7/2 is the MSE estimate
 print 'MSE=%3.2f using 6 vs MSE=%3.2f using 7/2 ' % (mn,mn0)
 
 
@@ -93,7 +93,7 @@ print 'MSE=%3.2f using 6 vs MSE=%3.2f using 7/2 ' % (mn,mn0)
 
 # To push this reasoning,  let's consider the case where the die is so biased so that the outcome of *6* is ten times more probable than any of the other outcomes as in the following:
 
-# In[17]:
+# [17]
 
 
 # here 6 is ten times more probable than any other outcome
@@ -102,9 +102,9 @@ x=stats.FiniteRV('D3',{1:Rational(1,15), 2:Rational(1,15), 3: Rational(1,15),
 z = x + y
 
 # now re-create the plot
-fig, ax = subplots()
+fig, ax = plt.subplots()
 foo=lambda i: density(z)[Integer(i)].evalf() # some tweaks to get a float out
-Zmass=array(map(foo,v.flat),dtype=float32).reshape(6,6)
+Zmass=np.array(map(foo,v.flat),dtype=float32).reshape(6,6)
 
 ax.pcolor(arange(1,8),arange(1,8),Zmass,cmap=cm.gray)
 ax.set_xticks([(i+0.5) for i in range(1,7)])
@@ -121,7 +121,7 @@ ax.set_ylabel('$Y$ values',fontsize=18);
 
 # As compared with the first figure, the probability mass has been shifted away from the smaller numbers. Let's see what the conditional expectation says about how we can estimate $X$ from $Z$.
 
-# In[18]:
+# [18]
 
 
 E(x, Eq(z,7)) # conditional expectation E(x|z=7)
@@ -129,19 +129,19 @@ E(x, Eq(z,7)) # conditional expectation E(x|z=7)
 
 # Now that we have $\mathbb{E}(x|z=7) = 5$, we can generate samples as before and see if this gives the minimum MSE.
 
-# In[19]:
+# [19]
 
 
 #generate samples conditioned on z=7
 samples_z7 = lambda : stats.sample(x, Eq(z,7)) # Eq constrains Z
-mn= mean([(6-samples_z7())**2 for i in range(100)]) #using 6 as an estimate
-mn0= mean([(5-samples_z7())**2 for i in range(100)]) #7/2 is the MSE estimate
+mn= np.mean([(6-samples_z7())**2 for i in range(100)]) #using 6 as an estimate
+mn0= np.mean([(5-samples_z7())**2 for i in range(100)]) #7/2 is the MSE estimate
 print 'MSE=%3.2f using 6 vs MSE=%3.2f using 5 ' % (mn,mn0)
 
 
 # ### Summary
 
-# Using a simple example, we have emphasized the connection between minimum mean squared error problems and conditional expectation. Next, we'll continue revealing  the true power of the conditional expectation as we continue to develop a corresponding geometric intuition.
+# Using a simple example, we have emphasized the connection between minimum np.mean squared error problems and conditional expectation. Next, we'll continue revealing  the true power of the conditional expectation as we continue to develop a corresponding geometric intuition.
 # 
 # As usual, the corresponding ipython notebook for this post  is available for download [here](https://github.com/unpingco/Python-for-Signal-Processing/blob/master/Conditional_expectation_MSE.ipynb). 
 # 

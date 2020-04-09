@@ -21,24 +21,24 @@
 # 
 # $$ (P_{FA}(c),P_D(c)) $$
 # 
-# so that drawing of the curve actually means changing the value of the threshold, $c$. As a concrete example, we take the $f(x|C_0) = \mathcal{N}(0,1)$ and $f(x|C_1) = \mathcal{N}(2,1)$ as the two respective probability densities of $C_0$ and $C_1$. The following code constructs a ROC-curve for this situation.
+# so that drawing of the curve actually np.means changing the value of the threshold, $c$. As a concrete example, we take the $f(x|C_0) = \mathcal{N}(0,1)$ and $f(x|C_1) = \mathcal{N}(2,1)$ as the two respective probability densities of $C_0$ and $C_1$. The following code constructs a ROC-curve for this situation.
 # 
 
-# In[38]:
+# [38]
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
+import numpy as np;import matplotlib.pyplot as plt
 from IPython.html.widgets import interact
 from scipy import stats
 
 
-# In[37]:
+# [37]
 
 
 f0=stats.norm(0,1)
 f1=stats.norm(2,1)
-fig,ax = subplots()
-xi = linspace(-2,5,100)
+fig,ax = plt.subplots()
+xi = np.linspace(-2,5,100)
 ax.plot(xi,f0.pdf(xi),label=r'$f(x|C_0)$')
 ax.plot(xi,f1.pdf(xi),label=r'$f(x|C_1)$')
 ax.legend(fontsize=16,loc=(1,0))
@@ -48,14 +48,14 @@ ax.fill_between(xi,f1.pdf(xi),where=xi>0,alpha=.3,color='g')
 ax.fill_between(xi,f0.pdf(xi),where=xi>0,alpha=.3,color='b')
 
 
-# In the above figure, the blue shaded area is the false-alarm probability and the shaded gray area is the probability of detection. These two values are what is plotted on a ROC. The dotted vertical line indicates the threshold value $c$.
+#  the above figure, the blue shaded area is the false-alarm probability and the shaded gray area is the probability of detection. These two values are what is plotted on a ROC. The dotted vertical line indicates the threshold value $c$.
 
-# In[58]:
+# [58]
 
 
 def plot_roc_interact(c=0):
-    xi = linspace(-3,5,100)
-    fig,axs = subplots(1,2)
+    xi = np.linspace(-3,5,100)
+    fig,axs = plt.subplots(1,2)
     fig.set_size_inches((10,3))
     ax = axs[0]
     ax.plot(xi,f0.pdf(xi),label=r'$f(x|C_0)$')
@@ -65,7 +65,7 @@ def plot_roc_interact(c=0):
     ax.fill_between(xi,f1.pdf(xi),where=xi>c,alpha=.3,color='g')
     ax.fill_between(xi,f0.pdf(xi),where=xi>c,alpha=.3,color='b')
     ax.axis(xmin=-3,xmax=5)
-    crange = linspace(-3,5,50)
+    crange = np.linspace(-3,5,50)
     ax=axs[1]
     ax.plot(1-f0.cdf(crange),1-f1.cdf(crange))
     ax.plot(1-f0.cdf(c),1-f1.cdf(c),'o',ms=15.)
@@ -73,15 +73,15 @@ def plot_roc_interact(c=0):
     ax.set_ylabel('Detection probability')
 
 
-# In[59]:
+# [59]
 
 
 interact(plot_roc_interact,c=(-3,5,.05))
 
 
-# If you drag the slider in the interactive figure above, you will see how the colored areas shown on the left frame correspond to movement along the ROC on the right. Better binary classifiers have ROC curves that reach up to the upper left corner because these are the points that correspond to very high detection probabilities at a very low false alarm probability. A test that is no better than guessing just be a diagonal line on the ROC chart. This would correspond to a 100% overlap between the two density functions.  You can try this for yourself by changing the values of the respective meanings of the two density functions to see what happens when they overlap more (or less).
+# If you drag the slider in the interactive figure above, you will see how the colored areas shown on the left frame correspond to movement along the ROC on the right. Better binary classifiers have ROC curves that reach up to the upper left corner because these are the points that correspond to very high detection probabilities at a very low false alarm probability. A test that is no better than guessing just be a diagonal line on the ROC chart. This would correspond to a 100% overlap between the two density functions.  You can try this for yourself by changing the values of the respective np.meanings of the two density functions to see what happens when they overlap more (or less).
 
-# The AUC is independent of the particular threshold value because the ROC-curve is drawn by sweeping over this value.  This means that the AUC is indirectly *integrated* over the threshold values.  However, the computation of the AUC is based *explicitly*  on the $P_{FA}$ as in the following,
+# The AUC is independent of the particular threshold value because the ROC-curve is drawn by sweeping over this value.  This np.means that the AUC is indirectly *integrated* over the threshold values.  However, the computation of the AUC is based *explicitly*  on the $P_{FA}$ as in the following,
 # 
 # $$ AUC = \int P_D(P_{FA})dP_{FA} $$
 # 
@@ -111,7 +111,7 @@ interact(plot_roc_interact,c=(-3,5,.05))
 
 # The Wilcoxon–Mann–Whitney test (AKA Mann–Whitney U-test) is a nonparametric method to test whether or not samples derive from two separate distributions. The basic idea is that if there is no difference between the two categories, then combining them into one big set and then computing the statistic (or any statistic, really) as a permutation of the larger set should be no different. In other words, if there is no difference, then combining the data and pretending that the actual observed data is just one permutation of the mixture should be indistinguishable statistically.
 # 
-# Supposed we need to compare to populations using the median, mean, or some other location estimator. In terms of the cumulative distribution functions for the two populations, for $ H_0 $ we have the following:
+# Supposed we need to compare to populations using the median, np.mean, or some other location estimator. In terms of the cumulative distribution functions for the two populations, for $ H_0 $ we have the following:
 # 
 # $$ H_0: F_X(t) = F_Y(t) $$
 # 
@@ -121,7 +121,7 @@ interact(plot_roc_interact,c=(-3,5,.05))
 # 
 # The following code shows an example of this for the two distributions considered above.
 
-# In[70]:
+# [70]
 
 
 print 'p-value ',stats.wilcoxon(f1.rvs(30),f0.rvs(30))[1]
@@ -136,11 +136,11 @@ print 'p-value ',stats.wilcoxon(f1.rvs(30),f0.rvs(30))[1]
 # 
 # $$ \hat{\theta}_{XY} = \frac{1}{m n} \sum_{i=1}^m \sum_{j=1}^n \mathbb{I}(Y_j>X_i) $$
 # 
-# where $ \mathbb{I} $ is the indicator function, shows that the statistic (for the discrete case) is estimating the probability that $Y$ is stochastically larger than $ X $. Thus, This correspondence means that the value of this (in the large sample limit) is equal to AUC.
+# where $ \mathbb{I} $ is the indicator function, shows that the statistic (for the discrete case) is estimating the probability that $Y$ is stochastically larger than $ X $. Thus, This correspondence np.means that the value of this (in the large sample limit) is equal to AUC.
 
 # ## Summary
 
-# In this article, we developed the area under the receiver operating characteristic curve (ROC) and connected it to the Wilcoxon–Mann–Whitney U-statistic. This area (i.e. AUC) is used To quantify the performance of a binary classifier using a single number. The problem is that it does not distinguish between regions of performance along the ROC. Thus, two different classifiers could have the same AUC-value and provide different relative performance for certain regions of ROC graph. This difference may be important to binary classifiers that typically operate in a small region of the ROC-curve.
+#  this article, we developed the area under the receiver operating characteristic curve (ROC) and connected it to the Wilcoxon–Mann–Whitney U-statistic. This area (i.e. AUC) is used To quantify the performance of a binary classifier using a single number. The problem is that it does not distinguish between regions of performance along the ROC. Thus, two different classifiers could have the same AUC-value and provide different relative performance for certain regions of ROC graph. This difference may be important to binary classifiers that typically operate in a small region of the ROC-curve.
 
 # ## References
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Introduction
+# troduction
 # --------------
 # 
-# In the last section, we used windows for spectral analysis and  noted that while windows helped distinguish weak signals buried in the sidelobes of nearby  stronger signals, there were many trade-offs involved. In this section, we put together the standard framework for analyzing and categorizing  windows. There are many, many windows used in signal processing, so we begin by considering the common characteristics of windows and then move on to developing the standard metrics for them.
+#  the last section, we used windows for spectral analysis and  noted that while windows helped distinguish weak signals buried in the sidelobes of nearby  stronger signals, there were many trade-offs involved. In this section, we put together the standard framework for analyzing and categorizing  windows. There are many, many windows used in signal processing, so we begin by considering the common characteristics of windows and then move on to developing the standard metrics for them.
 
 # ### Spectral Leakage
 # 
@@ -16,7 +16,7 @@
 # 
 # the following figure shows the effect of *spectral leakage*.
 
-# In[1]:
+# [1]
 
 
 from __future__ import division
@@ -26,9 +26,9 @@ fo = 1 # signal frequency
 fs = 32 # sample frequency
 Ns = 32 # number of samples
 x = sin( 2*pi*fo/fs*arange(Ns)) # sampled signal
-fig,axs= subplots(3,2,sharex='col',sharey='col')
+fig,axs= plt.subplots(3,2,sharex='col',sharey='col')
 fig.set_size_inches((12,6))
-subplots_adjust(hspace=.3)
+plt.subplots_adjust(hspace=.3)
 
 ax=axs[0,0]
 ax.plot(arange(Ns),x,label='signal')
@@ -100,7 +100,7 @@ ax.grid()
 # fig.savefig('figure_00@.png', bbox_inches='tight', dpi=300)
 
 
-# In the above figure, the top row shows the ideal situation where the sampling interval captures exactly one period of the signal and the DFT bin is exactly on the signal frequency. The DFT assumes that the section of the signal repeats            end-to-end with the sampling interval, implying no discontinuities at the joining ends. In practice, this never happens because we don't know the signal frequency ahead of time (if we did, there would be no point in spectral analysis!).
+#  the above figure, the top row shows the ideal situation where the sampling interval captures exactly one period of the signal and the DFT bin is exactly on the signal frequency. The DFT assumes that the section of the signal repeats            end-to-end with the sampling interval, implying no discontinuities at the joining ends. In practice, this never happens because we don't know the signal frequency ahead of time (if we did, there would be no point in spectral analysis!).
 # 
 # The second row shows the case when the signal's period is *different* from the sampling interval and there is a discontinuity at the joining ends. When this happens, the DFT cannot perfectly isolate the signal's frequency and thus *leaks* energy into other frequency bins. This is known as *spectral leakage* and it causes bias in the frequency estimate.
 # 
@@ -108,7 +108,7 @@ ax.grid()
 # 
 # The following figure shows how window functions affect the signal's power.
 
-# In[2]:
+# [2]
 
 
 # some useful functions 
@@ -118,30 +118,30 @@ def dftmatrix(Nfft=32,N=None):
     if N is None: N = Nfft
     n = arange(N)
     U = matrix(exp(1j* 2*pi/Nfft *k*n[:,None])) # use numpy broadcasting to create matrix
-    return U/sqrt(Nfft)
+    return U/np.sqrt(Nfft)
 
 def db20(W,Nfft=None):
     'Given DFT, return power level in dB'
     if Nfft is None: # assume W is DFT 
         return 20*log10(abs(W))
     else: # assume time-domain passed, so need DFT
-        DFT= fft.fft(array(W).flatten(),Nfft)/sqrt(Nfft)
+        DFT= fft.fft(np.array(W).flatten(),Nfft)/np.sqrt(Nfft)
         return 20*log10(abs(DFT.flatten()))
 
 U=dftmatrix(64) 
-u=U[:,6].real*sqrt(2) # create test sinusoid
-fo = 2*pi/64*6 # in radians/sec
-nz=randn(64,1) # noise samples
+u=U[:,6].real*np.sqrt(2) # create test sinusoid
+fo = 2*pi/64*6 #  radians/sec
+nz=np.random.randn(64,1) # noise samples
 w=signal.triang(64) # window function
 
-fig,ax= subplots(2,1)
+fig,ax= plt.subplots(2,1)
 fig.set_size_inches((10,5))
-subplots_adjust(hspace=.3)
+plt.subplots_adjust(hspace=.3)
 n = arange(len(u))
 ax[0].plot(n,u.real,label='before window',lw=2)
 ax[0].set_ylabel('Amplitude',fontsize=16)
 ax[0].plot(n,diag(w)*u.real,label='after window',lw=3.)
-ax[0].fill_between(n,array(u).flat, array(diag(w)*u).flat,alpha=0.3)
+ax[0].fill_between(n,np.array(u).flat, np.array(diag(w)*u).flat,alpha=0.3)
 ax[0].legend(loc=0,fontsize=12)
 ax[0].set_xlabel('n')
 ax[0].grid()
@@ -181,7 +181,7 @@ ax[1].grid()
 # 
 # where 
 # 
-# $$ \mathbf{u}_o =\frac{1}{\sqrt N_s} \left[ \exp \left( j \frac{2\pi f_o }{f_s} n\right) \right]_{n=0}^{N_s-1}$$
+# $$ \mathbf{u}_o =\frac{1}{\np.sqrt N_s} \left[ \exp \left( j \frac{2\pi f_o }{f_s} n\right) \right]_{n=0}^{N_s-1}$$
 # 
 # with signal power equal to $A^2$. We'll assume the noise power is $\sigma_\nu^2$. Thus, the pre-window signal-to-noise ratio is,
 # 
@@ -208,7 +208,7 @@ ax[1].grid()
 # 
 # $$ G_p \triangleq \frac{SNR_{post}}{SNR_{pre}} = \frac{ |\mathbf{1}^T \mathbf{w}|^2}{\mathbf{w}^T \mathbf{w}} $$
 # 
-# Incidentally, the *coherent gain* is defined the ratio of the *amplitudes* of the input and output signals,
+# cidentally, the *coherent gain* is defined the ratio of the *amplitudes* of the input and output signals,
 # 
 # $$ G_{coh} \triangleq \mathbf{1}^T \mathbf{w}$$
 
@@ -218,17 +218,17 @@ ax[1].grid()
 # 
 # Thus far, we have observed that the window can improve the signal-to-noise ratio because it reduces noise power less than it reduces signal power. However, this considers noise across the entire frequency domain and we want a metric to measure noise power around the mainlobe of the window's DFT. Then, we can think  about windows in terms of the amount of noise they *pass* through the mainlobe. The figure below illustrates this concept.
 
-# In[3]:
+# [3]
 
 
 from matplotlib.patches import Rectangle
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 fig.set_size_inches((8,3))
 
 N = 256 # DFT size
 idx = int(fo/(2*pi/N))
-Xm = abs(fft.fft(array(diag(w)*u).flatten(),N)/sqrt(N))**2
+Xm = abs(fft.fft(np.array(diag(w)*u).flatten(),N)/np.sqrt(N))**2
 ax.plot(Xm,'-o')
 ax.add_patch(Rectangle((idx-10/2,0),width=10,height=Xm[idx],alpha=0.3))
 ax.set_xlim(xmax = N/4)
@@ -300,7 +300,7 @@ ax.grid()
 
 # ## Summary
 
-# In this section, we explained the shape of windows functions in terms of spectral leakage and developed the concept of processing gain and equivalent noise bandwidth as closely related metrics for categorizing different window functions. The exhaustive 1978 paper by Harris (see references) is the primary reference work for many more windows functions than we discussed here. Note that the window functions are implemented in the `scipy.signal.windows` submodule but sometimes the normalization factors and defined parameters are slightly different from Harris' paper.  Sometimes the term *tapers* is used instead of *window functions* in certain applications. Lastly, window functions are also fundamental to antenna analysis for many of the same reasons, especially with respect to linear arrays.
+#  this section, we explained the shape of windows functions in terms of spectral leakage and developed the concept of processing gain and equivalent noise bandwidth as closely related metrics for categorizing different window functions. The exhaustive 1978 paper by Harris (see references) is the primary reference work for many more windows functions than we discussed here. Note that the window functions are implemented in the `scipy.signal.windows` submodule but sometimes the normalization factors and defined parameters are slightly different from Harris' paper.  Sometimes the term *tapers* is used instead of *window functions* in certain applications. Lastly, window functions are also fundamental to antenna analysis for many of the same reasons, especially with respect to linear np.arrays.
 # 
 # 
 # As usual, the corresponding IPython notebook for this post  is available for download [here](https://github.com/unpingco/Python-for-Signal-Processing/blob/master/Windowing_Part2.ipynb). 

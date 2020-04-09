@@ -17,19 +17,19 @@
 # 
 # This is basically notation. We have just substituted everything into $ \phi(x)$ under the independent-trials assumption. 
 # 
-# The idea of *maximum likelihood* is to maximize this as the function of $p$ after plugging in all of the $x_i$ data. This means that our estimator, $\hat{p}$ , is a function of the observed $x_i$ data, and as such, is a random variable with its own distribution.
+# The idea of *maximum likelihood* is to maximize this as the function of $p$ after plugging in all of the $x_i$ data. This np.means that our estimator, $\hat{p}$ , is a function of the observed $x_i$ data, and as such, is a random variable with its own distribution.
 
 # ### Simulating the Experiment
 
 # We need the following code to simulate coin flipping.
 
-# In[1]:
+# [1]
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
+import numpy as np;import matplotlib.pyplot as plt
 from __future__ import division
 from scipy.stats import bernoulli 
-import numpy as np
+import numpy as np as np
 
 p_true=1/2 # this is the value we will try to estimate from the observed data
 fp=bernoulli(p_true)
@@ -43,7 +43,7 @@ xs = sample(100) # generate some samples
 
 # Now, we can write out the likelihood function using `sympy`
 
-# In[2]:
+# [2]
 
 
 import sympy
@@ -56,13 +56,13 @@ J=np.prod([L.subs(x,i) for i in xs]) # objective function to maximize
 
 # Below, we find the maximum using basic calculus. Note that taking the `log` of $J$ makes the maximization problem tractable but doesn't change the extrema.
 
-# In[3]:
+# [3]
 
 
 logJ=sympy.expand_log(sympy.log(J))
 sol=sympy.solve(sympy.diff(logJ,p),p)[0]
 
-x=linspace(0,1,100)
+x=np.linspace(0,1,100)
 plot(x,map(sympy.lambdify(p,logJ,'numpy'),x),sol,logJ.subs(p,sol),'o',
                                           p_true,logJ.subs(p,p_true),'s',)
 xlabel('$p$',fontsize=18)
@@ -74,7 +74,7 @@ title('Estimate not equal to true value',fontsize=18)
 # 
 # Let's write some code to empirically examine the behavior of the maximum likelihood estimator using a simulation of multiple trials. All we're doing here is combining the last few blocks of code.
 
-# In[4]:
+# [4]
 
 
 def estimator_gen(niter=10,ns=100):
@@ -92,14 +92,14 @@ def estimator_gen(niter=10,ns=100):
     
 etries = estimator_gen(100) # this may take awhile, depending on how much data you want to generate
 hist(etries) # histogram of maximum likelihood estimator
-title('$\mu=%3.3f,\sigma=%3.3f$'%(mean(etries),std(etries)),fontsize=18)
+title('$\mu=%3.3f,\sigma=%3.3f$'%(np.mean(etries),std(etries)),fontsize=18)
 
 
-# Note that the mean of the estimator ($\mu$) is pretty close to the true value, but looks can be deceiving. The only way to know for sure is to check if the estimator is unbiased, namely, if
+# Note that the np.mean of the estimator ($\mu$) is pretty close to the true value, but looks can be deceiving. The only way to know for sure is to check if the estimator is unbiased, namely, if
 # 
 # $$ \mathbb{E}(\hat{p}) = p $$
 
-# Because this problem is simple, we can solve for this in general noting that since $x=0$ or $x=1$, the terms in the product of $\mathcal{L}$ above are either $p$, if $x_i=1$ or $1-p$ if $x_i=0$. This means that we can write
+# Because this problem is simple, we can solve for this in general noting that since $x=0$ or $x=1$, the terms in the product of $\mathcal{L}$ above are either $p$, if $x_i=1$ or $1-p$ if $x_i=0$. This np.means that we can write
 # 
 # $$ \mathcal{L}(p|\mathbf{x})= p^{\sum_{i=1}^n x_i}(1-p)^{n-\sum_{i=1}^n x_i} $$
 # 
@@ -127,7 +127,7 @@ title('$\mu=%3.3f,\sigma=%3.3f$'%(mean(etries),std(etries)),fontsize=18)
 # 
 # $$ \mathbb{E}\left(\hat{p}\right) =p $$
 # 
-# This means that the esimator is unbiased. This is good news. We almost always want our estimators to be unbiased. Similarly, 
+# This np.means that the esimator is unbiased. This is good news. We almost always want our estimators to be unbiased. Similarly, 
 # 
 # $$ \mathbb{E}\left(\hat{p}^2\right) = \frac{1}{n^2} \mathbb{E}\left[\left(  \sum_{i=1}^n x_i \right)^2 \right]$$
 # 
@@ -151,12 +151,12 @@ title('$\mu=%3.3f,\sigma=%3.3f$'%(mean(etries),std(etries)),fontsize=18)
 # 
 # $$ \sigma_\hat{p}^2 = \mathbb{E}\left(\hat{p}^2\right)- \mathbb{E}\left(\hat{p}\right)^2  = \frac{p(1-p)}{n} $$
 # 
-# Note that the $n$ in the denominator means that the variance asymptotically goes to zero as $n$ increases (i.e. we consider more and more samples). This is good news also because it means that more and more coin flips leads to a better estimate of the underlying $p$.
+# Note that the $n$ in the denominator np.means that the variance asymptotically goes to zero as $n$ increases (i.e. we consider more and more samples). This is good news also because it np.means that more and more coin flips leads to a better estimate of the underlying $p$.
 # 
 # Unfortunately, this formula for the variance is practically useless because we have to know $p$ to compute it and $p$ is the parameter we are trying to estimate in the first place! But, looking at $ \sigma_\hat{p}^2 $, we can immediately notice that if $p=0$, then there is no estimator variance because the outcomes are guaranteed to be tails. Also, the maximum of this variance, for whatever $n$, happens at $p=1/2$. This is our worst case scenario and the only way to compensate is with more samples (i.e. larger $n$). 
 # 
 
-# All we have computed is the mean and variance of the estimator. In general, this is insufficient to characterize the underlying probability density of $\hat{p}$, except if we somehow knew that  $\hat{p}$ were normally distributed. This is where the powerful [*central limit theorem*](http://mathworld.wolfram.com/CentralLimitTheorem.html) comes in. The form of the estimator, which is just a mean estimator, implies that we can apply this theorem and conclude that  $\hat{p}$ is normally distributed. However, there's a wrinkle here: the theorem tells us that  $\hat{p}$ is asymptotically normal, it doesn't quantify how many samples $n$ we need to approach this asymptotic paradise. In our simulation this is no problem since we can generate as much data as we like, but in the real world, with a costly experiment, each sample may be precious. In the following, we won't apply this theorem and instead proceed analytically.
+# All we have computed is the np.mean and variance of the estimator. In general, this is insufficient to characterize the underlying probability density of $\hat{p}$, except if we somehow knew that  $\hat{p}$ were normally distributed. This is where the powerful [*central limit theorem*](http://mathworld.wolfram.com/CentralLimitTheorem.html) comes in. The form of the estimator, which is just a np.mean estimator, implies that we can apply this theorem and conclude that  $\hat{p}$ is normally distributed. However, there's a wrinkle here: the theorem tells us that  $\hat{p}$ is asymptotically normal, it doesn't quantify how many samples $n$ we need to approach this asymptotic paradise. In our simulation this is no problem since we can generate as much data as we like, but in the real world, with a costly experiment, each sample may be precious. In the following, we won't apply this theorem and instead proceed analytically.
 # 
 
 # ### Probability Density for the Estimator
@@ -183,7 +183,7 @@ title('$\mu=%3.3f,\sigma=%3.3f$'%(mean(etries),std(etries)),fontsize=18)
 
 # #### Confidence Intervals
 
-# Now that we have the full density for $\hat{p}$, we are ready to ask some meaningful questions. For example,
+# Now that we have the full density for $\hat{p}$, we are ready to ask some np.meaningful questions. For example,
 # 
 # $$ \mathbb{P}\left( | \hat{p}-p | \le \epsilon p \right) $$
 # 
@@ -199,7 +199,7 @@ title('$\mu=%3.3f,\sigma=%3.3f$'%(mean(etries),std(etries)),fontsize=18)
 # 
 # $$ \mathbb{P}\left( \frac{9999}{200} \lt \sum_{i=1}^{101} x_i   \lt \frac{10201}{200} \right) = f\left(\sum_{i=1}^{101} x_i  = 50,p\right)= \binom{101}{50} (1/2)^{50}  (1-1/2)^{101-50} = 0.079$$
 # 
-# This means that in the worst-case scenario for $p=1/2$, given $n=101$ trials, we will only get within 1% of the actual $p=1/2$ about 8% of the time. If you feel disappointed, that only means you've been paying attention. What if the coin was really heavy and it was costly to repeat this 101 times? Then, we would be within 1% of the actual value only 8% of the time. Those odds are terrible.
+# This np.means that in the worst-case scenario for $p=1/2$, given $n=101$ trials, we will only get within 1% of the actual $p=1/2$ about 8% of the time. If you feel disappointed, that only np.means you've been paying attention. What if the coin was really heavy and it was costly to repeat this 101 times? Then, we would be within 1% of the actual value only 8% of the time. Those odds are terrible.
 # 
 # Let's come at this another way: given I could only flip the coin 100 times, how close could I come to the true underlying value with high probability (say, 95%)? In this case we are seeking to solve for $\epsilon$. Plugging in gives,
 # 
@@ -207,48 +207,48 @@ title('$\mu=%3.3f,\sigma=%3.3f$'%(mean(etries),std(etries)),fontsize=18)
 # 
 # which we have to solve for $\epsilon$. Fortunately, all the tools we need to solve for this are already in `scipy`.
 
-# In[5]:
+# [5]
 
 
 import scipy.stats
 
 b=scipy.stats.binom(100,.5) # n=100, p = 0.5, distribution of the estimator \hat{p}
 
-f,ax= subplots()
+f,ax= plt.subplots()
 ax.stem(arange(0,101),b.pmf(arange(0,101))) # heres the density of the sum of x_i
 
-g = lambda i:b.pmf(arange(-i,i)+50).sum() # symmetric sum the probability around the mean
+g = lambda i:b.pmf(arange(-i,i)+50).sum() # symmetric sum the probability around the np.mean
 print 'this is pretty close to 0.95:%r'%g(10)
 ax.vlines( [50+10,50-10],0 ,ax.get_ylim()[1] ,color='r',lw=3.)
 
 
-# The two vertical lines in the plot show how far out from the mean we have to go to accumulate 95% of the probability. Now, we can solve this as
+# The two vertical lines in the plot show how far out from the np.mean we have to go to accumulate 95% of the probability. Now, we can solve this as
 # 
 # $$ 50 + 50 \epsilon = 60 $$
 # 
-# which makes $\epsilon=1/5$ or 20%. So, flipping 100 times means I can only get within 20% of the real $p$ 95% of the time in the worst case scenario (i.e. $p=1/2$).
+# which makes $\epsilon=1/5$ or 20%. So, flipping 100 times np.means I can only get within 20% of the real $p$ 95% of the time in the worst case scenario (i.e. $p=1/2$).
 # 
 
-# In[6]:
+# [6]
 
 
 b=scipy.stats.bernoulli(.5) # coin distribution
 xs = b.rvs(100) # flip it 100 times
-phat = mean(xs) # estimated p
+phat = np.mean(xs) # estimated p
 
 print abs(phat-0.5) < 0.5*0.20 # did I make it w/in interval 95% of the time?
 
 
 # Let's keep doing this and see if we can get within this interval 95% of the time.
 
-# In[7]:
+# [7]
 
 
 out=[]
 b=scipy.stats.bernoulli(.5) # coin distribution
 for i in range(500): # number of tries
     xs = b.rvs(100) # flip it 100 times
-    phat = mean(xs) # estimated p
+    phat = np.mean(xs) # estimated p
     out.append(abs(phat-0.5) < 0.5*0.20 ) # within 20% 
 
 print 'Percentage of tries within 20 interval = %3.2f'%(100*sum(out)/float(len(out) ))
@@ -258,7 +258,7 @@ print 'Percentage of tries within 20 interval = %3.2f'%(100*sum(out)/float(len(o
 
 # ## Summary
 
-# In this section, we explored the concept of maximum likelihood estimation using a coin flipping experiment both analytically and numerically with the  scientific Python tool chain. There are two key points to remember. First, maximum likelihood estimation produces a function of the data that is itself a random variable, with its own statistics and distribution. Second, it's worth considering how to analytically derive the density function of the estimator rather than relying on canned packages to compute confidence intervals wherever possible. This is especially true when data is hard to come by and the approximations made in the central limit theorem are therefore harder to justify.
+#  this section, we explored the concept of maximum likelihood estimation using a coin flipping experiment both analytically and numerically with the  scientific Python tool chain. There are two key points to remember. First, maximum likelihood estimation produces a function of the data that is itself a random variable, with its own statistics and distribution. Second, it's worth considering how to analytically derive the density function of the estimator rather than relying on canned packages to compute confidence intervals wherever possible. This is especially true when data is hard to come by and the approximations made in the central limit theorem are therefore harder to justify.
 
 # ### References
 

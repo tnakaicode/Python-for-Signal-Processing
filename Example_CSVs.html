@@ -163,16 +163,16 @@ input[type="radio"] {
   box-sizing: border-box;
   padding: 0;
 }
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
+input[type="number"]:-webkit-inner-spin-button,
+input[type="number"]:-webkit-outer-spin-button {
   height: auto;
 }
 input[type="search"] {
   -webkit-appearance: textfield;
   box-sizing: content-box;
 }
-input[type="search"]::-webkit-search-cancel-button,
-input[type="search"]::-webkit-search-decoration {
+input[type="search"]:-webkit-search-cancel-button,
+input[type="search"]:-webkit-search-decoration {
   -webkit-appearance: none;
 }
 fieldset {
@@ -211,14 +211,14 @@ th {
   a:visited {
     text-decoration: underline;
   }
-  a[href]:after {
+  a[href]after {
     content: " (" attr(href) ")";
   }
-  abbr[title]:after {
+  abbr[title]after {
     content: " (" attr(title) ")";
   }
-  a[href^="#"]:after,
-  a[href^="javascript:"]:after {
+  a[href^="#"]after,
+  a[href^="javascript:"]after {
     content: "";
   }
   pre,
@@ -2536,9 +2536,9 @@ select[multiple],
 select[size] {
   height: auto;
 }
-input[type="file"]:focus,
-input[type="radio"]:focus,
-input[type="checkbox"]:focus {
+input[type="file"]focus,
+input[type="radio"]focus,
+input[type="checkbox"]focus {
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
@@ -3100,10 +3100,10 @@ fieldset[disabled] a.btn {
   background-image: none;
 }
 .btn-default.disabled:hover,
-.btn-default[disabled]:hover,
+.btn-default[disabled]hover,
 fieldset[disabled] .btn-default:hover,
 .btn-default.disabled:focus,
-.btn-default[disabled]:focus,
+.btn-default[disabled]focus,
 fieldset[disabled] .btn-default:focus,
 .btn-default.disabled.focus,
 .btn-default[disabled].focus,
@@ -3157,10 +3157,10 @@ fieldset[disabled] .btn-default.focus {
   background-image: none;
 }
 .btn-primary.disabled:hover,
-.btn-primary[disabled]:hover,
+.btn-primary[disabled]hover,
 fieldset[disabled] .btn-primary:hover,
 .btn-primary.disabled:focus,
-.btn-primary[disabled]:focus,
+.btn-primary[disabled]focus,
 fieldset[disabled] .btn-primary:focus,
 .btn-primary.disabled.focus,
 .btn-primary[disabled].focus,
@@ -3214,10 +3214,10 @@ fieldset[disabled] .btn-primary.focus {
   background-image: none;
 }
 .btn-success.disabled:hover,
-.btn-success[disabled]:hover,
+.btn-success[disabled]hover,
 fieldset[disabled] .btn-success:hover,
 .btn-success.disabled:focus,
-.btn-success[disabled]:focus,
+.btn-success[disabled]focus,
 fieldset[disabled] .btn-success:focus,
 .btn-success.disabled.focus,
 .btn-success[disabled].focus,
@@ -3271,10 +3271,10 @@ fieldset[disabled] .btn-success.focus {
   background-image: none;
 }
 .btn-info.disabled:hover,
-.btn-info[disabled]:hover,
+.btn-info[disabled]hover,
 fieldset[disabled] .btn-info:hover,
 .btn-info.disabled:focus,
-.btn-info[disabled]:focus,
+.btn-info[disabled]focus,
 fieldset[disabled] .btn-info:focus,
 .btn-info.disabled.focus,
 .btn-info[disabled].focus,
@@ -3328,10 +3328,10 @@ fieldset[disabled] .btn-info.focus {
   background-image: none;
 }
 .btn-warning.disabled:hover,
-.btn-warning[disabled]:hover,
+.btn-warning[disabled]hover,
 fieldset[disabled] .btn-warning:hover,
 .btn-warning.disabled:focus,
-.btn-warning[disabled]:focus,
+.btn-warning[disabled]focus,
 fieldset[disabled] .btn-warning:focus,
 .btn-warning.disabled.focus,
 .btn-warning[disabled].focus,
@@ -3385,10 +3385,10 @@ fieldset[disabled] .btn-warning.focus {
   background-image: none;
 }
 .btn-danger.disabled:hover,
-.btn-danger[disabled]:hover,
+.btn-danger[disabled]hover,
 fieldset[disabled] .btn-danger:hover,
 .btn-danger.disabled:focus,
-.btn-danger[disabled]:focus,
+.btn-danger[disabled]focus,
 fieldset[disabled] .btn-danger:focus,
 .btn-danger.disabled.focus,
 .btn-danger[disabled].focus,
@@ -3426,9 +3426,9 @@ fieldset[disabled] .btn-link {
   text-decoration: underline;
   background-color: transparent;
 }
-.btn-link[disabled]:hover,
+.btn-link[disabled]hover,
 fieldset[disabled] .btn-link:hover,
-.btn-link[disabled]:focus,
+.btn-link[disabled]focus,
 fieldset[disabled] .btn-link:focus {
   color: #777777;
   text-decoration: none;
@@ -4579,9 +4579,9 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .navbar-default .btn-link:focus {
   color: #333;
 }
-.navbar-default .btn-link[disabled]:hover,
+.navbar-default .btn-link[disabled]hover,
 fieldset[disabled] .navbar-default .btn-link:hover,
-.navbar-default .btn-link[disabled]:focus,
+.navbar-default .btn-link[disabled]focus,
 fieldset[disabled] .navbar-default .btn-link:focus {
   color: #ccc;
 }
@@ -4681,9 +4681,9 @@ fieldset[disabled] .navbar-default .btn-link:focus {
 .navbar-inverse .btn-link:focus {
   color: #fff;
 }
-.navbar-inverse .btn-link[disabled]:hover,
+.navbar-inverse .btn-link[disabled]hover,
 fieldset[disabled] .navbar-inverse .btn-link:hover,
-.navbar-inverse .btn-link[disabled]:focus,
+.navbar-inverse .btn-link[disabled]focus,
 fieldset[disabled] .navbar-inverse .btn-link:focus {
   color: #444;
 }
@@ -4867,43 +4867,43 @@ a.label:focus {
 .label-default {
   background-color: #777777;
 }
-.label-default[href]:hover,
-.label-default[href]:focus {
+.label-default[href]hover,
+.label-default[href]focus {
   background-color: #5e5e5e;
 }
 .label-primary {
   background-color: #337ab7;
 }
-.label-primary[href]:hover,
-.label-primary[href]:focus {
+.label-primary[href]hover,
+.label-primary[href]focus {
   background-color: #286090;
 }
 .label-success {
   background-color: #5cb85c;
 }
-.label-success[href]:hover,
-.label-success[href]:focus {
+.label-success[href]hover,
+.label-success[href]focus {
   background-color: #449d44;
 }
 .label-info {
   background-color: #5bc0de;
 }
-.label-info[href]:hover,
-.label-info[href]:focus {
+.label-info[href]hover,
+.label-info[href]focus {
   background-color: #31b0d5;
 }
 .label-warning {
   background-color: #f0ad4e;
 }
-.label-warning[href]:hover,
-.label-warning[href]:focus {
+.label-warning[href]hover,
+.label-warning[href]focus {
   background-color: #ec971f;
 }
 .label-danger {
   background-color: #d9534f;
 }
-.label-danger[href]:hover,
-.label-danger[href]:focus {
+.label-danger[href]hover,
+.label-danger[href]focus {
   background-color: #c9302c;
 }
 .badge {
@@ -8439,7 +8439,7 @@ button.close {
 .fa-ils:before {
   content: "\f20b";
 }
-.fa-meanpath:before {
+.fa-np.meanpath:before {
   content: "\f20c";
 }
 .fa-buysellads:before {
@@ -9551,14 +9551,14 @@ span#login_widget > .button.active,
 }
 span#login_widget > .button.disabled:hover,
 #logout.disabled:hover,
-span#login_widget > .button[disabled]:hover,
-#logout[disabled]:hover,
+span#login_widget > .button[disabled]hover,
+#logout[disabled]hover,
 fieldset[disabled] span#login_widget > .button:hover,
 fieldset[disabled] #logout:hover,
 span#login_widget > .button.disabled:focus,
 #logout.disabled:focus,
-span#login_widget > .button[disabled]:focus,
-#logout[disabled]:focus,
+span#login_widget > .button[disabled]focus,
+#logout[disabled]focus,
 fieldset[disabled] span#login_widget > .button:focus,
 fieldset[disabled] #logout:focus,
 span#login_widget > .button.disabled.focus,
@@ -10491,7 +10491,7 @@ div.cell.selected.jupyter-soft-selected:before {
   }
 }
 .prompt {
-  /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
+  /* This needs to be wide enough for 3 digit prompt numbers: In[100] */
   min-width: 14ex;
   /* This padding is tuned to match the padding on the CodeMirror editor. */
   padding: 0.4em;
@@ -11790,7 +11790,7 @@ select[multiple].tags-input button {
   background-color: #fff;
   white-space: nowrap;
 }
-.tags-input input[type=text]:focus {
+.tags-input input[type=text]focus {
   outline: none;
   box-shadow: none;
   border-color: #ccc;
@@ -12228,10 +12228,10 @@ ul#help_menu li a i {
   background-image: none;
 }
 .notification_widget.disabled:hover,
-.notification_widget[disabled]:hover,
+.notification_widget[disabled]hover,
 fieldset[disabled] .notification_widget:hover,
 .notification_widget.disabled:focus,
-.notification_widget[disabled]:focus,
+.notification_widget[disabled]focus,
 fieldset[disabled] .notification_widget:focus,
 .notification_widget.disabled.focus,
 .notification_widget[disabled].focus,
@@ -12285,10 +12285,10 @@ fieldset[disabled] .notification_widget.focus {
   background-image: none;
 }
 .notification_widget.warning.disabled:hover,
-.notification_widget.warning[disabled]:hover,
+.notification_widget.warning[disabled]hover,
 fieldset[disabled] .notification_widget.warning:hover,
 .notification_widget.warning.disabled:focus,
-.notification_widget.warning[disabled]:focus,
+.notification_widget.warning[disabled]focus,
 fieldset[disabled] .notification_widget.warning:focus,
 .notification_widget.warning.disabled.focus,
 .notification_widget.warning[disabled].focus,
@@ -12342,10 +12342,10 @@ fieldset[disabled] .notification_widget.warning.focus {
   background-image: none;
 }
 .notification_widget.success.disabled:hover,
-.notification_widget.success[disabled]:hover,
+.notification_widget.success[disabled]hover,
 fieldset[disabled] .notification_widget.success:hover,
 .notification_widget.success.disabled:focus,
-.notification_widget.success[disabled]:focus,
+.notification_widget.success[disabled]focus,
 fieldset[disabled] .notification_widget.success:focus,
 .notification_widget.success.disabled.focus,
 .notification_widget.success[disabled].focus,
@@ -12399,10 +12399,10 @@ fieldset[disabled] .notification_widget.success.focus {
   background-image: none;
 }
 .notification_widget.info.disabled:hover,
-.notification_widget.info[disabled]:hover,
+.notification_widget.info[disabled]hover,
 fieldset[disabled] .notification_widget.info:hover,
 .notification_widget.info.disabled:focus,
-.notification_widget.info[disabled]:focus,
+.notification_widget.info[disabled]focus,
 fieldset[disabled] .notification_widget.info:focus,
 .notification_widget.info.disabled.focus,
 .notification_widget.info[disabled].focus,
@@ -12456,10 +12456,10 @@ fieldset[disabled] .notification_widget.info.focus {
   background-image: none;
 }
 .notification_widget.danger.disabled:hover,
-.notification_widget.danger[disabled]:hover,
+.notification_widget.danger[disabled]hover,
 fieldset[disabled] .notification_widget.danger:hover,
 .notification_widget.danger.disabled:focus,
-.notification_widget.danger[disabled]:focus,
+.notification_widget.danger[disabled]focus,
 fieldset[disabled] .notification_widget.danger:focus,
 .notification_widget.danger.disabled.focus,
 .notification_widget.danger[disabled].focus,
@@ -13091,7 +13091,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[147]:</div>
+<div class="prompt input_prompt">In&nbsp;[147]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">csv</span> <span class="c1"># using Python module</span>
@@ -13112,7 +13112,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[148]:</div>
+<div class="prompt input_prompt">In&nbsp;[148]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;example_1.csv&#39;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="c1"># use binary mode if on MS windows</span>
@@ -13162,7 +13162,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[149]:</div>
+<div class="prompt input_prompt">In&nbsp;[149]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;Last Name&#39;</span><span class="p">)</span>
@@ -13203,10 +13203,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[150]:</div>
+<div class="prompt input_prompt">In&nbsp;[150]</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span> <span class="c1"># start at 1st, not 0th column. Each row is a list</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">d</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="c1"># start at 1st, not 0th column. Each row is a list</span>
     <span class="n">first</span><span class="p">,</span><span class="n">last</span><span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">()</span> <span class="c1"># split on white-space</span>
     <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">last</span><span class="p">)</span> <span class="c1"># append to each row</span>
     <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">first</span><span class="p">)</span>
@@ -13239,7 +13239,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[151]:</div>
+<div class="prompt input_prompt">In&nbsp;[151]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">#%qtconsole</span>
@@ -13267,7 +13267,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[152]:</div>
+<div class="prompt input_prompt">In&nbsp;[152]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;example_1_out.csv&#39;</span><span class="p">,</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="c1"># write mode binary</span>
@@ -13306,7 +13306,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[153]:</div>
+<div class="prompt input_prompt">In&nbsp;[153]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
@@ -13356,7 +13356,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[154]:</div>
+<div class="prompt input_prompt">In&nbsp;[154]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">dt</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span>   <span class="s1">&#39;S64&#39;</span><span class="p">),</span>   <span class="c1"># The first element of the tuple is our name for each respective column</span>
@@ -13395,17 +13395,17 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>The advantage of doing it this way is that now we can compute the <code>years</code> column using <code>numpy</code> tools. For example, here is the mean of the years.</p>
+<p>The advantage of doing it this way is that now we can compute the <code>years</code> column using <code>numpy</code> tools. For example, here is the np.mean of the years.</p>
 
 </div>
 </div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[155]:</div>
+<div class="prompt input_prompt">In&nbsp;[155]</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="c1"># using numpy arrays</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;years&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">np.mean</span><span class="p">()</span> <span class="c1"># using numpy np.arrays</span>
 </pre></div>
 
     </div>
@@ -13441,13 +13441,13 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[156]:</div>
+<div class="prompt input_prompt">In&nbsp;[156]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">string</span>
 
 <span class="n">n</span><span class="o">=</span><span class="nb">map</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">,</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">])</span>
-<span class="n">w</span><span class="o">=</span><span class="n">array</span><span class="p">([</span><span class="nb">tuple</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="nb">tuple</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">n</span><span class="p">)],</span>    <span class="c1"># list comprehension glues tuple-ized rows together</span>
+<span class="n">w</span><span class="o">=</span><span class="n">np.array</span><span class="p">([</span><span class="nb">tuple</span><span class="p">(</span><span class="n">i</span><span class="p">)</span><span class="o">+</span><span class="nb">tuple</span><span class="p">(</span><span class="n">j</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">d</span><span class="p">,</span><span class="n">n</span><span class="p">)],</span>    <span class="c1"># list comprehension glues tuple-ized rows together</span>
          <span class="n">dtype</span><span class="o">=</span><span class="n">dt</span><span class="o">+</span><span class="p">[(</span><span class="s1">&#39;first&#39;</span><span class="p">,</span><span class="s1">&#39;S64&#39;</span><span class="p">),(</span><span class="s1">&#39;last&#39;</span><span class="p">,</span><span class="s1">&#39;S64&#39;</span><span class="p">)])</span> <span class="c1"># append new dtypes to existing list of dtypes</span>
 </pre></div>
 
@@ -13466,7 +13466,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[157]:</div>
+<div class="prompt input_prompt">In&nbsp;[157]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># the comments are set to &#39;&#39; to avoid hash marks on the first line.</span>
@@ -13503,7 +13503,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[158]:</div>
+<div class="prompt input_prompt">In&nbsp;[158]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -13551,7 +13551,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[159]:</div>
+<div class="prompt input_prompt">In&nbsp;[159]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="n">d</span><span class="o">.</span><span class="n">columns</span>
@@ -13590,7 +13590,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[161]:</div>
+<div class="prompt input_prompt">In&nbsp;[161]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="n">d</span><span class="o">.</span><span class="n">DOB</span> <span class="c1"># this works great when the column header name has no spaces in it.</span>
@@ -13639,7 +13639,7 @@ Name: Name, dtype: object
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;Name &#39;</span><span class="p">]</span> <span class="c1"># easily create extra column</span>
@@ -13661,7 +13661,7 @@ Name: Name, dtype: object
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_1.csv&#39;</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Name &#39;</span><span class="p">:</span><span class="s1">&#39;S64&#39;</span><span class="p">,</span><span class="s1">&#39;DOB&#39;</span><span class="p">:</span><span class="s1">&#39;S64&#39;</span><span class="p">,</span><span class="s1">&#39;Years&#39;</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span><span class="s1">&#39;Degree&#39;</span><span class="p">:</span><span class="s1">&#39;S64&#39;</span><span class="p">})</span>
@@ -13683,10 +13683,10 @@ Name: Name, dtype: object
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="n">d</span><span class="o">.</span><span class="n">Years</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="n">d</span><span class="o">.</span><span class="n">Years</span><span class="o">.</span><span class="n">np.mean</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13704,7 +13704,7 @@ Name: Name, dtype: object
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[171]:</div>
+<div class="prompt input_prompt">In&nbsp;[171]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;example_1.csv&#39;</span><span class="p">,</span><span class="n">dtype</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;Name&#39;</span><span class="p">:</span><span class="s1">&#39;S64&#39;</span><span class="p">,</span>
@@ -13728,7 +13728,7 @@ Name: Name, dtype: object
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[164]:</div>
+<div class="prompt input_prompt">In&nbsp;[164]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># difference in birthdays between Alice Jones and John Book</span>
@@ -13768,7 +13768,7 @@ Name: Name, dtype: object
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="o">%</span><span class="k">qtconsole</span>
@@ -13781,7 +13781,7 @@ Name: Name, dtype: object
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[166]:</div>
+<div class="prompt input_prompt">In&nbsp;[166]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;first&#39;</span><span class="p">]</span><span class="o">=</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span><span class="n">string</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span><span class="n">d</span><span class="p">[</span><span class="s1">&#39;Name&#39;</span><span class="p">])</span>
@@ -13818,7 +13818,7 @@ Name: Name, dtype: object
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[167]:</div>
+<div class="prompt input_prompt">In&nbsp;[167]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span> <span class="n">d</span>
@@ -13860,7 +13860,7 @@ Name: Name, dtype: object
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[170]:</div>
+<div class="prompt input_prompt">In&nbsp;[170]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas.io.sql</span> <span class="k">as</span> <span class="nn">pd_sql</span>
@@ -13878,7 +13878,7 @@ Name: Name, dtype: object
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span> 

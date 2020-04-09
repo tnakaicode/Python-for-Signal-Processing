@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Inverse Projection
+# verse Projection
 # -------------------------------------------------
 # 
-# In our [previous discussion](http://python-for-signal-processing.blogspot.com/2012/11/projection-in-multiple-dimensions-in.html), we developed a powerful intuitive sense for projections and their relationships to minimum mean squared error problems. Here, we continue to extract yet another powerful result from the same concept. Recall that we learned to minimize
+#  our [previous discussion](http://python-for-signal-processing.blogspot.com/2012/11/projection-in-multiple-dimensions-in.html), we developed a powerful intuitive sense for projections and their relationships to minimum np.mean squared error problems. Here, we continue to extract yet another powerful result from the same concept. Recall that we learned to minimize
 # 
 # $$ J = || \mathbf{y} - \mathbf{V}\boldsymbol{\alpha} ||^2  $$
 # 
@@ -26,7 +26,7 @@
 # 
 # and see if you can somehow compute the inverse of $\mathbf{P}_V$. This will not work because the projection matrix does not possess a unique inverse. In the following figure, the vertical sheet represents all vectors in the space that have exactly the same projection, $\mathbf{\hat{y}}$. Thus, there is no unique solution to the inverse problem which is to say that it is "ill-posed".
 
-# In[1]:
+# [1]
 
 
 #http://stackoverflow.com/questions/10374930/matplotlib-annotating-a-3d-scatter-plot
@@ -35,7 +35,7 @@ from mpl_toolkits.mplot3d import proj3d
 import matplotlib.patches as patches
 import mpl_toolkits.mplot3d.art3d as art3d
 import matplotlib.pyplot as plt
-import numpy as np
+import numpy as np as np
 
 fig = plt.figure()
 fig.set_size_inches([8,8])
@@ -61,8 +61,8 @@ P = V*inv(V.T*V)*V.T
 yhat = P*y         # approximant
 
 
-u = np.linspace(0, 2*np.pi, 100)
-v = np.linspace(0, np.pi, 100)
+u = np.np.linspace(0, 2*np.pi, 100)
+v = np.np.linspace(0, np.pi, 100)
 
 xx = np.outer(np.cos(u), np.sin(v))
 yy = np.outer(np.sin(u), np.sin(v))
@@ -115,9 +115,9 @@ ax.annotate(
     bbox = dict(boxstyle = 'round,pad=0.5', fc = 'yellow', alpha = 0.5),
     arrowprops = dict(arrowstyle = '->', connectionstyle = 'arc3,rad=0'))
 
-xx = array([0,yhat[0],yhat[0]])
-yy = array([0,yhat[1],yhat[1]])
-zz = array([0,0,2])
+xx = np.array([0,yhat[0],yhat[0]])
+yy = np.array([0,yhat[1],yhat[1]])
+zz = np.array([0,0,2])
 
 ax.add_collection3d( art3d.Poly3DCollection([zip(xx,yy,zz)],alpha=0.15,color='m') )
 ax.set_title(r'The magenta sheet contains vectors with the same projection, $\mathbf{\hat{y}}$')
@@ -184,10 +184,10 @@ plt.show()
 # where $\mathbf{e}_i$ is the coordinate vector that is zero everywhere except for the $i^{th}$ entry.
 # 
 
-# In[2]:
+# [2]
 
 
-import numpy as np
+import numpy as np as np
 from scipy.optimize import minimize
 
 # constraints formatted for scipy.optimize.minimize
@@ -195,7 +195,7 @@ cons = [{'type':'eq','fun':lambda x: x[0]-1,'jac':None},
         {'type':'eq','fun':lambda x: x[1]-1,'jac':None},
         ]
 
-init_point = np.array([1,2,3,0]) # initial guess
+init_point = np.np.array([1,2,3,0]) # itial guess
 ysol= minimize(lambda x: np.dot(x,x),init_point,constraints=cons,method='SLSQP')
 
 # using projection method
@@ -206,9 +206,9 @@ ysol_p =  V*np.linalg.inv(V.T*V)*V.T*c
 print 'scipy optimize solution:',
 print ysol['x']
 print 'projection solution:',
-print np.array(ysol_p).flatten()
+print np.np.array(ysol_p).flatten()
 
-print np.allclose(np.array(ysol_p).flat,ysol['x'],atol=1e-6)
+print np.allclose(np.np.array(ysol_p).flat,ysol['x'],atol=1e-6)
 
 
 # ## Weighted Constrained Minimization
@@ -243,10 +243,10 @@ print np.allclose(np.array(ysol_p).flat,ysol['x'],atol=1e-6)
 # 
 # Once again, let's illustrate this using `scipy.optimize` in the following
 
-# In[3]:
+# [3]
 
 
-import numpy as np
+import numpy as np as np
 from scipy.optimize import minimize
 
 # constraints formatted for scipy.optimize.minimize
@@ -257,7 +257,7 @@ cons = [{'type':'eq','fun':lambda x: x[0]-1,'jac':None},
 Q = np.diag ([1,2,3,4])
 
 
-init_point = np.array([1,2,3,0]) # initial guess
+init_point = np.np.array([1,2,3,0]) # itial guess
 ysol= minimize(lambda x: np.dot(x,np.dot(Q,x)),init_point,constraints=cons,method='SLSQP')
 
 # using projection method
@@ -268,13 +268,13 @@ ysol_p =  V*np.linalg.inv(V.T*Qinv*V)*V.T*Qinv*c
 print 'scipy optimize solution:',
 print ysol['x']
 print 'projection solution:',
-print np.array(ysol_p).flatten()
-print np.allclose(np.array(ysol_p).flat,ysol['x'],atol=1e-5)
+print np.np.array(ysol_p).flatten()
+print np.allclose(np.np.array(ysol_p).flat,ysol['x'],atol=1e-5)
 
 
 # ## Summary
 
-# In this section, we pulled yet another powerful result from the projection concept we developed previously. We showed how "inverse projection" can lead to the solution of the classic constrained minimization problem. Although there are many approaches to the same problem, by once again appealing to the power projection method, we can maintain our intuitive geometric intuition. 
+#  this section, we pulled yet another powerful result from the projection concept we developed previously. We showed how "inverse projection" can lead to the solution of the classic constrained minimization problem. Although there are many approaches to the same problem, by once again appealing to the power projection method, we can maintain our intuitive geometric intuition. 
 
 # ### References
 

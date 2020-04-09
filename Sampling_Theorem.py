@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# # Investigating The Sampling Theorem
+# # vestigating The Sampling Theorem
 
-# In this section, we investigate the implications of the sampling theorem. Here is the usual statement of the theorem from wikipedia:
+#  this section, we investigate the implications of the sampling theorem. Here is the usual statement of the theorem from wikipedia:
 # 
 # *"If a function $x(t)$ contains no frequencies higher than B hertz, it is completely determined by giving its ordinates at a series of points spaced 1/(2B) seconds apart."*
 # 
@@ -17,22 +17,22 @@
 # $ x(t) = \sum_k a_n \exp( j \omega_n t) $
 # 
 # 
-# But here we are generating discrete points $a_n$ by integrating over the **entire** function $x(t)$, not just evaluating it at a single point. This means we are collecting information about the entire function to compute a single discrete point $a_n$, whereas with sampling we are just taking individual points in isolation.
+# But here we are generating discrete points $a_n$ by integrating over the **entire** function $x(t)$, not just evaluating it at a single point. This np.means we are collecting information about the entire function to compute a single discrete point $a_n$, whereas with sampling we are just taking individual points in isolation.
 # 
 # Let's come at this the other way: suppose we are given a set of samples $[x_1,x_2,..,x_N]$ and we are then told to reconstruct the function. What would we do? This is the kind of question seldom asked because we typically sample, filter, and then do something else without trying to reconstruct the function from the samples directly.
 # 
 # Returning to our reconstruction challenge, perhaps the most natural thing to do is draw a straight line between each of the points as in linear interpolation. The next block of code takes samples of the $sin$ over a single period and draws a line between sampled ordinates.
 
-# In[16]:
+# [16]
 
 
 get_ipython().run_line_magic('pylab', 'inline')
 
 
-# In[25]:
+# [25]
 
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 
 f = 1.0  # Hz, signal frequency
 fs = 20.0 # Hz, sampling rate (ie. >= 2*f) 
@@ -45,12 +45,12 @@ ax.set_ylabel('amplitude',fontsize=18)
 # fig.savefig('figure_00@.png', bbox_inches='tight', dpi=300)
 
 
-# In this plot, notice how near the extremes of the $sin$ at $t=1/(4f)$ and $t=3/(4 f)$, we are taking the same density of points since the sampling theorem makes no requirement on *where* we should sample as long as we sample at a regular intervals. This means that on the up and down slopes of the $sin$, which are obviously linear-looking and where a linear approximation is a good one, we are taking the same density of samples as near the curvy peaks. Here's a bit of code that zooms in to the first peak to illustrate this.
+#  this plot, notice how near the extremes of the $sin$ at $t=1/(4f)$ and $t=3/(4 f)$, we are taking the same density of points since the sampling theorem makes no requirement on *where* we should sample as long as we sample at a regular intervals. This np.means that on the up and down slopes of the $sin$, which are obviously linear-looking and where a linear approximation is a good one, we are taking the same density of samples as near the curvy peaks. Here's a bit of code that zooms in to the first peak to illustrate this.
 
-# In[26]:
+# [26]
 
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 
 ax.plot(t,x,'o-')
 ax.axis( xmin = 1/(4*f)-1/fs*3, xmax = 1/(4*f)+1/fs*3, ymin = 0, ymax = 1.1 )
@@ -59,13 +59,13 @@ ax.axis( xmin = 1/(4*f)-1/fs*3, xmax = 1/(4*f)+1/fs*3, ymin = 0, ymax = 1.1 )
 
 # To drive this point home (and create some cool matplotlib plots), we can construct the piecewise linear interpolant and compare the quality of the approximation using ``numpy.piecewise``:
 
-# In[27]:
+# [27]
 
 
 interval=[] # piecewise domains
 apprx = []  # line on domains
 # build up points *evenly* inside of intervals
-tp = hstack([ linspace(t[i],t[i+1],20,False) for i in range(len(t)-1) ])
+tp = np.hstack([ np.linspace(t[i],t[i+1],20,False) for i in range(len(t)-1) ])
 # construct arguments for piecewise2
 for i in range(len(t)-1):
    interval.append( np.logical_and(t[i] <= tp,tp < t[i+1]))
@@ -75,7 +75,7 @@ x_hat = np.piecewise(tp,interval,apprx) # piecewise linear approximation
 
 # Now, we can examine the squared errors in the interpolant. The following snippet plots the $sin$ and with the filled-in error of the linear interpolant.
 
-# In[28]:
+# [28]
 
 
 ax1 = figure().add_subplot(111)
@@ -138,11 +138,11 @@ ax1.set_title('Errors with Piecewise Linear Interpolant')
 
 # Note that since our samples are spaced at $t= k/f_s $, we'll use $  W= f_s /2 $ to line things up.
 
-# In[29]:
+# [29]
 
 
 ax = figure().add_subplot(111)
-t = linspace(-1,1,100) # redefine this here for convenience
+t = np.linspace(-1,1,100) # redefine this here for convenience
 ts = arange(-1,1+1/fs,1/fs) # sample points
 num_coeffs=len(ts) 
 sm=0
@@ -156,7 +156,7 @@ ax.set_title('sampling rate=%3.2f Hz' % fs )
 
 # We can do the same check as we did for the linear interpolant above as
 
-# In[30]:
+# [30]
 
 
 ax1 = figure().add_subplot(111)
@@ -174,7 +174,7 @@ ax1.set_title('Errors with sinc Interpolant')
 
 # These interpolating functions are called the "Whittaker" interpolating functions. Let's examine these functions more closely with the following code
 
-# In[31]:
+# [31]
 
 
 fig = figure()
@@ -205,14 +205,14 @@ ax.annotate('no interference here',
 # 
 # As an illustration, the following code shows how the individual Whittaker functions (dashed lines) are assembled into the final approximation  (black-line) using the given samples (blue-dots). I urge you to play with the sampling rate to see what happens. Note the heavy use of `numpy` broadcasting in this code instead of the multiple loops we used earlier.
 
-# In[32]:
+# [32]
 
 
 fs=5.0 # sampling rate
-k=array(sorted(set((t*fs).astype(int)))) # sorted coefficient list
-fig,ax = subplots()
+k=np.array(sorted(set((t*fs).astype(int)))) # sorted coefficient list
+fig,ax = plt.subplots()
 
-ax.plot(t,(sin(2*pi*(k[:,None]/fs))*sinc(k[:,None]-fs*t)).T,'--', # individual whittaker functions
+ax.plot(t,(sin(2*pi*(k[:,None]/fs))*sinc(k[:,None]-fs*t)).T,'--', # dividual whittaker functions
         t,(sin(2*pi*(k[:,None]/fs))*sinc(k[:,None]-fs*t)).sum(axis=0),'k-', # whittaker interpolant
      k/fs,sin(2*pi*k/fs),'ob')# samples
 ax.set_xlabel('time',fontsize=14)
@@ -221,14 +221,14 @@ ax.axis((-1.1,1.1,-1.1,1.1));
 # fig.savefig('figure_00@.png', bbox_inches='tight', dpi=300)
 
 
-# However, if you've been following carefully, you should be somewhat uncomfortable with the second to the last plot that shows the errors in the Whittaker interpolation. Namely, *why are there any errors*? Does not the sampling theorem guarantee exact-ness which should mean no error at all? It turns out that answering this question takes us further into the implications of the sampling theorem, but that is the topic of our next post.
+# However, if you've been following carefully, you should be somewhat uncomfortable with the second to the last plot that shows the errors in the Whittaker interpolation. Namely, *why are there any errors*? Does not the sampling theorem guarantee exact-ness which should np.mean no error at all? It turns out that answering this question takes us further into the implications of the sampling theorem, but that is the topic of our next post.
 # 
 # 
 # 
 
 # ## Summary
 
-# In this section, we started our investigation of the famous sampling theorem that is the bedrock of the entire field of signal processing and we asked if we could reverse-engineer the consquences of the sampling theorem by reconstructing a sampled function from its discrete samples. This led us to consider the famous *Whittaker interpolator*, whose proof we sketched here. However, after all this work, we came to a disturbing conclusion regarding the exact-ness of the sampling theorem that we will investigate in a subsequent posting.  In the meantime, I urge you to start at the top of notebook and play with the sampling frequency, and maybe even the sampled function and see what else you can discover about the sampling theorem.
+#  this section, we started our investigation of the famous sampling theorem that is the bedrock of the entire field of signal processing and we asked if we could reverse-engineer the consquences of the sampling theorem by reconstructing a sampled function from its discrete samples. This led us to consider the famous *Whittaker interpolator*, whose proof we sketched here. However, after all this work, we came to a disturbing conclusion regarding the exact-ness of the sampling theorem that we will investigate in a subsequent posting.  In the np.meantime, I urge you to start at the top of notebook and play with the sampling frequency, and maybe even the sampled function and see what else you can discover about the sampling theorem.
 
 # ## References
 

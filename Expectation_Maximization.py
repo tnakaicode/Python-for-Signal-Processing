@@ -3,13 +3,13 @@
 
 # ## Expectation Maximization
 
-# Expectation Maximization (EM) is a powerful technique for creating maximum likelihood estimators when the variables are difficult to separate. Here, we set up a Gaussian mixture experiment with two Gaussians and derive the corresponding estimators of their means using EM.
+# Expectation Maximization (EM) is a powerful technique for creating maximum likelihood estimators when the variables are difficult to separate. Here, we set up a Gaussian mixture experiment with two Gaussians and derive the corresponding estimators of their np.means using EM.
 
 # ### Experiment: Measuring from Unseen Groups 
 
 # Let's investigate the following experiment:
 # 
-# Suppose we have a population with two distinct groups of individuals with different heights. If we randomly pick an individual from the population, assume we don't know which group the individual is from. So, we measure that individual's height and choose another individual. The goal is to estimate the mean heights of the two distinct groups when we have an unlabeled distribution of heights sampled from both groups.
+# Suppose we have a population with two distinct groups of individuals with different heights. If we randomly pick an individual from the population, assume we don't know which group the individual is from. So, we measure that individual's height and choose another individual. The goal is to estimate the np.mean heights of the two distinct groups when we have an unlabeled distribution of heights sampled from both groups.
 # 
 # Group **a** is normally distributed as
 # 
@@ -19,7 +19,7 @@
 # 
 # $$ \mathcal{N}_b(x) =\mathcal{N}(x; \mu_b,\sigma) $$
 # 
-# Note that we fix the standard deviation $\sigma$ to be the same for both groups, but the means ($\mu_a,\mu_b$) are different. The problem is to estimate the means given that you can't directly know which group you are picking from.
+# Note that we fix the standard deviation $\sigma$ to be the same for both groups, but the np.means ($\mu_a,\mu_b$) are different. The problem is to estimate the np.means given that you can't directly know which group you are picking from.
 # 
 # Then we can write the joint density for this experiment as the following:
 # 
@@ -33,21 +33,21 @@
 # 
 # $$ \mathcal{L}(\mu_a,\mu_b|\mathbf{x})= \prod_{i=1}^n f_{\mu_a,\mu_b}(x_i)$$
 # 
-# This is basically notation. We have just substituted everything into $ f_{\mu_a,\mu_b}(x)$ under the independent-trials assumption. Recal that the independent trials assumptions means that the joint probability is just the product of the individual probabilities. The idea of *maximum likelihood* is to maximize this as the function of $\mu_a$ and $\mu_b$ after plugging in all of the $x_i$ data.  The problem is we don't know which group we are measuring at each trial so this is trickier than just estimating the parameters for each group separately.
+# This is basically notation. We have just substituted everything into $ f_{\mu_a,\mu_b}(x)$ under the independent-trials assumption. Recal that the independent trials assumptions np.means that the joint probability is just the product of the individual probabilities. The idea of *maximum likelihood* is to maximize this as the function of $\mu_a$ and $\mu_b$ after plugging in all of the $x_i$ data.  The problem is we don't know which group we are measuring at each trial so this is trickier than just estimating the parameters for each group separately.
 # 
 
 # ### Simulating the Experiment
 
 # We need the following code to setup the experiment of randomly a group and then picking an individual from that group.
 
-# In[9]:
+# [9]
 
 
 from __future__ import division
-from numpy import array, linspace, random
+from numpy import np.array, np.linspace, random
 from scipy.stats import bernoulli, norm
 from matplotlib import cm
-from matplotlib.pylab import figure, subplots
+from matplotlib.pylab import figure, plt.subplots
 #random.seed(101) # set random seed for reproducibility
 mua_true=4 # we are trying to estimate this from the data
 mub_true=7 # we are trying to estimate this from the data
@@ -65,11 +65,11 @@ xs = sample(1000) # generate some samples
 
 # Here's a quick look at the density functions of each group and a histogram of the samples
 
-# In[10]:
+# [10]
 
 
-f,ax = subplots()
-x = linspace(mua_true-2,mub_true+2,100)
+f,ax = plt.subplots()
+x = np.linspace(mua_true-2,mub_true+2,100)
 ax.plot(x,fa.pdf(x),label='group A')
 ax.plot(x,fb.pdf(x),label='group B')
 ax.hist(xs,bins=50,normed=1,label='Samples');
@@ -87,7 +87,7 @@ ax.legend(loc=0);
 # The following code uses `sympy` to setup the functions symbolically and convert them to `numpy` functions that we can quickly evaluate. Because it's easier and more stable to evaluate, we will work with the `log` of the likelihood function. It is useful to keep track of the *incomplete log-likelihood* ($\log\mathcal{L}$) since it can be proved that it is monotone increasing and good way to identify coding errors. Recall that this was the likelihood in the case where we integrated out the $z$ variable to reconcile as its absence. 
 #   
 
-# In[11]:
+# [11]
 
 
 import sympy
@@ -98,10 +98,10 @@ mu_a,mu_b = sympy.symbols('mu_a,mu_b')
 na=stats.Normal( 'x', mu_a,1)
 nb=stats.Normal( 'x', mu_b,1)
 
-L=(stats.density(na)(x)+stats.density(nb)(x))/2 # incomplete likelihood function 
+L=(stats.density(na)(x)+stats.density(nb)(x))/2 # complete likelihood function 
 
 
-# Next, we need to compute the expectation step. To avoid notational overload, we will just use $\Theta$ to denote the $\mu_b$ and $\mu_a$ parameters and the data $x_i$. This means that the density function of $z$ and $\Theta$ can be written as the following:
+# Next, we need to compute the expectation step. To avoid notational overload, we will just use $\Theta$ to denote the $\mu_b$ and $\mu_a$ parameters and the data $x_i$. This np.means that the density function of $z$ and $\Theta$ can be written as the following:
 # 
 # $$ \mathbb{P}(z,\Theta) = \frac{1}{2} \mathcal{N}_a(\Theta) ^ z \mathcal{N}_b(\Theta) ^ {(1-z)} $$
 # 
@@ -124,7 +124,7 @@ L=(stats.density(na)(x)+stats.density(nb)(x))/2 # incomplete likelihood function
 # and which is coded below.
 # 
 
-# In[12]:
+# [12]
 
 
 def ez(x,mu_a,mu_b): # expected value of hidden variable
@@ -146,15 +146,15 @@ def ez(x,mu_a,mu_b): # expected value of hidden variable
 # Now, we finally have the *maximization* step ( above ) and the *expectation* step ($\hat{z}_i$) from earlier. We're ready to simulate the algorithm and plot its performance!
 # 
 
-# In[13]:
+# [13]
 
 
 Lf=sympy.lambdify((x,mu_a,mu_b), sympy.log(abs(L)),'numpy') # convert to numpy function from sympy
 
 def run():
     out, lout = [], []
-    mu_a_n=random.random() * 10 # initial guess
-    mu_b_n=random.random() * 10 # initial guess
+    mu_a_n=random.random() * 10 # itial guess
+    mu_b_n=random.random() * 10 # itial guess
     for i in range(20): # iterations of expectation and maximization
         tau=ez(xs,mu_a_n,mu_b_n)                 # expected value of z-variable
         lout.append( sum(Lf(xs,mu_a_n,mu_b_n)) ) # save incomplete likelihood value (should be monotone)
@@ -168,25 +168,25 @@ out, lout = run()
 fig=figure()
 fig.set_figwidth(12)
 ax=fig.add_subplot(121)
-ax.plot(array(out),'o-')
+ax.plot(np.array(out),'o-')
 ax.legend(('mu_a','mu_b'),loc=0)
 ax.hlines([mua_true,mub_true],0,len(out),['r','g'])
 ax.set_xlabel('iteration',fontsize=18)
 ax.set_ylabel('$\mu_a,\mu_b$ values',fontsize=24)
 ax=fig.add_subplot(122)
-ax.plot(array(lout),'o-')
+ax.plot(np.array(lout),'o-')
 ax.set_xlabel('iteration',fontsize=18)
 ax.set_title('Incomplete likelihood',fontsize=16)
 
 
 # The figure on the left shows the estimates for both $\mu_a$ and $\mu_b$ for each iteration and the figure on the right shows the corresponding incomplete likelihood function. The horizontal lines on the left-figure show the true values we are trying to estimate. Notice the EM algorithm converges very quickly, but because each group is equally likely to be chosen, the algorithm cannot distinguish one from the other. The code below constructs a error surface to see this effect. The incomplete likelihood function is monotone which tells us that we have not made a coding error. We're omitting the proof of this monotonicity.
 
-# In[14]:
+# [14]
 
 
 out, lout = run()
-mua_step=linspace(0,10,30)
-mub_step=linspace(0,10,20)
+mua_step=np.linspace(0,10,30)
+mub_step=np.linspace(0,10,20)
 z=Lf(xs,mua_step[:,None],mub_step[:,None,None]).sum(axis=2) # numpy broadcasting
 fig=figure(figsize=(8,5))
 ax=fig.add_subplot(111)
@@ -214,7 +214,7 @@ fig.colorbar(p);
 # 
 # Comments appreciated!
 
-# In[14]:
+# [14]
 
 
 

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# [1]
 
 
-get_ipython().run_line_magic('matplotlib', 'inline')
+import numpy as np;import matplotlib.pyplot as plt
 from IPython.html.widgets import interact
 from scipy import  stats
 import seaborn as sns
@@ -13,7 +13,7 @@ import pandas as pd
 
 # Previously, we talk about maximum likelihood estimation and maximum a-posteriori estimation and in each case we started out with a probability density function of some kind and we further assumed that the samples were identically distributed and independent. The idea behind robust statistics is to construct estimators that can survive the weakening of either or both of these assumptions.
 # 
-# The first idea to consider is the notion of *location*, which is  a generalization of the idea of "central value". Typically, we just use an estimate of the mean for this, but we will see shortly why that is a bad idea.  The general idea of Location satisfies the following requirements
+# The first idea to consider is the notion of *location*, which is  a generalization of the idea of "central value". Typically, we just use an estimate of the np.mean for this, but we will see shortly why that is a bad idea.  The general idea of Location satisfies the following requirements
 # 
 # Let $ X $ be a random variable with distribution $ F $, and let $\theta(X)$ be some descriptive
 # measure of $F$. Then $\theta(X)$ is said to be a measure of *location* if for any constants *a* and *b*, we have the following:
@@ -26,24 +26,24 @@ import pandas as pd
 # 
 # $$ \theta(a X) = a\theta(X) $$
 # 
-# The first condition is called *location equivariance* (or *shift-invariance*  in signal processing lingo). The fourth condition is called *scale equivariance*, which means that the units that $X$ is measured in should not effect the value of the  location estimator.  These Requirements capture the idea of what we intuitively mean by *centrality* of a distribution, or where most of the probability mass is located.
+# The first condition is called *location equivariance* (or *shift-invariance*  in signal processing lingo). The fourth condition is called *scale equivariance*, which np.means that the units that $X$ is measured in should not effect the value of the  location estimator.  These Requirements capture the idea of what we intuitively np.mean by *centrality* of a distribution, or where most of the probability mass is located.
 # 
-# For example, the mean estimator is $ \hat{\mu}=\frac{1}{n}\sum X_i $. The first requirement is obviously satisfied as $ \hat{\mu}=\frac{1}{n}\sum (X_i+b) = b +  \frac{1}{n}\sum X_i =b+\hat{\mu}$. Let us consider the second requirement:$ \hat{\mu}=\frac{1}{n}\sum -X_i = -\hat{\mu}$. Finally, the last requirement is satisfied with $ \hat{\mu}=\frac{1}{n}\sum a X_i =a \hat{\mu}$.
+# For example, the np.mean estimator is $ \hat{\mu}=\frac{1}{n}\sum X_i $. The first requirement is obviously satisfied as $ \hat{\mu}=\frac{1}{n}\sum (X_i+b) = b +  \frac{1}{n}\sum X_i =b+\hat{\mu}$. Let us consider the second requirement:$ \hat{\mu}=\frac{1}{n}\sum -X_i = -\hat{\mu}$. Finally, the last requirement is satisfied with $ \hat{\mu}=\frac{1}{n}\sum a X_i =a \hat{\mu}$.
 
-# ## What do we mean by robust estimators?
+# ## What do we np.mean by robust estimators?
 
 # Now that we have the generalized location of centrality embodied in the *location* parameter, what can we do with it?  The next idea is to nail down is the concept of * robust* estimators. Previously, we assumed that our samples were all identically distributed. The key idea is that the samples might be actually coming from a distribution that is contaminated by another nearby distribution, as in the following:
 # 
 # $$ F(X) = \epsilon G(X) + (1-\epsilon)H(X) $$
 # 
-# where $ \epsilon $ is between zero and one. This means that our data samples $\lbrace X_i \rbrace$ actually derived from two separate distributions, $ G(X) $ and $ H(X) $. We just don't know how they are mixed together. What we really want  is an estimator  that captures the location of $ G(X) $ in the face of random intermittent contamination by $ H(X) $. It can get even worse than that because we don't know that there is only one contaminating $H(X)$ distribution out there. There may be a whole family of distributions that are contaminating $G(X)$ that we don't know of. This means that whatever estimators we construct have to be derived from families of distributions instead of a distribution, which is what we have been assuming for maximum-likelihood  estimators. This is what makes robust estimation so difficult --- the extended theory has to deal with spaces of function distributions instead of particular parameters of a particular probability distribution.
+# where $ \epsilon $ is between zero and one. This np.means that our data samples $\lbrace X_i \rbrace$ actually derived from two separate distributions, $ G(X) $ and $ H(X) $. We just don't know how they are mixed together. What we really want  is an estimator  that captures the location of $ G(X) $ in the face of random intermittent contamination by $ H(X) $. It can get even worse than that because we don't know that there is only one contaminating $H(X)$ distribution out there. There may be a whole family of distributions that are contaminating $G(X)$ that we don't know of. This np.means that whatever estimators we construct have to be derived from families of distributions instead of a distribution, which is what we have been assuming for maximum-likelihood  estimators. This is what makes robust estimation so difficult --- the extended theory has to deal with spaces of function distributions instead of particular parameters of a particular probability distribution.
 # 
 # * Influence function
 # * Outlier Detection
 # * Estimates of location
 #     - definition of location
-# * Trimmed means
-# * Windsorized means
+# * Trimmed np.means
+# * Windsorized np.means
 # * Hodges Lehmann statistics
 # * Asymptotic efficiency
 # * Fisher Consistent
@@ -54,14 +54,14 @@ import pandas as pd
 #     - least median
 #     - outliers
 
-# In[2]:
+# [2]
 
 
 n0=stats.norm(0,1)
 n1=stats.norm(1,2)
-xi = linspace(-5,5,100)
+xi = np.linspace(-5,5,100)
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 ax.plot(xi,n0.pdf(xi))
 ax.plot(xi,n1.pdf(xi))
 
@@ -75,14 +75,14 @@ dual_set = [n0,n1]
 samples  = [ dual_set[bias_coin_gen.next()].rvs() for i in range(500) ]
 
 
-# In[3]:
+# [3]
 
 
 hist(samples,bins=20)
-title('average = %3.3f, median=%3.3f pct_mixed=%3.3f'%(mean(samples),np.median(samples),pct_mixed))
+title('average = %3.3f, median=%3.3f pct_mixed=%3.3f'%(np.mean(samples),np.median(samples),pct_mixed))
 
 
-# In[4]:
+# [4]
 
 
 import sympy.stats
@@ -93,13 +93,13 @@ mixed_cdf = sympy.stats.cdf(sympy.stats.Normal('x',0,1),'x')(x)*(1-eps) + eps*sy
 mixed_pdf = sympy.diff(mixed_cdf,x)
 
 
-# In[5]:
+# [5]
 
 
 def plot_mixed_dist(epsilon=.1):
     n1 = stats.norm(1,2)
-    xi = linspace(-5,5,100)
-    fig,ax = subplots()
+    xi = np.linspace(-5,5,100)
+    fig,ax = plt.subplots()
     ax.plot(xi,[sympy.lambdify(x,mixed_pdf.subs(eps,epsilon))(i) for i in xi],label='mixed',lw=2)
     ax.plot(xi,n0.pdf(xi),label='g(x)',linestyle='--')
     ax.plot(xi,n1.pdf(xi),label='h(x)',linestyle='--')
@@ -152,9 +152,9 @@ interact(plot_mixed_dist,epsilon=(0,1,.05))
 # 
 # where $v_0$ is the asymptotic variance of the MLE and measures how near $\hat{\mu}$ is to the optimum. for example, if for two estimates with asymptotic variances $v_1$ and $v_2$, we have $v_1=3v_2$, then first estimate requires three times as many observations to obtain the same variance as the second.
 # 
-# For example, for the sample mean (i.e. $\hat{\mu}=\frac{1}{n} \sum X_i$) with $F=\mathcal{N}$, we have $\rho=x^2/2$ and $\psi=x$ and also $\psi'=1$. Thus, we have $v=\mathbb{V}(x)$. Alternatively, using the sample median as the estimator for the location, we have $v=\frac{1}{4 f(\mu_0)^2}$. Thus, if we have $F=\mathcal{N}(0,1)$, for the sample median, we obtain $v=\frac{2\pi}{4} \approx 1.571$. This means that the sample median takes approximately 1.6 times as many samples to obtain the same variance for the location as the sample mean.
+# For example, for the sample np.mean (i.e. $\hat{\mu}=\frac{1}{n} \sum X_i$) with $F=\mathcal{N}$, we have $\rho=x^2/2$ and $\psi=x$ and also $\psi'=1$. Thus, we have $v=\mathbb{V}(x)$. Alternatively, using the sample median as the estimator for the location, we have $v=\frac{1}{4 f(\mu_0)^2}$. Thus, if we have $F=\mathcal{N}(0,1)$, for the sample median, we obtain $v=\frac{2\pi}{4} \approx 1.571$. This np.means that the sample median takes approximately 1.6 times as many samples to obtain the same variance for the location as the sample np.mean.
 
-# One way to think about M-estimates is a weighted means. Most of the time, we have $\psi(0)=0$ and $\psi'(0)$ exists so that $\psi$ is approximately linear at the origin. Using the following definition:
+# One way to think about M-estimates is a weighted np.means. Most of the time, we have $\psi(0)=0$ and $\psi'(0)$ exists so that $\psi$ is approximately linear at the origin. Using the following definition:
 # 
 # 
 # $$ W(x)  =  \begin{cases}
@@ -190,20 +190,20 @@ interact(plot_mixed_dist,epsilon=(0,1,.05))
 #                 \text{sgn}(x)k & \text{if} \: |x| \gt k
 #                 \end{cases}
 # $$
-# where the limiting cases $k \rightarrow \infty$ and $k \rightarrow 0$ correspond to the mean and median, respectively. To see this, take $\psi_{\infty} = x$ and therefore $W(x) = 1$ and thus the defining equation results in
+# where the limiting cases $k \rightarrow \infty$ and $k \rightarrow 0$ correspond to the np.mean and median, respectively. To see this, take $\psi_{\infty} = x$ and therefore $W(x) = 1$ and thus the defining equation results in
 # 
 # $$ \sum_{i=1}^{n} (x_i-\hat{\mu}) = 0 $$
 # 
 # and then solving this leads to $\hat{\mu} = \frac{1}{n}\sum x_i$. Note that choosing $k=0$ leads to  the sample median, but that is not so straightforward to solve for.
 
-# In[6]:
+# [6]
 
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 colors=['b','r']
-for k in [1,2]:
-    ax.plot(xi,np.ma.masked_array(xi,abs(xi)>k),color=colors[k-1])
-    ax.plot(xi,np.ma.masked_array(np.sign(xi)*k,abs(xi)<k),color=colors[k-1],label='k=%d'%k)
+for k in [1,2]
+    ax.plot(xi,np.ma.masked_np.array(xi,abs(xi)>k),color=colors[k-1])
+    ax.plot(xi,np.ma.masked_np.array(np.sign(xi)*k,abs(xi)<k),color=colors[k-1],label='k=%d'%k)
 ax.axis(ymax=2.3,ymin=-2.3)
 ax.set_ylabel(r'$\psi(x)$',fontsize=28)
 ax.set_xlabel(r'$x$',fontsize=24)
@@ -218,10 +218,10 @@ ax.grid()
 # 
 # which is plotted in the following cell for a few values of $k$.
 
-# In[7]:
+# [7]
 
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 ax.plot(xi,np.vstack([np.ones(xi.shape),2/abs(xi)]).min(axis=0),label='k=2')
 ax.plot(xi,np.vstack([np.ones(xi.shape),1/abs(xi)]).min(axis=0),label='k=1')
 ax.axis(ymax=1.1)
@@ -244,13 +244,13 @@ ax.set_title("Huber's weight function")
 # 
 # Thus, the interpretation here is that $\hat{\mu}$ is the average of the truncated pseudo-observations $\zeta_i$ where the observations beyond a certain point are clipped at the $k$-offset of the $\hat{\mu}$. 
 
-# In[9]:
+# [9]
 
 
 kvals= [.001,0.3,0.5,.7,1.00001,1.4,1.7,2,3,4,5]
 
 
-# In[15]:
+# [15]
 
 
 import pythonica
@@ -258,7 +258,7 @@ mma=pythonica.Pythonica()
 mma.plot_dir='.'
 
 
-# In[16]:
+# [16]
 
 
 def closure_variance(mn=(0,1),std=(1,1)):
@@ -277,16 +277,16 @@ def closure_variance(mn=(0,1),std=(1,1)):
     return asymp_variance
 
 
-# In[17]:
+# [17]
 
 
 asympt_var_case1 = closure_variance((0,1),(1,2)) # case 1 with N(0,1) + N(1,2)
 
 
-# In[18]:
+# [18]
 
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 ax.plot(kvals,[asympt_var_case1(k,0) for k in kvals],'-o',label='eps=0')
 ax.plot(kvals,[asympt_var_case1(k,.05) for k in kvals],'-o',label='eps=.05')
 ax.plot(kvals,[asympt_var_case1(k,.1) for k in kvals],'-o',label='eps=0.1')
@@ -297,16 +297,16 @@ ax.set_title(r"$\mathcal{N}(0,1) , \mathcal{N}(1,2)$ mixed",fontsize=18)
 ax.grid()
 
 
-# In[20]:
+# [20]
 
 
 asympt_var_case2 = closure_variance((0,0),(1,10)) # case 1 with N(0,1) + N(0,10)
 
 
-# In[21]:
+# [21]
 
 
-fig2,ax=subplots()
+fig2,ax=plt.subplots()
 ax.plot(kvals,[asympt_var_case2(k,0) for k in kvals],'-o',label='eps=0')
 ax.plot(kvals,[asympt_var_case2(k,.05) for k in kvals],'-o',label='eps=.05')
 ax.plot(kvals,[asympt_var_case2(k,.1) for k in kvals],'-o',label='eps=0.1')
@@ -317,7 +317,7 @@ ax.set_title(r"$\mathcal{N}(0,1) , \mathcal{N}(0,10)$ mixed",fontsize=18)
 ax.grid()
 
 
-# In[22]:
+# [22]
 
 
 fig.get_axes()[0].axis(ymax=3.5)
@@ -326,18 +326,18 @@ fig
 
 # ## Computable Example
 
-# In[23]:
+# [23]
 
 
 nsamples = 200
-xs = np.array([dual_set[bias_coin_gen.next()].rvs() for i in range(200)*nsamples ]).reshape(nsamples,-1)
+xs = np.np.array([dual_set[bias_coin_gen.next()].rvs() for i in range(200)*nsamples ]).reshape(nsamples,-1)
 
 
-# In[24]:
+# [24]
 
 
-fig,ax=subplots()
-ax.hist(np.mean(xs,0),20,alpha=0.8,label = 'mean')
+fig,ax=plt.subplots()
+ax.hist(np.np.mean(xs,0),20,alpha=0.8,label = 'np.mean')
 ax.hist(np.median(xs,0),20,alpha=0.3,label ='median')
 ax.legend()
 
@@ -346,21 +346,21 @@ ax.legend()
 
 # * Maronna, R. A., R. D. Martin, and V. J. Yohai. "Robust Statistics: Theory and Methods". 2006.
 
-# In[25]:
+# [25]
 
 
-fig,ax=subplots()
-sns.violinplot(np.vstack([np.median(xs,axis=0),np.mean(xs,axis=0)]).T,ax=ax,names=['median','mean']);
+fig,ax=plt.subplots()
+sns.violinplot(np.vstack([np.median(xs,axis=0),np.np.mean(xs,axis=0)]).T,ax=ax,names=['median','np.mean']);
 
 
-# In[26]:
+# [26]
 
 
 mma.push('data',xs[:,0].tolist())
 mma.eval('psi[k_] := Function[x, Piecewise[{{x, Abs[x] < k}, {k*Sign[x], Abs[x] > k}}]]')
 
 
-# In[27]:
+# [27]
 
 
 def psi_est(k,x):
@@ -369,13 +369,13 @@ def psi_est(k,x):
         for i in range(x.shape[1]):
             data = x[:,i]
             out.append( psi_est(k,data) ) # recurse
-        return np.array(out)
+        return np.np.array(out)
     else:        
         mma.push('data',x.tolist())
         return float(mma.eval('\[Mu] /. FindRoot[Plus @@ (psi[%d] /@ (data - \[Mu])) == 0, {\[Mu], 0}]'%(k)))
 
 
-# In[28]:
+# [28]
 
 
 hist(psi_est(1,xs),alpha=.7,label='k=1')
@@ -384,23 +384,23 @@ hist(psi_est(3,xs),alpha=.7,label='k=3')
 legend(loc=0)
 
 
-# In[29]:
+# [29]
 
 
 huber_est={k:psi_est(k,xs) for k in [1,1.5,2,3]}
 huber_est[0] = np.median(xs,axis=0)
-huber_est[4] = np.mean(xs,axis=0)
+huber_est[4] = np.np.mean(xs,axis=0)
 
 
-# In[30]:
+# [30]
 
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 sns.violinplot(pd.DataFrame(huber_est),ax=ax)
-ax.set_xticklabels(['median','1','1.5','2','3','mean']);
+ax.set_xticklabels(['median','1','1.5','2','3','np.mean']);
 
 
-# In[31]:
+# [31]
 
 
 from sympy import mpmath, symbols, diff, Piecewise, sign, lambdify
@@ -408,7 +408,7 @@ from sympy.stats import density, cdf, Normal
 from sympy.abc import k,x
 
 
-# In[32]:
+# [32]
 
 
 eps = symbols('epsilon')
@@ -416,7 +416,7 @@ lpdf=diff(cdf(Normal('x',0,1))(x)*(1-eps)+ eps*cdf(Normal('x',0,10))(x),x)
 p = Piecewise((x,abs(x)<k),(k*sign(x),True))
 
 
-# In[33]:
+# [33]
 
 
 def asymptotic_variance(kval,epsval):
@@ -425,19 +425,19 @@ def asymptotic_variance(kval,epsval):
     return float(numer/denom)
 
 
-# In[34]:
+# [34]
 
 
 asymptotic_variance(1,.05)
 
 
-# In[35]:
+# [35]
 
 
 asympt_var_case2(1.0001,.05)
 
 
-# In[72]:
+# [72]
 
 
 def closure_on_asymptotic_variance(mn=(0,0),std=(1,10)):
@@ -452,23 +452,23 @@ def closure_on_asymptotic_variance(mn=(0,0),std=(1,10)):
     return asymptotic_variance
 
 
-# In[73]:
+# [73]
 
 
 case2=closure_on_asymptotic_variance()
 
 
-# In[74]:
+# [74]
 
 
 print case2(1.0001,.05)
 print asympt_var_case2(1.0001,.05)
 
 
-# In[76]:
+# [76]
 
 
-fig2,ax=subplots()
+fig2,ax=plt.subplots()
 ax.plot(kvals,[case2(k,0) for k in kvals],'-o',label='eps=0')
 ax.plot(kvals,[case2(k,.05) for k in kvals],'-o',label='eps=.05')
 ax.plot(kvals,[case2(k,.1) for k in kvals],'-o',label='eps=0.1')
@@ -482,7 +482,7 @@ ax.set_title(r"$\mathcal{N}(0,1) , \mathcal{N}(0,10)$ mixed",fontsize=18)
 ax.grid()
 
 
-# In[ ]:
+# [ ]
 
 
 

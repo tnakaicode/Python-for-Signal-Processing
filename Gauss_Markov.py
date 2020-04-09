@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Introduction
+# troduction
 # -------------------
 # 
-# In this section, we  consider the famous Gauss-Markov problem which will give us an opportunity to use all the material we have so far developed. The Gauss-Markov is the fundamental model for noisy parameter estimation because it estimates unobservable parameters given a noisy indirect measurement.  Incarnations of the same model appear in all studies of Gaussian models. This case is an excellent opportunity to use everything we have so far learned about projection and conditional expectation.
+#  this section, we  consider the famous Gauss-Markov problem which will give us an opportunity to use all the material we have so far developed. The Gauss-Markov is the fundamental model for noisy parameter estimation because it estimates unobservable parameters given a noisy indirect measurement.  Incarnations of the same model appear in all studies of Gaussian models. This case is an excellent opportunity to use everything we have so far learned about projection and conditional expectation.
 
 # Following Luenberger (1997), let's  consider the following problem:
 # 
 # $$ \mathbf{y} = \mathbf{W} \boldsymbol{\beta} + \boldsymbol{\epsilon} $$
 # 
-# where $\mathbf{W}$ is a $ n \times m $ matrix, and $\mathbf{y}$ is a $n \times 1$ vector. Also, $\boldsymbol{\epsilon}$ is a $n$-dimensional random vector with zero-mean and covariance
+# where $\mathbf{W}$ is a $ n \times m $ matrix, and $\mathbf{y}$ is a $n \times 1$ vector. Also, $\boldsymbol{\epsilon}$ is a $n$-dimensional random vector with zero-np.mean and covariance
 # 
 # $$ \mathbb{E}( \boldsymbol{\epsilon} \boldsymbol{\epsilon}^T) = \mathbf{Q}$$
 # 
@@ -75,14 +75,14 @@
 
 # The following  simulation  illustrates these results.
 
-# In[18]:
+# [18]
 
 
 from mpl_toolkits.mplot3d import proj3d
 from numpy.linalg import inv
 import matplotlib.pyplot as plt
-import numpy as np
-from numpy import matrix, linalg, ones, array
+import numpy as np as np
+from numpy import matrix, linalg, ones, np.array
 
 Q = np.eye(3)*.1 # error covariance matrix
 #Q[0,0]=1
@@ -103,9 +103,9 @@ fig = plt.figure()
 fig.set_size_inches([6,6])
 
 # some convenience definitions for plotting
-bb = array(b)
-bm = bb.mean(1)
-yy = array(y)
+bb = np.array(b)
+bm = bb.np.mean(1)
+yy = np.array(y)
 ax = fig.add_subplot(111, projection='3d')
 
 ax.plot3D(yy[0,:],yy[1,:],yy[2,:],'mo',label='y',alpha=0.3)
@@ -120,12 +120,12 @@ plt.show()
 # 
 # The figure below shows more detail in the horizontal *xy*-plane above.
 
-# In[19]:
+# [19]
 
 
 from  matplotlib.patches import Ellipse
 
-fig, ax = plt.subplots()
+fig, ax = plt.plt.subplots()
 fig.set_size_inches((6,6))
 ax.set_aspect(1)
 ax.plot(bb[0,:],bb[1,:],'g.')
@@ -137,10 +137,10 @@ ax.grid()
 bm_cov = inv(W.T*Q*W)
 U,S,V = linalg.svd(bm_cov) 
 
-err = np.sqrt((matrix(bm))*(bm_cov)*(matrix(bm).T))
+err = np.np.sqrt((matrix(bm))*(bm_cov)*(matrix(bm).T))
 theta = np.arccos(U[0,1])/np.pi*180
 
-ax.add_patch(Ellipse(bm,err*2/np.sqrt(S[0]),err*2/np.sqrt(S[1])
+ax.add_patch(Ellipse(bm,err*2/np.np.sqrt(S[0]),err*2/np.np.sqrt(S[1])
                        ,angle=theta,color='pink',alpha=0.5))
 
 plt.show()

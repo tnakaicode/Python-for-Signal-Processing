@@ -1,13 +1,13 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# [1]
 
 
 #%qtconsole
 
 
-# In[2]:
+# [2]
 
 
 from IPython.core.display import HTML
@@ -17,7 +17,7 @@ def css_styling():
 css_styling()
 
 
-# In[3]:
+# [3]
 
 
 import json
@@ -36,7 +36,7 @@ matplotlib.rcParams.update(s)
 
 # The following code-block sets up the random needle position and orientation and creates the corresponding matplotlib primitives to be drawn in the figure. As shown, the simulation chooses a random center point for the needle in the unit square and then chooses a random angle $\theta \in (0,\pi)$ as the needle's orientation. Because the needle pivots at its center, we only need $\theta$ in this range.
 
-# In[4]:
+# [4]
 
 
 from __future__ import  division
@@ -82,7 +82,7 @@ def draw_needle(ax,d):
 
 # Now, we can simulate the dropping event on the square (yellow background ). The red needles cut the edge of the square and the blue ones are completely contained therein. The circle marker shows the needle position.
 
-# In[5]:
+# [5]
 
 
 L=0.5
@@ -91,7 +91,7 @@ samples = [needle_gen() for i in range(500)]
 
 def draw_sim(samples,L=0.5):
     'Draw simulation results. Package this plot for reuse later'
-    fig,ax=subplots()
+    fig,ax=plt.subplots()
     fig.set_size_inches(5,5)
     
     red_count=0
@@ -113,69 +113,69 @@ draw_sim(samples)
 
 # The figure above is a good visual check of our simulation and helps motivate our reasoning. Now, we want to concentrate on counting the number of cuts and then use that to estimate the probability of a cut.
 
-# In[6]:
+# [6]
 
 
-fig,axs = subplots(1,2)
+fig,axs = plt.subplots(1,2)
 fig.set_size_inches((12,2))
 ax=axs[0]
-samples=np.array([[needle_gen(L)['cut'] for i in range(300)] for k in range(100)])
+samples=np.np.array([[needle_gen(L)['cut'] for i in range(300)] for k in range(100)])
 
-ax.plot(np.mean(samples,axis=1),'o-',alpha=0.3)
+ax.plot(np.np.mean(samples,axis=1),'o-',alpha=0.3)
 ax.axis(xmax=samples.shape[0])
 ax.set_xlabel(r'$trial$',fontsize=18)
 ax.set_ylabel('$\mathbb{\hat{P}}(cut)$',fontsize=18)
 ax.set_title('$\overline{\mathbb{\hat{P}}}(cut) = %3.3f,\hat{\sigma}=%3.3f$'%
-             (samples.mean(),(samples.mean(1)).std()))
+             (samples.np.mean(),(samples.np.mean(1)).std()))
 ax.grid()
 
 ax = axs[1]
-ax.hist( samples.mean(1));
-ax.set_title('Distribution of Mean Estimates');
+ax.hist( samples.np.mean(1));
+ax.set_title('Distribution of np.mean Estimates');
 
 
-# The figure above shows some statistical history of our Monte Carlo simulation. The `samples` array in the prior code-block is a 100x300 matrix of True/False values indicating cut or no-cut. The overall average of this array is our estimate of the probability of a cut. In other words, we count the number of cuts and divide by the total number of needle drops to obtain the estimated probability (approximately 55% in this case of $L=1/2$). The plot on the left shows the average across each of the 300 columns. Thus, there are 100 such column-wise averages (recall the `samples` matrix is 100x300). The title shows the estimated standard deviation across these 100 columnwise averages. 
+# The figure above shows some statistical history of our Monte Carlo simulation. The `samples` np.array in the prior code-block is a 100x300 matrix of True/False values indicating cut or no-cut. The overall average of this np.array is our estimate of the probability of a cut. In other words, we count the number of cuts and divide by the total number of needle drops to obtain the estimated probability (approximately 55% in this case of $L=1/2$). The plot on the left shows the average across each of the 300 columns. Thus, there are 100 such column-wise averages (recall the `samples` matrix is 100x300). The title shows the estimated standard deviation across these 100 columnwise averages. 
 # 
 # The plot on the right shows a histogram of the column-wise averages. Why did we partition the simulated samples like this and compute column-wise instead of just using all the data at once? Because we want to get a sense of the spread of the estimates by computing the standard error. If we used all our samples at once, we would not be able to do this even though we'll still use our average of these averages to get our ultimate probability of a cut!
 # 
-# Naturally, if we wanted to improve the standard deviation of our ensemble of columnwise means, we could simply run a larger simulation, but remember that the standard error only improves at the rate of $\sqrt{N}$ (where $N$ is the number of samples) so we'd need a sample run *four* times as large to improve the standard error by a factor of *two*. Furthermore, we need to understand the mechanics of this problem better per unit of computing time.
+# Naturally, if we wanted to improve the standard deviation of our ensemble of columnwise np.means, we could simply run a larger simulation, but remember that the standard error only improves at the rate of $\np.sqrt{N}$ (where $N$ is the number of samples) so we'd need a sample run *four* times as large to improve the standard error by a factor of *two*. Furthermore, we need to understand the mechanics of this problem better per unit of computing time.
 
 # ## Relative Errors and Using Weighting for Better Efficiency
 
 # There's nothing wrong with the way we have been using the simulation so far, but in the first figure all of those blue needles did not help us compute the probability we were after because they did not touch the edges of the square. Yes, we could reverse the reasoning and use the blue instead of the red for our estimation, but that does not escape the basic problem. For example, if the length of the needle were really short in comparison, then there would have been a lot of blue in our initial plot (try this using this IPython notebook!). In the extreme case, we could find ourselves in a situation where we run the simulation for a long time and not have a single cut! We want to use our valuable computer time to create samples that will improve our estimated solution.
 # 
-# To recap, we computed a matrix of (100x300) cases of needle drops. Each of element of `samples` in the code above is a `True/False` value as to whether or not the needle touched the edge of the square. We averaged over the 300 columns to compute the estimated probability of a cut (the mean value of the boolean array in this case).  The estimated standard deviation is taken over the ensemble of these estimated means. 
+# To recap, we computed a matrix of (100x300) cases of needle drops. Each of element of `samples` in the code above is a `True/False` value as to whether or not the needle touched the edge of the square. We averaged over the 300 columns to compute the estimated probability of a cut (the np.mean value of the boolean np.array in this case).  The estimated standard deviation is taken over the ensemble of these estimated np.means. 
 # 
-# A common way to evaluate the quality of the simulated result is to compute the *relative error*, which is the ratio of the estimated standard deviation of the mean to the estimated mean using *all* of the samples ($R_e$). This is computed in the title of the figure below.
+# A common way to evaluate the quality of the simulated result is to compute the *relative error*, which is the ratio of the estimated standard deviation of the np.mean to the estimated np.mean using *all* of the samples ($R_e$). This is computed in the title of the figure below.
 
-# In[7]:
+# [7]
 
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 fig.set_size_inches(12,2)
-ax.plot(samples.mean(1))
-ax.set_title(r'$\hat{\sigma}=%2.3f,R_e=%2.3f$'% (samples.mean(1).std(),samples.mean(1).std()/samples.mean()), fontsize=18)
+ax.plot(samples.np.mean(1))
+ax.set_title(r'$\hat{\sigma}=%2.3f,R_e=%2.3f$'% (samples.np.mean(1).std(),samples.np.mean(1).std()/samples.np.mean()), fontsize=18)
 ax.set_xlabel('sample history index',fontsize=16)
 ax.set_ylabel('$\mathbb{\hat{P}}(cut)$',fontsize=18);
 
 
 # So far, our relative error is pretty good (the rule of thumb is below 5%), but let's see how we do when the needle length is smaller? The code-block below draws the corresponding figure for the simulation for this case.
 
-# In[8]:
+# [8]
 
 
 L=0.1
 
 samples_d=[needle_gen(L) for i in range(300*100)]
-samples = np.array([k['cut'] for k in samples_d]).reshape(100,300)
+samples = np.np.array([k['cut'] for k in samples_d]).reshape(100,300)
 
 def draw_sample_history(samples):
-    fig,ax=subplots()
+    fig,ax=plt.subplots()
     fig.set_size_inches(12,2)
-    mn = samples.mean(1)
+    mn = samples.np.mean(1)
     ax.plot(mn)
     ax.set_title(r'$\hat{\sigma}=%2.3f,R_e=%2.3f$'% (mn.std(),
-                                                     mn.std()/mn.mean()), fontsize=18)
+                                                     mn.std()/mn.np.mean()), fontsize=18)
     ax.set_xlabel('sample history index',fontsize=16)
     ax.set_ylabel('$\mathbb{\hat{P}}(cut)$',fontsize=18);
 
@@ -184,7 +184,7 @@ draw_sample_history(samples)
 
 # The figure above shows that for shorter needles, we did *not* do so well for relative error. This situation is illustrated in the figure below.
 
-# In[9]:
+# [9]
 
 
 draw_sim(samples_d[:500])   
@@ -192,7 +192,7 @@ draw_sim(samples_d[:500])
 
 # The figure shows there are very few cuts in our simulation with the short needle (red needles). To remedy this, we can alter the code to bias for randomly generating x-coordinates that are within needle length of an edge instead of uniformly random in the unit interval.  The code-block below makes this change for the x-coordinate.
 
-# In[10]:
+# [10]
 
 
 def needle_gen_b(L=0.5):
@@ -215,7 +215,7 @@ def needle_gen_b(L=0.5):
 
 # Now, we re-run this simulation using this biased method.
 
-# In[11]:
+# [11]
 
 
 samples_b=[needle_gen_b(L) for i in range(300*100) ] # create biased samples
@@ -226,24 +226,24 @@ draw_sim(samples_b[:500])
 # 
 # The next figure shows the sample history and relative error which is now **much** better than before.
 
-# In[12]:
+# [12]
 
 
 no_bias_samples = samples # save for later
-samples = np.array([k['cut'] for k in samples_b]).reshape(100,300)
+samples = np.np.array([k['cut'] for k in samples_b]).reshape(100,300)
 
 draw_sample_history(samples);
 
 
 # Now, that we have a tighter result, we need to make sure we have not changed the result by correcting for the bias we introduced. The probability of being near the edges in the x-direction is $2 L$. We have to multiply our estimated probability by this *weighting* factor.
 
-# In[13]:
+# [13]
 
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 fig.set_size_inches(10,3)
-ax.hist(no_bias_samples.mean(1),alpha=0.3,normed=1,label='unbiased')
-ax.hist(samples.mean(1)*2*L,alpha=0.3,normed=1,label='biased')
+ax.hist(no_bias_samples.np.mean(1),alpha=0.3,normed=1,label='unbiased')
+ax.hist(samples.np.mean(1)*2*L,alpha=0.3,normed=1,label='biased')
 ax.legend(loc=0)
 ax.set_title('Biased samples more efficiently produce useful samples')
 
@@ -252,7 +252,7 @@ ax.set_title('Biased samples more efficiently produce useful samples')
 
 # ## Summary
 
-# In this section, we illustrated some basic concepts of Monte Carlo methods by examing the famous problem of Buffon's needle. We showed how to code up a quick simulation that visually reveals the key issues and then how to boil this down into a simulation to compute the estimated solution. We also showed how to create biased samples to improve the overall efficiency and precision of our result.
+#  this section, we illustrated some basic concepts of Monte Carlo methods by examing the famous problem of Buffon's needle. We showed how to code up a quick simulation that visually reveals the key issues and then how to boil this down into a simulation to compute the estimated solution. We also showed how to create biased samples to improve the overall efficiency and precision of our result.
 # 
 # I carefully used the word [*precision*](https://en.wikipedia.org/wiki/Accuracy_and_precision) as opposed to *accuracy* because we have created a tighter estimate (as measured by relative error), but how do we know that this is the *correct* (i.e. accurate) answer? We don't! In this case, we can solve for the analytical solution (shown in the appendix), but in general, this is *way* too hard to do, otherwise we wouldn't bother with the simulation in the first place.
 # 
@@ -262,7 +262,7 @@ ax.set_title('Biased samples more efficiently produce useful samples')
 
 # ## Appendix: Analytical Results
 
-# In this appendix, we carefully derive the analytical solution for our problem using excessive detail. Note that $x_c$ is the needle's center. The needle is entirely contained in the square (at least in the x-direction) when the following two conditions hold:
+#  this appendix, we carefully derive the analytical solution for our problem using excessive detail. Note that $x_c$ is the needle's center. The needle is entirely contained in the square (at least in the x-direction) when the following two conditions hold:
 # 
 # $$ 0 < x_c - L/2 \cos(\theta) < 1 $$
 # 
@@ -272,7 +272,7 @@ ax.set_title('Biased samples more efficiently produce useful samples')
 # 
 # $$ \max(-L/2 \cos(\theta) , L/2 \cos(\theta) ) <  x_c < \min(1-L/2 \cos(\theta) , 1+L/2 \cos(\theta) )$$
 # 
-# In the case where $0< \theta < \pi/2 $, we additionally have the following:
+#  the case where $0< \theta < \pi/2 $, we additionally have the following:
 # 
 # $$  L/2 \cos(\theta)  <  x_c < 1-L/2 \cos(\theta) $$
 # 
@@ -319,7 +319,7 @@ ax.set_title('Biased samples more efficiently produce useful samples')
 # 
 # which we code next.
 
-# In[14]:
+# [14]
 
 
 prob_cut= lambda l:(1-(1-2*l/pi)**2)

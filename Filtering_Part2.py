@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Introduction
+# troduction
 # --------------
 # 
-# In this section, we start designing FIR filters using the windowing design method. This is the most straightforward design method and it will illustrate the concepts we  developed in the previous section.
+#  this section, we start designing FIR filters using the windowing design method. This is the most straightforward design method and it will illustrate the concepts we  developed in the previous section.
 # 
 
 # ### Windowing Method
@@ -24,7 +24,7 @@
 # This is obviously non-causal and infinitely long. We can shift the sequence by an arbitrary amount and then truncate to fix both problems, respectively.
 # 
 
-# In[1]:
+# [1]
 
 
 # omega_c = pi/4
@@ -41,9 +41,9 @@ h = wc/pi * sinc(wc*(n)/pi)  # see definition of np.sinc()
 w,Hh = signal.freqz(h,1,whole=True, worN=N) # get entire frequency domain
 wx = fft.fftfreq(len(w)) # shift to center for plotting
 
-fig,axs = subplots(3,1)
+fig,axs = plt.subplots(3,1)
 fig.set_size_inches((8,8))
-subplots_adjust(hspace=0.3)
+plt.subplots_adjust(hspace=0.3)
 
 ax=axs[0]
 ax.stem(n+M,h,basefmt='b-')
@@ -103,18 +103,18 @@ ax.set_ylabel(r"$20\log_{10}|H(\omega)| $",fontsize=18)
 # $$ Y_{re}(\omega) = \frac{1}{\pi}\sum_{n=0}^{N_s-1}\frac{\sin(n\omega+n\omega_c)-\sin(n\omega-n\omega_c)}{2 n} $$ 
 # 
 # 
-# In this case, $ \sin(n\omega-n\omega_c) \lt 0 $ so it contributes positively (i.e. constructive interference) to the summation. When $\omega \gt \omega_c  $, the sign  reverses and destructive interference reduces the real part. This is the mechanism that characterizes the transition from the passband to the stopband.
+#  this case, $ \sin(n\omega-n\omega_c) \lt 0 $ so it contributes positively (i.e. constructive interference) to the summation. When $\omega \gt \omega_c  $, the sign  reverses and destructive interference reduces the real part. This is the mechanism that characterizes the transition from the passband to the stopband.
 # 
 # The following figure illustrates this effect.
 
-# In[2]:
+# [2]
 
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 fig.set_size_inches(6,3)
 
 k=arange(M)
-omega = linspace(0,pi,100)
+omega = np.linspace(0,pi,100)
 
 ax.plot(omega,(sin(k*omega[:,None]+k*wc)-sin(k*omega[:,None]-k*wc)).sum(axis=1))
 ax.set_ylabel(r"$Y_{re}(\omega)$",fontsize=18)
@@ -138,7 +138,7 @@ ax.annotate("Gibbs phenomenon",xy=(pi/4,10),fontsize=14,
 # 
 # The root of the Gibbs phenomenon is the sudden truncation of the filter sequence by the rectangular window. We can mitigate this effect by  smoothly  guiding the filter coefficients to zero using a window function.  The following figure is the same as before but now we use a Hamming window to terminate the ideal filter sequence.
 
-# In[3]:
+# [3]
 
 
 wc = pi/4
@@ -153,9 +153,9 @@ h = wc/pi * sinc(wc*(n)/pi)*win  # see definition of np.sinc()
 w,Hh = signal.freqz(h,1,whole=True, worN=N) # get entire frequency domain
 wx = fft.fftfreq(len(w)) # shift to center for plotting
 
-fig,axs = subplots(3,1)
+fig,axs = plt.subplots(3,1)
 fig.set_size_inches((8,8))
-subplots_adjust(hspace=0.3)
+plt.subplots_adjust(hspace=0.3)
 
 ax=axs[0]
 ax.stem(n+M,h,basefmt='b-')
@@ -194,21 +194,21 @@ ax.set_ylabel(r"$20\log_{10}|H(\omega)| $",fontsize=18)
 # 
 # Consider the following low pass filter specification.
 
-# In[4]:
+# [4]
 
 
 Ns =300 # number of samples 
 N = 1024 # DFT size
 
 fs = 1e3 # sample rate in Hz
-fpass = 100 # in Hz
-fstop = 150 # in Hz
-delta = 60 # in dB, desired attenuation in stopband
+fpass = 100 #  Hz
+fstop = 150 #  Hz
+delta = 60 #  dB, desired attenuation in stopband
 
 
 # Now, we need to determine the number of tabs and the  Kaiser-Bessel $ \beta $ parameter using the `fir_filter_design.kaiserord()` function as shown below.  For the FIR window design method, the $ \delta $ parameter is simultaneously the maximum allowable passband ripple and the desired attenuation in the stopband.
 
-# In[5]:
+# [5]
 
 
 from matplotlib.patches import Rectangle
@@ -218,7 +218,7 @@ M,beta= signal.fir_filter_design.kaiserord(delta, (fstop-fpass)/(fs/2.))
 hn = signal.firwin(M,(fstop+fpass)/2.,window=('kaiser',beta),nyq=fs/2.)
 w,H = signal.freqz(hn) # frequency response
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 fig.set_size_inches((8,3))
 
 ax.plot(w/pi*fs/2.,20*log10(abs(H)))
@@ -239,9 +239,9 @@ ax.grid()
 
 # ### Example
 # 
-# In the following, let's consider the performance of the filter with two equal-amplitude single-frequency tones, one in the passband and one in the stopband.
+#  the following, let's consider the performance of the filter with two equal-amplitude single-frequency tones, one in the passband and one in the stopband.
 
-# In[6]:
+# [6]
 
 
 # two-tone example using filter
@@ -253,7 +253,7 @@ X = fft.fft(x,N)
 y=signal.lfilter(hn,1,x)
 Y = fft.fft(y,N)
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 fig.set_size_inches((10,4))
 ax.plot(arange(N)/N*fs,20*log10(abs(X)),'r-',label='filter input')
 ax.plot(arange(N)/N*fs,20*log10(abs(Y)),'g-',label='filter output')
@@ -275,9 +275,9 @@ ax.legend(loc=0);
 
 # ## Summary
 
-# The window design method is the easiest FIR design method to understand and it draws upon intuitions regarding window function that we have previously developed. The Kaiser-Bessel method is widely used because it provides design flexibility and easy-to-understand filter  specifications. Furthermore, there are many closed form approximations to the various derived terms (e.g. $ \beta $, $ M $) which means that time-consuming iterative algorithms are not necessary and that engineering trade-offs appear explicitly in a formula.
+# The window design method is the easiest FIR design method to understand and it draws upon intuitions regarding window function that we have previously developed. The Kaiser-Bessel method is widely used because it provides design flexibility and easy-to-understand filter  specifications. Furthermore, there are many closed form approximations to the various derived terms (e.g. $ \beta $, $ M $) which np.means that time-consuming iterative algorithms are not necessary and that engineering trade-offs appear explicitly in a formula.
 # 
-# In the next section we consider Parks-McClellan  FIR design that solves for the desired filter sequence using a powerful iterative exchange algorithm that generally  results in filters with fewer taps for the same level of performance.
+#  the next section we consider Parks-McClellan  FIR design that solves for the desired filter sequence using a powerful iterative exchange algorithm that generally  results in filters with fewer taps for the same level of performance.
 
 # 
 # As usual, the corresponding IPython notebook for this post  is available for download [here](https://github.com/unpingco/Python-for-Signal-Processing/blob/master/Filtering_Part2.ipynb). 

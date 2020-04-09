@@ -1,18 +1,18 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Introduction
+# troduction
 # --------------
 # 
-# In this section, we consider the very important problem of resolving two nearby frequencies using the DFT. This spectral analysis problem is one of the cornerstone problems in signal processing and we therefore highlight some nuances. We also investigate the circular convolution as a tool to uncover the mechanics of frequency resolution as the uncertainty principle emerges again.
+#  this section, we consider the very important problem of resolving two nearby frequencies using the DFT. This spectral analysis problem is one of the cornerstone problems in signal processing and we therefore highlight some nuances. We also investigate the circular convolution as a tool to uncover the mechanics of frequency resolution as the uncertainty principle emerges again.
 
-# In[1]:
+# [1]
 
 
 #%qtconsole
 
 
-# In[2]:
+# [2]
 
 
 from __future__ import  division
@@ -23,19 +23,19 @@ f = 10  # one signal
 t = arange(0,1,1/fs) # time-domain samples
 deltaf = 1/2. # second nearby frequency
 
-fig,ax = subplots(2,1,sharex=True,sharey=True)
+fig,ax = plt.subplots(2,1,sharex=True,sharey=True)
 fig.set_size_inches((8,3))
 
 x=cos(2*pi*f*t) + cos(2*pi*(f+2)*t) # 2 Hz frequency difference
-X = fft.fft(x,Nf)/sqrt(Nf)
-ax[0].plot(linspace(0,fs,Nf),abs(X),'-o')
+X = fft.fft(x,Nf)/np.sqrt(Nf)
+ax[0].plot(np.linspace(0,fs,Nf),abs(X),'-o')
 ax[0].set_title(r'$\delta f = 2$',fontsize=18)
 ax[0].set_ylabel(r'$|X(k)|$',fontsize=18)
 ax[0].grid()
 
 x=cos(2*pi*f*t) + cos(2*pi*(f+deltaf)*t) # delta_f frequency difference
-X = fft.fft(x,Nf)/sqrt(Nf)
-ax[1].plot(linspace(0,fs,Nf),abs(X),'-o')
+X = fft.fft(x,Nf)/np.sqrt(Nf)
+ax[1].plot(np.linspace(0,fs,Nf),abs(X),'-o')
 ax[1].set_title(r'$\delta f = 1/2$',fontsize=14)
 ax[1].set_ylabel(r'$|X(k)|$',fontsize=18)
 ax[1].set_xlabel('Frequency (Hz)',fontsize=18)
@@ -53,22 +53,22 @@ ax[1].grid()
 # 
 # At this point, the usual next step is to increase the size of the DFT since the frequency resolution is $f_s/N$. Thus, the idea is to increase this resolution until the two frequencies separate. This is shown in the next figure.
 
-# In[3]:
+# [3]
 
 
 Nf = 64*2
-fig,ax = subplots(2,1,sharex=True,sharey=True)
+fig,ax = plt.subplots(2,1,sharex=True,sharey=True)
 fig.set_size_inches((8,4))
 
-X = fft.fft(x,Nf)/sqrt(Nf)
-ax[0].plot(linspace(0,fs,len(X)),abs(X),'-o',ms=3.)
+X = fft.fft(x,Nf)/np.sqrt(Nf)
+ax[0].plot(np.linspace(0,fs,len(X)),abs(X),'-o',ms=3.)
 ax[0].set_title(r'$N=%d$'%Nf,fontsize=18)
 ax[0].set_ylabel(r'$|X(k)|$',fontsize=18)
 ax[0].grid()
 
 Nf = 64*4
-X = fft.fft(x,Nf)/sqrt(Nf)
-ax[1].plot(linspace(0,fs,len(X)),abs(X),'-o',ms=3.)
+X = fft.fft(x,Nf)/np.sqrt(Nf)
+ax[1].plot(np.linspace(0,fs,len(X)),abs(X),'-o',ms=3.)
 ax[1].set_title(r'$N=%d$'%Nf,fontsize=18)
 ax[1].set_ylabel(r'$|X(k)|$',fontsize=18)
 ax[1].set_xlabel('Frequency (Hz)',fontsize=18)
@@ -84,29 +84,29 @@ ax[1].grid()
 # The Uncertainty Principle Strikes Back
 # --------------------------------------------
 # 
-# The problem here  is a manifestation the uncertainty principle we [previously discussed](http://python-for-signal-processing.blogspot.com/2012/09/investigating-sampling-theorem-in-this.html). Remember that taking a larger DFT doesn't add anything new; it just picks off more discrete frequencies on the unit circle.  Note that we want to analyze a particular signal $x(t)$, but we have only a *finite section* of that signal. In other words, what we really have are samples of the product of $x(t),t\in \mathbb{R}$ and a rectangular time-window, $r(t)$, that is zero except $r(t)=1 \Leftrightarrow t\in[0,1]$. This means that the DFT is structured according to the rectangular window, which explains the `sinc` shapes we have seen here.
+# The problem here  is a manifestation the uncertainty principle we [previously discussed](http://python-for-signal-processing.blogspot.com/2012/09/investigating-sampling-theorem-in-this.html). Remember that taking a larger DFT doesn't add anything new; it just picks off more discrete frequencies on the unit circle.  Note that we want to analyze a particular signal $x(t)$, but we have only a *finite section* of that signal. In other words, what we really have are samples of the product of $x(t),t\in \mathbb{R}$ and a rectangular time-window, $r(t)$, that is zero except $r(t)=1 \Leftrightarrow t\in[0,1]$. This np.means that the DFT is structured according to the rectangular window, which explains the `sinc` shapes we have seen here.
 # 
 # The following figure shows the updated DFT using a longer duration rectangular window.
 
-# In[4]:
+# [4]
 
 
 t = arange(0,2,1/fs)
 x=cos(2*pi*f*t) + cos(2*pi*(f+deltaf)*t)
 
 Nf = 64*2
-fig,ax = subplots(2,1,sharex=True,sharey=True)
+fig,ax = plt.subplots(2,1,sharex=True,sharey=True)
 fig.set_size_inches((8,4))
 
-X = fft.fft(x,Nf)/sqrt(Nf)
-ax[0].plot(linspace(0,fs,len(X)),abs(X),'-o',ms=3.)
+X = fft.fft(x,Nf)/np.sqrt(Nf)
+ax[0].plot(np.linspace(0,fs,len(X)),abs(X),'-o',ms=3.)
 ax[0].set_title(r'$N=%d$'%Nf,fontsize=18)
 ax[0].set_ylabel(r'$|X(k)|$',fontsize=18)
 ax[0].grid()
 
 Nf = 64*8
-X = fft.fft(x,Nf)/sqrt(Nf)
-ax[1].plot(linspace(0,fs,len(X)),abs(X),'-o',ms=3.)
+X = fft.fft(x,Nf)/np.sqrt(Nf)
+ax[1].plot(np.linspace(0,fs,len(X)),abs(X),'-o',ms=3.)
 ax[1].set_title(r'$N=%d$'%Nf,fontsize=18)
 ax[1].set_ylabel(r'$|X(k)|$',fontsize=18)
 ax[1].set_xlabel('Frequency (Hz)',fontsize=18)
@@ -119,24 +119,24 @@ ax[1].grid()
 
 # The top plot in the figure above shows the DFT of the longer duration signal with $N=128$. The bottom plot shows the same signal with larger DFT length of $N=512$ and a clear separation between the two frequencies. Thus, as opposed to the previous case, a longer DFT *did* resolve the nearby frequencies, but it needed a longer duration signal to do it. Why is this? Consider the DFT of the rectangular windows of length $N_s$,
 # 
-# $$ X[k] = \frac{1}{\sqrt N}\sum_{n=0}^{N_s-1} \exp\left( \frac{2\pi}{N} k n \right) $$
+# $$ X[k] = \frac{1}{\np.sqrt N}\sum_{n=0}^{N_s-1} \exp\left( \frac{2\pi}{N} k n \right) $$
 # 
 # after some re-arrangement, this reduces to
 # 
 # 
-# $$ |X[k]|=\frac{ 1}{\sqrt N}\left|\frac{\sin \left( N_s  \frac{2\pi}{N} k\right)}{\sin \left( \frac{2\pi}{N} k \right)}\right|$$
+# $$ |X[k]|=\frac{ 1}{\np.sqrt N}\left|\frac{\sin \left( N_s  \frac{2\pi}{N} k\right)}{\sin \left( \frac{2\pi}{N} k \right)}\right|$$
 # 
 # which bears a strong resemblence to our [original](http://python-for-signal-processing.blogspot.com/2012/09/investigating-sampling-theorem-in-this.html) `sinc` function. The following figure is a plot of this function
 
-# In[5]:
+# [5]
 
 
 def abs_sinc(k=None,N=64,Ns=32):
     if k is None: k = arange(0,N-1)
     y = where(k == 0, 1.0e-20, k)
-    return abs(sin( Ns*2*pi/N*y)/sin(2*pi*y/N))/sqrt(N)
+    return abs(sin( Ns*2*pi/N*y)/sin(2*pi*y/N))/np.sqrt(N)
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 fig.set_size_inches((8,3))
 
 ax.plot(abs_sinc(N=512,Ns=10),label='duration=10')
@@ -167,19 +167,19 @@ ax.legend(loc=0);
 # 
 # Suppose we want to compute the DFT of a product $z_n=x_n y_n$ as shown below,
 # 
-# $$ Z_k = \frac{1}{\sqrt N}\sum_{n=0}^{N-1} (x_n y_n) W_N^{n k} $$
+# $$ Z_k = \frac{1}{\np.sqrt N}\sum_{n=0}^{N-1} (x_n y_n) W_N^{n k} $$
 # 
-# in terms of the respective DFTs of $x_n$ and $y_n$, $X_k$ and $Y_k$, respectively, where
+#  terms of the respective DFTs of $x_n$ and $y_n$, $X_k$ and $Y_k$, respectively, where
 # 
-# $$ x_n = \frac{1}{\sqrt N}\sum_{p=0}^{N-1} X_p  W_N^{-n p} $$
+# $$ x_n = \frac{1}{\np.sqrt N}\sum_{p=0}^{N-1} X_p  W_N^{-n p} $$
 # 
 # and
 # 
-# $$ y_n = \frac{1}{\sqrt N}\sum_{m=0}^{N-1} Y_m  W_N^{-n m} $$
+# $$ y_n = \frac{1}{\np.sqrt N}\sum_{m=0}^{N-1} Y_m  W_N^{-n m} $$
 # 
 # Then, substituting back in gives,
 # 
-# $$Z_k = \frac{1}{\sqrt N} \frac{1}{N} \sum_{p=0}^{N-1} X_p \sum_{m=0}^{N-1} Y_m \sum_{n=0}^{N-1} W_N^{n k -n p - n m}$$
+# $$Z_k = \frac{1}{\np.sqrt N} \frac{1}{N} \sum_{p=0}^{N-1} X_p \sum_{m=0}^{N-1} Y_m \sum_{n=0}^{N-1} W_N^{n k -n p - n m}$$
 # 
 # 
 # The last term evaluates to
@@ -188,13 +188,13 @@ ax.legend(loc=0);
 # 
 # This is zero everywhere except where $k-p-m= q N$ ($q\in \mathbb{Z}$) in which case it is $N$. Substituting all this back into our expression gives the *circular convolution*  usually denoted as
 # 
-# $$ Z_k = \frac{1}{\sqrt N} \sum_{p=0}^{N-1} X_p  Y_{((k-p))_N} = X_k \otimes_N Y_k $$
+# $$ Z_k = \frac{1}{\np.sqrt N} \sum_{p=0}^{N-1} X_p  Y_{((k-p))_N} = X_k \otimes_N Y_k $$
 # 
 # where the double subscripted parenthesis emphasizes the periodic nature of the index. The circular convolution tells us to compute the DFT $Z_k$ directly from the corresponding DFTs $X_k$ and $Y_k$.
 # 
 # Let's work through an example to see this in action.   
 
-# In[6]:
+# [6]
 
 
 def dftmatrix(Nfft=32,N=None):
@@ -203,11 +203,11 @@ def dftmatrix(Nfft=32,N=None):
     if N is None: N = Nfft
     n = arange(N)
     U = matrix(exp(1j* 2*pi/Nfft *k*n[:,None])) # use numpy broadcasting to create matrix
-    return U/sqrt(Nfft)
+    return U/np.sqrt(Nfft)
 
 Nf = 32 # DFT size
 U = dftmatrix(Nf,Nf)
-x = U[:,12].real # input signal
+x = U[:,12].real # put signal
 X = U.H*x # DFT of input
 rect = ones((Nf/2,1)) # short rectangular window
 z = x[:Nf/2] # product of rectangular window and x (i.e. chopped version of x) 
@@ -215,19 +215,19 @@ R = dftmatrix(Nf,Nf/2).H*rect # DFT of rectangular window
 Z = dftmatrix(Nf,Nf/2).H*z    # DFT of product of x_n and r_n
 
 
-# In[7]:
+# [7]
 
 
 idx=arange(Nf)-arange(Nf)[:,None] # use numpy broadcasting to setup summand's indices
 idx[idx<0]+=Nf # add periodic Nf to negative indices for wraparound
 a = arange(Nf) # k^th frequency index
 
-fig,ax = subplots(4,8,sharex=True,sharey=True)
+fig,ax = plt.subplots(4,8,sharex=True,sharey=True)
 fig.set_size_inches((12,5))
 for i,j in enumerate(ax.flat):
-    #markerline, stemlines, baseline = j.stem(arange(Nf),abs(R[idx[:,i],0])/sqrt(Nf))
+    #markerline, stemlines, baseline = j.stem(arange(Nf),abs(R[idx[:,i],0])/np.sqrt(Nf))
     #setp(markerline, 'markersize', 3.)
-    j.fill_between(arange(Nf),1/sqrt(Nf)*abs(R[idx[:,i],0]).flat,0,alpha=0.3)
+    j.fill_between(arange(Nf),1/np.sqrt(Nf)*abs(R[idx[:,i],0]).flat,0,alpha=0.3)
     markerline, stemlines, baseline =j.stem(arange(Nf),abs(X))
     setp(markerline, 'markersize', 4.)
     setp(markerline,'markerfacecolor','r')
@@ -244,12 +244,12 @@ for i,j in enumerate(ax.flat):
 # 
 # The figure below shows the the direct computation of the DFT of $Z_k$ matches the circular convolution method using $X_k$ and $R_k$.
 
-# In[8]:
+# [8]
 
 
-fig,ax=subplots()
+fig,ax=plt.subplots()
 fig.set_size_inches((7,3))
-ax.plot(a,abs(R[idx,0]*X)/sqrt(Nf), label=r'$|Z_k|$ = $X_k\otimes_N R_k$')
+ax.plot(a,abs(R[idx,0]*X)/np.sqrt(Nf), label=r'$|Z_k|$ = $X_k\otimes_N R_k$')
 ax.plot(a, abs(Z),'o',label=r'$|Z_k|$ by DFT')
 ax.set_xlabel('DFT index,k',fontsize=18)
 ax.set_ylabel(r'$|Z_k|$',fontsize=18)
@@ -262,7 +262,7 @@ ax.grid()
 
 # ## Summary
 
-# In this section, we unpacked the issues involved in resolving two nearby frequencies using the DFT and once again confronted the uncertainty principle in action. We realized that longer DFTs cannot distinguish nearby frequencies unless the signal is sampled over a sufficient duration. Additionally, we developed the circular convolution as a tool to visualize the exactly how a longer sampling duration helps resolve frequencies.
+#  this section, we unpacked the issues involved in resolving two nearby frequencies using the DFT and once again confronted the uncertainty principle in action. We realized that longer DFTs cannot distinguish nearby frequencies unless the signal is sampled over a sufficient duration. Additionally, we developed the circular convolution as a tool to visualize the exactly how a longer sampling duration helps resolve frequencies.
 # 
 # As usual, the corresponding IPython notebook for this post  is available for download [here](https://github.com/unpingco/Python-for-Signal-Processing/blob/master/Frequency_Resolution.ipynb). 
 # 

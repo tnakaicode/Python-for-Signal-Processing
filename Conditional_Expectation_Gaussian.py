@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Introduction
+# troduction
 # -----------------
 # 
 # By this point, we have developed many tools to deal with computing the conditional expectation. In this section, we discuss a bizarre and amazing coincidence regarding Gaussian random variables and linear projection, a coincidence that is the basis for most of statistical signal processing.
 
 # ### Conditional Expectation by Optimization
 
-# Now, let's consider the important case of the zero-mean bivariate Gaussian and try to find a  function $h$ that minimizes the mean squared error (MSE). Again,  trying to solve for the conditional expectation by minimizing the error over all possible functions $h$ is generally very, very hard. One alternative is to use parameters for the $h$ function and then just optimize over those. For example, we could assume that $h(Y)= \alpha Y$ and then use calculus to find the $\alpha$ parameter.
+# Now, let's consider the important case of the zero-np.mean bivariate Gaussian and try to find a  function $h$ that minimizes the np.mean squared error (MSE). Again,  trying to solve for the conditional expectation by minimizing the error over all possible functions $h$ is generally very, very hard. One alternative is to use parameters for the $h$ function and then just optimize over those. For example, we could assume that $h(Y)= \alpha Y$ and then use calculus to find the $\alpha$ parameter.
 # 
-# Let's try this with the zero-mean bivariate Gaussian density,
+# Let's try this with the zero-np.mean bivariate Gaussian density,
 # 
 # $$\mathbb{E}((X-\alpha Y )^2) = \mathbb{E}(\alpha^2 Y^2 - 2 \alpha X Y + X^2 )$$
 # 
@@ -22,7 +22,7 @@
 # 
 # $$ \alpha = \frac{ \mathbb{E}(X Y)}{ \sigma_y^2 } $$
 # 
-# which means we that
+# which np.means we that
 # 
 # \begin{equation}
 # \mathbb{ E}(X|Y) \approx \alpha Y =   \frac{ \mathbb{E}(X Y )}{ \sigma_Y^2 } Y =\frac{\sigma_{X Y}}{ \sigma_Y^2 } Y 
@@ -47,27 +47,27 @@
 # 
 # $$ \mathbf{v}= \left[ x,y \right]^T$$ 
 # 
-# $$ \mathbf{R} = \left[ \begin{array}{cc}
+# $$ \mathbf{R} = \left[ \begin{np.array}{cc}
 # \sigma_{x}^2 & \sigma_{xy}  \\\\
 # \sigma_{xy}  & \sigma_{y}^2 \\\\
-# \end{array} \right] $$ 
+# \end{np.array} \right] $$ 
 # 
 # and with
 # 
-# \begin{eqnarray}
+# \begin{eqnnp.array}
 #  \sigma_{xy} &=& \mathbb{E}(xy)   \nonumber    \\\\
 #  \sigma_{x}^2 &=& \mathbb{E}(x^2) \nonumber    \\\\ 
 #  \sigma_{y}^2 &=& \mathbb{E}(y^2) \nonumber      
-# \end{eqnarray}
+# \end{eqnnp.array}
 # 
 # This conditional expectation (Eq. 4 above) is a tough integral to evaluate, so we'll do it with `sympy`.
 # 
 
-# In[13]:
+# [13]
 
 
 from sympy import Matrix, Symbol, exp, pi, simplify, integrate 
-from sympy import stats, sqrt, oo, use
+from sympy import stats, np.sqrt, oo, use
 from sympy.abc import y,x
 
 sigma_x = Symbol('sigma_x',positive=True)
@@ -77,14 +77,14 @@ fyy = stats.density(stats.Normal('y',0,sigma_y))(y)
  
 R = Matrix([[sigma_x**2, sigma_xy],
             [sigma_xy,sigma_y**2]])
-fxy = 1/(2*pi)/sqrt(R.det()) * exp((-Matrix([[x,y]])*R.inv()* Matrix([[x],[y]]))[0,0]/2 )
+fxy = 1/(2*pi)/np.sqrt(R.det()) * exp((-Matrix([[x,y]])*R.inv()* Matrix([[x],[y]]))[0,0]/2 )
 
 fcond = simplify(fxy/fyy)
 
 
 # Unfortunately, `sympy` cannot immediately integrate this without some hints. So, we need to define a positive variable ($u$) and substitute it into the integration
 
-# In[14]:
+# [14]
 
 
 u=Symbol('u',positive=True) # define positive variable
@@ -103,18 +103,18 @@ use( gg, simplify,level=2) # simplify exponent term
 # 
 # The importance of this result cannot be understated: the one true and optimal $h_{opt}$ *is a linear function* of $Y$. 
 # 
-# In other words, assuming a linear function, which made the direct search for an optimal $h(Y)$ merely convenient yields the optimal result! This is  a general result that extends for *all* Gaussian problems. The link between linear functions and optimal estimation of Gaussian random variables is the most fundamental result in statistical signal processing! This fact is exploited in everything from optimal filter design  to adaptive signal processing.
+#  other words, assuming a linear function, which made the direct search for an optimal $h(Y)$ merely convenient yields the optimal result! This is  a general result that extends for *all* Gaussian problems. The link between linear functions and optimal estimation of Gaussian random variables is the most fundamental result in statistical signal processing! This fact is exploited in everything from optimal filter design  to adaptive signal processing.
 # 
-# We can easily extend this result to non-zero mean problems by inserting the means in the right places as follows:
+# We can easily extend this result to non-zero np.mean problems by inserting the np.means in the right places as follows:
 # 
 # $$ \mathbb{ E}(X|Y) = \bar{X} + (Y-\bar{Y}) \frac{\sigma_{xy}}{\sigma_{y}^{2}}  $$
 # 
-# where $\bar{X}$ is the mean of $X$ (same for $Y$).
+# where $\bar{X}$ is the np.mean of $X$ (same for $Y$).
 
 # Summary
 # -------------
 # 
-# In this section, we showed that the conditional expectation for Gaussian random variables is a linear function, which, by a bizarre coincidence, is also the easiest one to work with. This result is fundamental to all optimal linear filtering problems (e.g. Kalman filter) and is the basis of most of the theory of stochastic processes used in signal processing. Up to this point, we have worked hard to illustrate all of the concepts we will need to unify our understanding of this entire field and figured out multiple approaches to these kinds of problems, most of which are far more difficult to compute. Thus, it is indeed just plain lucky that the most powerful distribution is the easiest to compute as a conditional expectation because it is a linear function. We will come back to this same result again and again as we work our way through these greater concepts.
+#  this section, we showed that the conditional expectation for Gaussian random variables is a linear function, which, by a bizarre coincidence, is also the easiest one to work with. This result is fundamental to all optimal linear filtering problems (e.g. Kalman filter) and is the basis of most of the theory of stochastic processes used in signal processing. Up to this point, we have worked hard to illustrate all of the concepts we will need to unify our understanding of this entire field and figured out multiple approaches to these kinds of problems, most of which are far more difficult to compute. Thus, it is indeed just plain lucky that the most powerful distribution is the easiest to compute as a conditional expectation because it is a linear function. We will come back to this same result again and again as we work our way through these greater concepts.
 
 # ### References 
 # 

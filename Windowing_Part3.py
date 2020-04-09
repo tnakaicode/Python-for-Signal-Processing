@@ -1,16 +1,16 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Introduction
+# troduction
 # --------------
 # 
-# In this section, we cover three additional metrics used in practice for evaluating and choosing between different window functions. 
+#  this section, we cover three additional metrics used in practice for evaluating and choosing between different window functions. 
 
 # ### Peak Sidelobe Level
 # 
 # As the name suggests, *peak sidelobe level* measures how far down the nearest peak is from the mainlobe's maximum. This captures the worst-case scenario where a nearby signal sits exactly on the highest sidelobe. This idea is illustrated in the next figure.
 
-# In[1]:
+# [1]
 
 
 from __future__ import division
@@ -22,7 +22,7 @@ def db20(W,Nfft=None):
     if Nfft is None: # assume W is DFT 
         return 20*log10(abs(W))
     else: # assume time-domain passed, so need DFT
-        DFT= fft.fft(array(W).flatten(),Nfft)/sqrt(Nfft)
+        DFT= fft.fft(np.array(W).flatten(),Nfft)/np.sqrt(Nfft)
         return 20*log10(abs(DFT.flatten()))
 
 def undb20(x):
@@ -30,10 +30,10 @@ def undb20(x):
     return 10**(x/20.)
 
 
-# In[2]:
+# [2]
 
 
-fig, ax = subplots()
+fig, ax = plt.subplots()
 fig.set_size_inches((6,3))
 
 Ns= 16
@@ -64,7 +64,7 @@ ax.text( 0.4,0.5,'Peak sidelobe level',
 
 # The figure above shows the DFT of the Hanning window and how far down the next sidelobe is from the peak (~31 dB). The figure of merit considers the worst-case where an interfering single frequency sits exactly on the peak of this sidelobe. The next bit of code uses complex roots to find the peaks of the sidelobes for window functions.
 
-# In[3]:
+# [3]
 
 
 def peak_sidelobe(w,N=256,return_index=False, return_all=False):
@@ -85,7 +85,7 @@ def peak_sidelobe(w,N=256,return_index=False, return_all=False):
     # loop through slices and pick out max() as peak for that slice's sidelobe
     sidelobe_levels = []
     sidelobe_idx =[]
-    for s in [slice(i,j) for i,j in zip(y[:-1],y[1:])]:
+    for s in [slice(i,j) for i,j in zip(y[:-1],y[1:])]
         imx= s.start+W[s].argmax() # bin index of max
         peak= W[imx]-W[0]          # relative to global peak
         sidelobe_levels.append( peak ) # store sidelobe level for later
@@ -102,12 +102,12 @@ def dftmatrix(N=32,Ns=None):
     if Ns is None: Ns = N
     n = arange(Ns)
     U = matrix(exp(1j* 2*pi/N *k*n[:,None])) # use numpy broadcasting to create matrix
-    return U/sqrt(N)
+    return U/np.sqrt(N)
 
 
 # Now, let's consider the scenario with a signal on the highest sidelobe of the window function.
 
-# In[4]:
+# [4]
 
 
 Ns = 64
@@ -115,14 +115,14 @@ N= 512
 
 U=dftmatrix(N=N,Ns=Ns)
 offset=8 # place DFT near middle of plot for readability
-u=array(U[:,offset]).flatten()*sqrt(N) # phase shifts
+u=np.array(U[:,offset]).flatten()*np.sqrt(N) # phase shifts
 
 w = signal.hanning(Ns,False)
 level,idx = peak_sidelobe(w,N,return_index=True)
 x0 = u*ones(Ns)
 x1=u*exp(1j*2*pi*arange(Ns)*(idx))         # signal on peak of sidelobe
 
-fig,axs = subplots(2,1,sharex=True,sharey=True)
+fig,axs = plt.subplots(2,1,sharex=True,sharey=True)
 fig.set_size_inches((9,4))
 
 ax=axs[0]
@@ -167,10 +167,10 @@ signal.''',va='center',fontsize=12,transform=ax.transAxes);
 # 
 # At the 3-dB bandwidth point, the mainlobe has lost half of its peak power. This is because $10 \log_{10}(1/2) \approx -3 $. The following figure shows the DFT for the  hamming  window and its corresponding half-power point down the mainlobe. In general,  there is no closed form solution to the half-power level so we  must compute it numerically.
 
-# In[5]:
+# [5]
 
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 fig.set_size_inches((7,3))
 
 N=512
@@ -178,7 +178,7 @@ w=signal.windows.hamming(Ns)
 W=db20(w,N)
 
 m =10
-p=np.polyfit(arange(m)/N*Ns,W[:m]-W[0]+3.01,2) # fit quadratic polynomial
+p=np.np.polyfit(arange(m)/N*Ns,W[:m]-W[0]+3.01,2) # fit quadratic polynomial
 width = np.roots(p)[0]*2 # 3-dB beamwidth
 
 ax.plot(arange(N)/N*Ns,W-W[0]) # normalize to peak
@@ -212,10 +212,10 @@ ax.text( 1.3,-2,'-3 dB',fontsize=18)
 # 
 # $$ Scalloping \hspace{0.1em} Loss = \frac{|\sum_{n=0}^{N_s-1} w_n \exp \left( -j\pi n/N_s  \right)|}{\sum_{n=0}^{N_s-1} w_n} $$
 
-# In[6]:
+# [6]
 
 
-fig,ax = subplots()
+fig,ax = plt.subplots()
 fig.set_size_inches((7,3))
 
 N=256
@@ -245,7 +245,7 @@ ax.grid()
 
 # ## Summary
 
-# In this section, we illustrated the major issues involved in using window functions for spectral analysis and derived the most common figures of merit for some popular windows. There are many more windows available and Harris (1978) provides an exhaustive list and many more detailed figures of merit. In fact, I have seen rumpled versions of this 1978 paper in just about every engineering lab I have worked in. In practice, some window functions are preferred because they have coefficients that are easy to implement on fixed point arithmetic hardware without excessive sensitivity to quantization errors. The main idea is that windows with favorable  sidelobe levels are always wider (larger equivalent noise bandwidth and 3-dB bandwidth) so these pull in more signal noise into their wider mainlobes and make it harder to distinguish nearby signals which may fit into the same mainlobe. Thus, there is a trade-off between signal-to-noise (more noise in mainlobe reduces signal-to-noise) and resolution (nearby indistinguishable signals). Unfortunately, it is not possible to simultaneously have very low sidelobes and a very narrow mainlobe. This is due to the *stuffed mattress effect* where "pushing" down the DFT at any one place causes it to sprout up somewhere else.
+#  this section, we illustrated the major issues involved in using window functions for spectral analysis and derived the most common figures of merit for some popular windows. There are many more windows available and Harris (1978) provides an exhaustive list and many more detailed figures of merit. In fact, I have seen rumpled versions of this 1978 paper in just about every engineering lab I have worked in. In practice, some window functions are preferred because they have coefficients that are easy to implement on fixed point arithmetic hardware without excessive sensitivity to quantization errors. The main idea is that windows with favorable  sidelobe levels are always wider (larger equivalent noise bandwidth and 3-dB bandwidth) so these pull in more signal noise into their wider mainlobes and make it harder to distinguish nearby signals which may fit into the same mainlobe. Thus, there is a trade-off between signal-to-noise (more noise in mainlobe reduces signal-to-noise) and resolution (nearby indistinguishable signals). Unfortunately, it is not possible to simultaneously have very low sidelobes and a very narrow mainlobe. This is due to the *stuffed mattress effect* where "pushing" down the DFT at any one place causes it to sprout up somewhere else.
 # 
 # Outside of two-tone seperability, there is the issue of wideband signals. In that case, you may prefer a wide mainlobe that encompasses the signal bandwidth with very low sidelobes that reduce extraneous signals. The bottom line is that there are many engineering trade-offs involved in choosing window functions for particular application. Understanding how window functions are used in spectral analysis is fundamental to the entire field of signal processing because it touches all of the key engineering problems encountered in practice.
 # 

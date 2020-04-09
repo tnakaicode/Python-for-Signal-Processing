@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# Introduction
+# troduction
 # --------------
 # 
-# In these pages, I have tried to distill and illustrate the keys concepts needed in statistical signal processing, and in this section, we will cover the most fundamental statistical result that underpins statistical signal processing. The last sections on [conditional expectation](http://python-for-signal-processing.blogspot.com/2012/11/conditional-expectation-and-mean.html) and [projection](http://python-for-signal-processing.blogspot.com/2012/11/the-projection-concept.html) are prerequisites for what follows. Please review those before continuing.
+#  these pages, I have tried to distill and illustrate the keys concepts needed in statistical signal processing, and in this section, we will cover the most fundamental statistical result that underpins statistical signal processing. The last sections on [conditional expectation](http://python-for-signal-processing.blogspot.com/2012/11/conditional-expectation-and-np.mean.html) and [projection](http://python-for-signal-processing.blogspot.com/2012/11/the-projection-concept.html) are prerequisites for what follows. Please review those before continuing.
 
-# ## Inner Product for Random Variables
+# ## ner Product for Random Variables
 
-# From our previous work on projection for vectors in $\mathbb{R}^n$, we have a good geometric grasp on how projection is related to minimum mean squared error (MMSE). It turns out by one abstract step, we can carry all of our geometric interpretations to the space of random variables.
+# From our previous work on projection for vectors in $\mathbb{R}^n$, we have a good geometric grasp on how projection is related to minimum np.mean squared error (MMSE). It turns out by one abstract step, we can carry all of our geometric interpretations to the space of random variables.
 # 
 # For example, we previously noted that at the point of projection, we had
 # 
@@ -34,7 +34,7 @@
 
 # ## Conditional Expectation as Projection
 
-# [Previously](http://python-for-signal-processing.blogspot.com/2012/11/conditional-expectation-and-mean.html), we noted that the conditional expectation is the minimum mean squared error (MMSE) solution to the following problem:
+# [Previously](http://python-for-signal-processing.blogspot.com/2012/11/conditional-expectation-and-np.mean.html), we noted that the conditional expectation is the minimum np.mean squared error (MMSE) solution to the following problem:
 # 
 # $$ \min_h \int_{\mathbb{R}} (x - h(y) )^2 dx $$ 
 # 
@@ -84,7 +84,7 @@
 # 
 # which would be tough to compute by direct integration.
 # 
-# We recognize that $\mathbb{E}(X|Y)$ *is* in fact **a projection operator**. Recall previously that we noted that the projection operator is idempotent, which means that once we project something onto a subspace, further projections essentially do nothing. Well, in the space of random variables, $\mathbb{E}(X|\cdot$) is the idempotent projection as we can show by noting that
+# We recognize that $\mathbb{E}(X|Y)$ *is* in fact **a projection operator**. Recall previously that we noted that the projection operator is idempotent, which np.means that once we project something onto a subspace, further projections essentially do nothing. Well, in the space of random variables, $\mathbb{E}(X|\cdot$) is the idempotent projection as we can show by noting that
 # 
 # $$ h_{opt} = \mathbb{E}(X|Y)$$
 # 
@@ -99,7 +99,7 @@
 # Example
 # ---------
 # 
-# Suppose we have a random variable, $X$, then what constant is closest to $X$ in the mean-squared-sense (MSE)? In other words, which $c$ minimizes the following:
+# Suppose we have a random variable, $X$, then what constant is closest to $X$ in the np.mean-squared-sense (MSE)? In other words, which $c$ minimizes the following:
 # 
 # $$ J = \mathbb{E}( X - c )^2 $$ 
 # 
@@ -172,7 +172,7 @@
 # 
 # that is based on the Pythagorean theorem.
 
-# In[1]:
+# [1]
 
 
 from sympy.abc import y,x
@@ -191,10 +191,10 @@ print simplify(LHS-RHS)==0
 # Summary
 # --------
 # 
-# In this section, we have pulled together all the projection and least-squares optimization ideas from the previous posts to draw a clean line between our geometric notions of projection from vectors in $\mathbb{R}^n$ to general random variables. This resulted in the remarkable realization that the conditional expectation is in fact a projection operator for random variables. The key idea is that because we have these relationships, we can approach difficult problems in multiple ways, depending on which way is more intuitive or tractable in a particular situation. In these pages, we will again and again come back to these intuitions because they form the backbone of statistical signal processing. 
+#  this section, we have pulled together all the projection and least-squares optimization ideas from the previous posts to draw a clean line between our geometric notions of projection from vectors in $\mathbb{R}^n$ to general random variables. This resulted in the remarkable realization that the conditional expectation is in fact a projection operator for random variables. The key idea is that because we have these relationships, we can approach difficult problems in multiple ways, depending on which way is more intuitive or tractable in a particular situation. In these pages, we will again and again come back to these intuitions because they form the backbone of statistical signal processing. 
 # 
 # 
-# In the next section, we will have a lot of fun with these ideas working out some examples that are usually solved using more general tools from measure theory. 
+#  the next section, we will have a lot of fun with these ideas working out some examples that are usually solved using more general tools from measure theory. 
 # 
 # Note that the book by Mikosch (1998) has some excellent sections covering much of this material in more detail. Mikosch has a very geometric view of the material as well.
 

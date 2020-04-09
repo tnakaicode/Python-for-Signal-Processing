@@ -311,7 +311,7 @@ print(Counter(sample))
 def foo(i): return len(set(range(10)) & set(i[0]))
 
 
-#o = [foo(i)
+# o = [foo(i)
 #     for i in combinatorics.labeled_balls_in_unlabeled_boxes(24, [13, 11])]
 #
 #
@@ -321,7 +321,7 @@ def foo(i): return len(set(range(10)) & set(i[0]))
 #plt.hist(o, 10, align='left')
 #plt.title('Surviving males under $H_0$')
 #plt.xlabel('number of surviving males')
-#plt.axis(xmin=0)
+# plt.axis(xmin=0)
 
 
 # [31]
